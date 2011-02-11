@@ -11,7 +11,7 @@
 |	http://example.com/
 |
 */
-$config['base_url']	= "http://localhost:8080/~dmaclean/barview_php_css/";
+$config['base_url']	= "http://localhost:8080/~dmaclean/barview/";
 
 /*
 |--------------------------------------------------------------------------

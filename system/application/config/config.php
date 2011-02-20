@@ -11,7 +11,7 @@
 |	http://example.com/
 |
 */
-$config['base_url']	= "http://localhost:8080/~dmaclean/barview/";
+$config['base_url']	= "http://dmaclean.no-ip.org:8080/~dmaclean/barview/";
 
 /*
 |--------------------------------------------------------------------------

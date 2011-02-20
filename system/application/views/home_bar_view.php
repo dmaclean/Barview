@@ -78,6 +78,7 @@ body {
 #header {
 	background: #1b5790;
 	padding-top: 120px;
+	border-radius: 15px;
 }
 #header .disclaimer {
 	color: #999;

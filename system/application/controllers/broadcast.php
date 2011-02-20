@@ -34,7 +34,7 @@
 			
 			header("Content-type: image/jpeg");
 			//print $this->barimage_model->fetch_image_from_db();
-			echo file_get_contents("/Users/dmaclean/Sites/barview_php/broadcast_images/".$bar_id.".jpg");
+			echo file_get_contents("/Users/dmaclean/Sites/barview/broadcast_images/".$bar_id.".jpg");
 		}
 		
 		/**
@@ -47,7 +47,7 @@
 			if(isset($GLOBALS["HTTP_RAW_POST_DATA"])) {
 				// Extract data from POST and save to filesystem.
 				$jpg = $GLOBALS["HTTP_RAW_POST_DATA"];
-				$filename = "/Users/dmaclean/Sites/barview_php/broadcast_images/".$bar_id.".jpg";
+				$filename = "/Users/dmaclean/Sites/barview/broadcast_images/".$bar_id.".jpg";
 				file_put_contents($filename, $jpg);
 			} else {
 				echo "Encoded JPEG information not received.";

@@ -5,7 +5,8 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" /> 
 <title>bar-view.com</title> 
 
-<link rel="stylesheet" href="<?php echo base_url();?>javascript/fancybox/jquery.fancybox-1.3.4" type="text/css" media="screen" />
+<link rel="stylesheet" href="<?php echo base_url();?>javascript/fancybox/jquery.fancybox-1.3.4.css" type="text/css" media="screen" />
+
 
 <script type="text/javascript" src="http://code.jquery.com/jquery-latest.js"></script> 
 <script type="text/javascript" src="<?php echo base_url();?>javascript/fancybox/jquery.fancybox-1.3.4.js"></script>
@@ -55,20 +56,21 @@ $(document).ready(function(){
 			$(this).removeClass("subhover"); //On hover out, remove class "subhover"
 	});
  
-
 	function getCurrentImage(bar_id) {
 		//alert('calling getCurrentImage('+bar_id+')');
 		var $srcVal = '<?php echo base_url();?>broadcast_images/getimage.php?bar_id=' + bar_id;
 		$('#broadcast_img').remove();
 		$('<img id="broadcast_img" src="' + $srcVal + '" />').appendTo('#broadcast');
 	}
+	
+	
 });
 </script> 
 <style type="text/css"> 
 body {
 	margin: 0; padding: 0;
 	font: 10px normal Arial, Helvetica, sans-serif;
-	background: #ddd url(body_bg.gif) repeat-x;
+	background: #ddd --url(body_bg.gif) repeat-x;
 }
 .container {
 	width: 960px;
@@ -78,6 +80,8 @@ body {
 #header {
 	background: #1b5790;
 	padding-top: 120px;
+	border-top-left-radius: 30px;
+	border-top-right-radius: 30px;
 }
 #header .disclaimer {
 	color: #999;
@@ -94,7 +98,7 @@ ul.topnav {
 	margin: 0;
 	float: left;
 	width: 920px;
-	background: #222;
+	--background: #222;
 	font-size: 1.2em;
 	background: #e5ecf3;--url(topnav_bg.gif) repeat-x;
 }
@@ -169,6 +173,23 @@ div.fb_logout_div {
 div.bar_login_div {
 	padding-left: 548px;
 }
+
+div.content {
+	height: 500px;
+	background: #333;
+}
+
+div.dyn_content {
+	float: left;
+	width: 760px;
+	background: #bbb;
+}
+
+div.ads {
+	float: right;
+	width: 200px;
+	background: #999;
+}
 </style> 
  
 </head> 
@@ -202,6 +223,7 @@ div.bar_login_div {
 
 <div class="container"> 
     <div id="header"> 
+    	<div>barview.com</div>
 		<div class="disclaimer"></div> 
         <ul class="topnav"> 
             <li><a href="<?php echo base_url(); ?>">Home</a></li> 
@@ -251,20 +273,19 @@ div.bar_login_div {
 			</div>
 		</div>
 	</div></span>
-    </div> 
     
-<div id="broadcast" class="broadcast"></div>
-
-</div> 
-
- 
+	<div class="content">
+    	<div id="broadcast" class="broadcast"></div>
+    	<div class="dyn_content">
+    		Dynamic content here...        		Dynamic content here...        		Dynamic content here...        		Dynamic content here...        		Dynamic content here...        		Dynamic content here...        		Dynamic content here...        		Dynamic content here...        		Dynamic content here...        		Dynamic content here...        		Dynamic content here...    <br/>
+    		
+    	</div>
+    	<div class="ads">
+    		Ads go here...
+    	</div>
+    	<div style="clear:both;"></div> <!-- no clue why this clear works, but it does. -->
+    </div>    
+    
+    </div><!-- Container div --> 
 </body> 
 </html> 
-
-
-
-
-	<!--	
-<div id="broadcast" class="broadcast">
-	
-</div>-->

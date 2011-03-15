@@ -38,6 +38,7 @@ $active_group = "default";
 $active_record = TRUE;
 
 $db['default']['hostname'] = "localhost";
+$db['default']['port'] = 8889;
 $db['default']['username'] = "barview";
 $db['default']['password'] = "barview";
 $db['default']['database'] = "barview";

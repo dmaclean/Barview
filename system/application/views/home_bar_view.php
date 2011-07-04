@@ -175,49 +175,12 @@ div.bar_login_div {
 </head> 
  
 <body> 
-<div id="fb-root"></div>
-    <script>
-      window.fbAsyncInit = function() {
-        FB.init({
-          appId   : '<?php echo $fb_app_id; ?>',
-          session : <?php echo json_encode($fb_session); ?>, // don't refetch the session when PHP already has it
-          status  : true, // check login status
-          cookie  : true, // enable cookies to allow the server to access the session
-          xfbml   : true // parse XFBML
-        });
-
-        // whenever the user logs in, we refresh the page
-        FB.Event.subscribe('auth.login', function() {
-          window.location.reload();
-        });
-      };
-
-      (function() {
-        var e = document.createElement('script');
-        e.src = document.location.protocol + '//connect.facebook.net/en_US/all.js';
-        e.async = true;
-        document.getElementById('fb-root').appendChild(e);
-      }());
-    </script>
-
 
 <div class="container"> 
     <div id="header"> 
 		<div class="disclaimer"></div> 
         <ul class="topnav"> 
             <li><a href="<?php echo base_url(); ?>">Home</a></li> 
-            <?php if ($fb_me) { ?>
-            	<li class="favorites">
-					<a href="#">Favorite Bars</a>
-					<ul class="subnav">
-					<?php if(isset($favorites)) { ?>
-						<?php foreach($favorites as $fave) { ?>
-						<li><a id="<?php echo $fave['id'] ?>" href="#"><?php echo $fave['name'] ?></a></li>
-					<?php }
-					} ?>
-					</ul>
-				</li>
-            <?php } ?>
             <li><a href="#">About Us</a></li>
             <li><a href="#">Advertise</a></li> 
             <li><a href="#">Contact Us</a></li> 
@@ -257,112 +220,14 @@ div.bar_login_div {
 			<param name="bgcolor" value="#ffffff" />
 			<param name="allowScriptAccess" value="sameDomain" />
 			<param name="allowFullScreen" value="true" />
-			<param name="FlashVars" value="bar_id=<?php echo $bar_id; ?>&server_url=http://localhost:8080/~dmaclean/barview_php/index.php/broadcast/save/<?php echo $bar_id; ?>"/>
+			<param name="FlashVars" value="bar_id=<?php echo $bar_id; ?>&server_url=http://localhost:8888/barview/index.php/barimages/save/<?php echo $bar_id; ?>"/>
 			<embed 	src="<?php echo base_url();?>camera/barview_cam.swf" 
 					width="550" 
 					height="400" 
-					FlashVars="bar_id=<?php echo $bar_id; ?>&server_url=http://localhost:8080/~dmaclean/barview_php/index.php/broadcast/save/<?php echo $bar_id; ?>"></embed>
+					FlashVars="bar_id=<?php echo $bar_id; ?>&server_url=http://localhost:8888/barview/index.php/barimages/save/<?php echo $bar_id; ?>"></embed>
 			<!--<![endif]-->
 		</object>	
 	</div>
 
 </body> 
 </html> 
-
-
-
-
-	<!--	
-<div id="broadcast" class="broadcast">
-	
-</div>-->
-
-
-<!--<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-
-<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">	
-    
-    <head>
-        <title>Barview.com - Bar owner's homepage</title>
-        <meta name="google" value="notranslate">         
-        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-		
-        <link rel="stylesheet" href="<?php echo base_url();?>css/style.css" type="text/css" media="screen" charset="utf-8">
-    	<script type="text/javascript" src="<?php echo base_url();?>javascript/jquery.js"></script>
-    </head>
-    <body>
-    
-    	<div id="fb-root"></div>
-		<script>
-		  window.fbAsyncInit = function() {
-			FB.init({
-			  appId   : '<?php echo $fb_app_id; ?>',
-			  session : <?php echo json_encode($fb_session); ?>, // don't refetch the session when PHP already has it
-			  status  : true, // check login status
-			  cookie  : true, // enable cookies to allow the server to access the session
-			  xfbml   : true // parse XFBML
-			});
-	
-			// whenever the user logs in, we refresh the page
-			FB.Event.subscribe('auth.login', function() {
-			  window.location.reload();
-			});
-		  };
-	
-		  (function() {
-			var e = document.createElement('script');
-			e.src = document.location.protocol + '//connect.facebook.net/en_US/all.js';
-			e.async = true;
-			document.getElementById('fb-root').appendChild(e);
-		  }());
-		</script>
-		
-		
-		<?php if ($fb_me): ?>
-		<a href="<?php echo $fb_logon; ?>">
-		  <img src="http://static.ak.fbcdn.net/rsrc.php/z2Y31/hash/cxrz4k7j.gif">
-		</a>
-		<?php else: ?>
-			<div class="login">
-				<?php if($this->session->userdata('is_logged_in') == null) { ?>
-					<?php echo form_open('logon/submit')?>
-						<?php echo validation_errors('<p class="error">','</p>')?>
-						<label for="username">Username: </label>
-						<?php echo form_input('username', set_value('username'));?>
-						<label for="password">Password: </label>
-						<?php echo form_password('password');?>
-						<?php echo form_submit('submit', 'Login');?>
-					<?php echo form_close();?>
-				<?php } else { echo anchor('logon/logoff', 'Log out'); } ?>
-			</div>
-		<?php endif ?>
-		
-		
-		<div id="menu_bar">
-		
-		</div>
-		<div id="home_form">
-			<div id="broadcast" class="broadcast">
-				
-				
-					<object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" width="100%" height="100%" id="barview_cam">
-						<param name="movie" value="<?php echo base_url();?>camera/barview_cam.swf" />
-						<param name="quality" value="high" />
-						<param name="bgcolor" value="#ffffff" />
-						<param name="allowScriptAccess" value="sameDomain" />
-						<param name="allowFullScreen" value="true" />
-						<param name="FlashVars" value="bar_id=<?php echo $bar_id; ?>&server_url=http://localhost:8080/~dmaclean/barview_php/index.php/broadcast/save/<?php echo $bar_id; ?>"/>
-						<embed 	src="<?php echo base_url();?>camera/barview_cam.swf" 
-								width="550" 
-								height="400" 
-								FlashVars="bar_id=<?php echo $bar_id; ?>&server_url=http://localhost:8080/~dmaclean/barview_php/index.php/broadcast/save/<?php echo $bar_id; ?>"></embed>
-						<!--<![endif]-->
-					</object>	
-			</div>
-		</div>
-		
-		<div id="ads" class="ads">
-			Here is where the ads go...
-		</div>
-   </body>
-</html>-->

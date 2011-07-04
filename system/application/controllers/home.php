@@ -8,49 +8,16 @@
 			$config['cookie'] = true;
 			
 			//load Facebook php-sdk library with $config[] options
-			$this->load->library('facebook', $config); 
+			//$this->load->library('facebook', $config); 
 			
 			$this->load->helper('form');
 		}
 	
 		function index() {
-			$data['fb_app_id'] = $this->facebook->getAppId();
-		
-			//$is_logged_in = $this->session->userdata('is_logged_in');
-			$session = $this->facebook->getSession();
-			$data['fb_session'] = $session;
-			
-			$me = null;
-			if($session) {
-				echo 'We have a session';
-				try {
-					$uid = $this->facebook->getUser();
-					$me = $this->facebook->api('/me');
-					
-					$data['fb_uid'] = $uid;
-				}
-				catch(FacebookApiException $e) {
-					error_log($e);
-				}
-			}
-			
-			$data['fb_me'] = $me;
-			
-			if($me) {
-				$data['fb_logon'] = $this->facebook->getLogoutUrl();
-			}
-			else {
-				$data['fb_logon'] = $this->facebook->getLoginUrl();
-			}
-			
-			/*
-			 * Load the favorites
-			 */
-			if(isset($data['fb_uid']))
-				$data['favorites'] = $this->getFavorites($data['fb_uid']);
-			
 			// Send bars to home_bar
 			if($this->session->userdata('bar_id')) {
+				print_r( $this->session->userdata);
+				
 				$data['bar_id'] = $this->session->userdata('bar_id');
 				//$this->load->view('includes/header', $data);
 				$this->load->view('home_bar_view', $data);
@@ -58,10 +25,10 @@
 				
 			}
 			// Send users to home.
-			//if(isset($data['fb_uid']))
 			else {
+				print_r($this->session->userdata);
 				//$this->load->view('includes/header', $data);
-				$this->load->view('home_view', $data);
+				$this->load->view('home_view');
 				//$this->load->view('includes/footer', $data);
 			}
 		}

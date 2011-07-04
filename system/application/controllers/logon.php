@@ -53,8 +53,8 @@
 		}
 		
 		public function authenticate() {
-			$this->load->model('user_model');
-			$auth_result = $this->user_model->validate();
+			$this->load->model('bar_model');
+			$auth_result = $this->bar_model->validate();
 			
 			//$id 	= $this->db->escape($this->input->post('username'));
 			//$pass 	= $this->db->escape($this->input->post('password'));
@@ -66,16 +66,18 @@
 			if($auth_result) {
 				// Create session
 				$data = array (
-					'username' => $this->input->post('username'),
-					'is_logged_in' => TRUE,
+					'username' => $this->input->post('username'),	// Do we need this?
+					'is_logged_in' => TRUE,							// Do we need this?
+					'bar_id' => $this->bar_model->get_bar_id(),
+					'bar_owner' => true								// Do we need this?
 				);
 				
 				//$row = $query->row();
 				//if($row->type == 'bar') {
-				if($this->user_model->get_type() == 'bar') {
-					$data['bar_owner'] = true;
-					$data['bar_id'] = $this->user_model->get_bar_id();
-				}
+				//if($this->user_model->get_type() == 'bar') {
+				//	$data['bar_owner'] = true;
+					//$data['bar_id'] = $this->bar_model->get_bar_id();
+				//}
 				
 				$this->session->set_userdata($data);
 				

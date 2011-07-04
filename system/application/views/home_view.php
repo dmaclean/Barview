@@ -195,30 +195,6 @@ div.ads {
 </head> 
  
 <body> 
-<div id="fb-root"></div>
-    <script>
-      window.fbAsyncInit = function() {
-        FB.init({
-          appId   : '<?php echo $fb_app_id; ?>',
-          session : <?php echo json_encode($fb_session); ?>, // don't refetch the session when PHP already has it
-          status  : true, // check login status
-          cookie  : true, // enable cookies to allow the server to access the session
-          xfbml   : true // parse XFBML
-        });
-
-        // whenever the user logs in, we refresh the page
-        FB.Event.subscribe('auth.login', function() {
-          window.location.reload();
-        });
-      };
-
-      (function() {
-        var e = document.createElement('script');
-        e.src = document.location.protocol + '//connect.facebook.net/en_US/all.js';
-        e.async = true;
-        document.getElementById('fb-root').appendChild(e);
-      }());
-    </script>
 
 
 <div class="container"> 
@@ -227,31 +203,12 @@ div.ads {
 		<div class="disclaimer"></div> 
         <ul class="topnav"> 
             <li><a href="<?php echo base_url(); ?>">Home</a></li> 
-            <?php if ($fb_me) { ?>
-            	<li class="favorites">
-					<a href="#">Favorite Bars</a>
-					<ul class="subnav">
-					<?php if(isset($favorites)) { ?>
-						<?php foreach($favorites as $fave) { ?>
-						<li><a id="<?php echo $fave['id'] ?>" href="#"><?php echo $fave['name'] ?></a></li>
-					<?php }
-					} ?>
-					</ul>
-				</li>
-            <?php } ?>
             <li><a href="#">About Us</a></li>
             <li><a href="#">Advertise</a></li> 
             <li><a href="#">Contact Us</a></li> 
             
             <li>
-            	<?php if ($fb_me): ?>
-            		<div class="fb_logout_div">
-					<a href="<?php echo $fb_logon; ?>"><!--<img src="http://static.ak.fbcdn.net/rsrc.php/z2Y31/hash/cxrz4k7j.gif">--> logout</a>
-					</div>
-				<?php else: ?>
-					<div class="fb_login_div"><fb:login-button></fb:login-button></div>
-					<div class="bar_login_div"><a id="bar_login" href="#data">Bar Login</a></div>
-            	<?php endif ?>
+            	<div class="bar_login_div"><a id="bar_login" href="#data">Bar Login</a></div>
             </li>
         </ul> 
         <div style="display:none">
@@ -268,6 +225,9 @@ div.ads {
 					</p>
 					<p>
 						<?php echo form_submit('submit', 'Login');?>
+					</p>
+					<p>
+						Don't have an account?  Register <a href="<?php echo base_url();?>index.php/signup">here</a>.
 					</p>
 				<?php echo form_close();?>
 			</div>

@@ -66,60 +66,12 @@
 	</script>
 </head>
 <body>
-	<div id="fb-root"></div>
-    <script>
-      window.fbAsyncInit = function() {
-        FB.init({
-          appId   : '<?php echo $fb_app_id; ?>',
-          session : <?php echo json_encode($fb_session); ?>, // don't refetch the session when PHP already has it
-          status  : true, // check login status
-          cookie  : true, // enable cookies to allow the server to access the session
-          xfbml   : true // parse XFBML
-        });
-
-        // whenever the user logs in, we refresh the page
-        FB.Event.subscribe('auth.login', function() {
-          window.location.reload();
-        });
-      };
-
-      (function() {
-        var e = document.createElement('script');
-        e.src = document.location.protocol + '//connect.facebook.net/en_US/all.js';
-        e.async = true;
-        document.getElementById('fb-root').appendChild(e);
-      }());
-    </script>
-
-    <div class="container">
+	<div class="container">
 		<div id="header">
 		<div class="disclaimer">Sexy Drop Down Menu Tutorial by <a href="http://www.SohTanaka.com">Soh Tanaka</a>.</div> 
-		    <?php if ($fb_me) { ?>
-		    	<ul class="topnav">
-					<li><a href="#">Home</a></li>
-					<li>
-						<a href="#">Favorite Bars</a>
-						<ul class="subnav">
-						<?php if(isset($favorites)) { ?>
-							<?php foreach($favorites as $fave) { ?>
-							<li><a id="<?php echo $fave['id'] ?>" href="#"><?php echo $fave['name'] ?></a></li>
-						<?php }
-						} ?>
-						</ul>
-					</li>
-					<!--<li>
-						<a href="#">Tutorials</a>
-						<ul class="subnav">
-							<li><a href="#">Sub Nav Link</a></li>
-							<li><a href="#">Sub Nav Link</a></li>
-						</ul>
-					</li>-->
-				</ul>
-		    <?php } else { ?>
-				<ul class="topnav">
-					<li><a href="#">Home</a></li>
-				</ul>
-			<?php } ?>
+		    <ul class="topnav">
+				<li><a href="#">Home</a></li>
+			</ul>
 		</div>	<!-- disclaimer -->
 		</div>	<!-- header 	-->
 	<div style="display:none">

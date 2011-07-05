@@ -1,0 +1,152 @@
+<?php 
+	require(APPPATH.'libraries/REST_Controller.php'); 
+
+	class Rest extends REST_Controller {
+		function Rest() {
+			parent::__construct();
+			
+			$this->load->model('barimage_model');
+			$this->load->model('favorite_model');
+		}
+	
+		/**
+		 * Retrieves the image specified in the URL and sends back to the
+		 * user an XML document containing the bar id and the image encoded
+		 * as a Base64 string.
+		 */
+		public function barimage_get() {
+			$bar_id = $this->uri->segment(3);
+			log_message('info','Received a request for bar image '.$bar_id);
+			
+			$this->barimage_model->set_bar_id($bar_id);
+			$image = $this->barimage_model->fetch_image_from_filesystem();
+			
+			header("Content-type: text/xml");
+			echo '<?xml version="1.0" encoding="UTF-8" ?>'.
+					'<barimage><bar_id>'.$bar_id.'</bar_id><image>'.base64_encode($image).'</image></barimage>';
+		}
+		
+		/**
+		 * Saves an image sent in the request as POST data.  Images are stored in the
+		 * broadcast_images directory.
+		 */
+		public function barimage_post() {
+		
+			$bar_id = $this->uri->segment(3);
+			log_message('info', 'Received an image from bar '.$bar_id);
+			
+			if(isset($GLOBALS["HTTP_RAW_POST_DATA"])) {
+				// Extract data from POST and save to filesystem.
+				$jpg = $GLOBALS["HTTP_RAW_POST_DATA"];
+				$filename = "/Applications/MAMP/htdocs/barview/broadcast_images/".$bar_id.".jpg";
+				file_put_contents($filename, $jpg);
+			} else {
+				echo "Encoded JPEG information not received.";
+			}
+		}
+		
+		
+		
+		
+		
+		/******************************************************************************************
+		 * FAVORITES
+		 *
+		 * The REST interface for servicing favorites requests will satisfy the following needs:
+		 *
+		 * - GET requests for a list of all favorites for a user.
+		 * - POST requests for a single favorite.
+		 * - DELETE requests for a single favorite.
+		 *
+		 * For these requests, the user id value is sent as an HTTP header.
+		 *****************************************************************************************/
+		public function favorites_get() {
+			// Get user_id from header
+			$headers = apache_request_headers();
+			$user_id = $headers['user_id'];
+			log_message('debug', 'Received a request for favorites of user '.$user_id);
+			
+			$xml = '<?xml version="1.0" encoding="UTF-8" ?>'.
+						'<favorites>';
+			
+			$results = $this->db->query('select bars.bar_id as "bar_id", name, address from bars inner join favorites on bars.bar_id = favorites.bar_id where user_id = '. $this->db->escape($user_id));
+			foreach ($results->result() as $row) {
+				$xml = $xml.'<favorite><bar_id>'.$row->bar_id.'</bar_id>';
+				$xml = $xml.'<address>'.$row->address.'</address>';
+				$xml = $xml.'<name>'.$row->name.'</name></favorite>';
+			}
+			
+						
+			$xml = $xml.'</favorites>';
+			echo $xml;
+		}
+		
+		public function favorite_post() {
+			// Get user_id from header
+			$headers = apache_request_headers();
+			$user_id = $headers['user_id'];
+			$bar_id = $this->uri->segment(3);
+			log_message('debug', 'Received a request to add bar '.$bar_id.' to favorites for user '.$user_id);
+			
+			$this->favorite_model->set_user_id($user_id);
+			$this->favorite_model->set_bar_id($bar_id);
+			$this->favorite_model->create();
+		}
+		
+		public function favorite_delete() {
+			// Get user_id from header
+			$headers = apache_request_headers();
+			$user_id = $headers['user_id'];
+			$bar_id = $this->uri->segment(3);
+			log_message('debug', 'Received a request to add bar '.$bar_id.' to favorites for user '.$user_id);
+			
+			$this->favorite_model->set_user_id($user_id);
+			$this->favorite_model->set_bar_id($bar_id);
+			$this->favorite_model->delete();
+		}
+		
+		
+		
+		
+		/***********************************************************************************************************
+		 * NEARBY BARS
+		 *
+		 * The REST interface for servicing nearby bar requests will satisfy the following needs:
+		 *
+		 * - GET requests for a list of all bars within X miles of a given set of latitude/longitude coordinates.
+		 * 
+		 * This interface will not respond to any POST, PUT or DELETE requests.
+		 **********************************************************************************************************/
+		 public function nearbybars_get() {
+		 	// Get user_id from header
+			$headers = apache_request_headers();
+			$lat = $headers['latitude'];
+			$lng = $headers['longitude'];
+			$lat_low = $this->db->escape($lat - 0.025);
+			$lat_high = $this->db->escape($lat + 0.025);
+			$lng_low = $this->db->escape($lng - 0.025);
+			$lng_high = $this->db->escape($lng + 0.025);
+			
+			$xml = '<?xml version="1.0" encoding="UTF-8" ?><nearbybars>';
+			
+			$sql = 'select * from bars where lat <= '.$lat_high.' and lat >= '.$lat_low.
+						' and lng <= '.$lng_high.' and lng >= '.$lng_low;
+			$results = $this->db->query($sql);
+
+			foreach ($results->result() as $row) {
+				$xml = $xml.'<bar>';
+				$xml = $xml.'<bar_id>'.$row->bar_id.'</bar_id>';
+				$xml = $xml.'<name>'.$row->name.'</name>';
+				$xml = $xml.'<address>'.$row->address.'</address>';
+				$xml = $xml.'<lat>'.$row->lat.'</lat>';
+				$xml = $xml.'<lng>'.$row->lng.'</lng>';
+				$xml = $xml.'</bar>';
+			}
+
+			
+			$xml = $xml.'</nearbybars>';
+			
+			echo $xml;
+		 }
+	}
+?>

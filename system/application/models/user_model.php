@@ -1,5 +1,5 @@
 <?php
-	class User_model extends Model {
+	class User_model extends CI_Model {
 		private $username;
 		private $pass;
 		private $name;
@@ -7,7 +7,7 @@
 		private $type;
 		
 		public function User_model() {
-			parent::Model();
+			parent::__construct();
 		}
 		
 		public function validate() {

@@ -1,7 +1,7 @@
 <?php
-	class Broadcast extends Controller {
+	class Broadcast extends CI_Controller {
 		function Broadcast() {
-			parent::Controller();
+			parent::__construct();
 			$this->load->model('barimage_model');
 		}
 		

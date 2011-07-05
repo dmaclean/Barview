@@ -26,7 +26,7 @@ COMMENT='Contains data about each bar registered with Barview.';
 
 DROP TABLE IF EXISTS `barview`.`favorites`;
 CREATE TABLE  `barview`.`favorites` (
-  `user_id` int(11) NOT NULL,
+  `user_id` varchar(20) NOT NULL,
   `bar_id` int(11) NOT NULL,
   KEY `user_bar_idx` (`user_id`,`bar_id`),
   FOREIGN KEY (bar_id) references bars(bar_id) on delete cascade

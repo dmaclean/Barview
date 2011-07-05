@@ -1,7 +1,7 @@
 <?php 
-	class Home extends Controller {
+	class Home extends CI_Controller {
 		function Home() {
-			parent::Controller();
+			parent::__construct();
 			
 			$config['appId'] = '177771455596726';
 			$config['secret'] = '673c8bee019e397e296d9a47b6a5e9c3';

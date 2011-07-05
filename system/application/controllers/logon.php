@@ -1,10 +1,8 @@
 <?php
-	class Logon extends Controller {
+	class Logon extends CI_Controller {
 		function Logon() {
-			parent::Controller();
+			parent::__construct();
 			$this->load->library('form_validation');
-			
-			$this->load->scaffolding('users');
 			
 			$this->load->helper('form');
 			

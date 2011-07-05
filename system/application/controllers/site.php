@@ -1,7 +1,7 @@
 <?php 
-	class Site extends Controller {
+	class Site extends CI_Controller {
 		function Site() {
-			parent::Controller();
+			parent::__construct();
 			
 			$this->is_logged_in();
 		}

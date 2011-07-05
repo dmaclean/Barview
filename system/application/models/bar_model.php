@@ -1,5 +1,5 @@
 <?php
-	class Bar_model extends Model {
+	class Bar_model extends CI_Model {
 		private $bar_id;
 		private $name;
 		private $address;
@@ -14,7 +14,7 @@
 		private $email;
 		
 		public function Bar_model() {
-			parent::Model();
+			parent::__construct();
 		}
 		
 		public function select($bar_id) {

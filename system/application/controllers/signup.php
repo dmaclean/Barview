@@ -1,7 +1,7 @@
 <?php
-	class Signup extends Controller {
+	class Signup extends CI_Controller {
 		function Signup() {
-			parent::Controller();
+			parent::__construct();
 			$this->load->library('form_validation');
 			
 			$this->load->helper('form');
@@ -33,7 +33,7 @@
 			$this->bar_model->set_password($this->input->post('password'));
 			$this->bar_model->set_email($this->input->post('email'));
 			
-			$coords = get_coordinates($this->bar_model);
+			$coords = $this->get_coordinates($this->bar_model);
 			$this->bar_model->set_lat($coords[0]);
 			$this->bar_model->set_lng($coords[1]);
 			$this->bar_model->insert();

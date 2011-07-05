@@ -32,3 +32,21 @@ CREATE TABLE  `barview`.`favorites` (
   FOREIGN KEY (bar_id) references bars(bar_id) on delete cascade
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8
 COMMENT='Holds the bars that each user has flagged as a favorite.';
+
+
+--
+-- Logging for REST interface
+--
+
+DROP TABLE IF EXISTS `barview`.`logs`;
+CREATE TABLE `logs` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `uri` varchar(255) NOT NULL,
+  `method` varchar(6) NOT NULL,
+  `params` text NOT NULL,
+  `api_key` varchar(40) NOT NULL,
+  `ip_address` varchar(15) NOT NULL,
+  `time` int(11) NOT NULL,
+  `authorized` tinyint(1) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;

@@ -33,7 +33,7 @@
 		public function barimage_post() {
 		
 			$bar_id = $this->uri->segment(3);
-			log_message('info', 'Received an image from bar '.$bar_id);
+			log_message('debug', 'Received an image from bar '.$bar_id);
 			
 			if(isset($GLOBALS["HTTP_RAW_POST_DATA"])) {
 				// Extract data from POST and save to filesystem.

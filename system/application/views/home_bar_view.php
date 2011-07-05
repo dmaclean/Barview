@@ -220,11 +220,11 @@ div.bar_login_div {
 			<param name="bgcolor" value="#ffffff" />
 			<param name="allowScriptAccess" value="sameDomain" />
 			<param name="allowFullScreen" value="true" />
-			<param name="FlashVars" value="bar_id=<?php echo $bar_id; ?>&server_url=http://localhost:8888/barview/index.php/barimages/save/<?php echo $bar_id; ?>"/>
+			<param name="FlashVars" value="bar_id=<?php echo $bar_id; ?>&server_url=http://localhost:8888/barview/index.php/rest/barimage/<?php echo $bar_id; ?>"/>
 			<embed 	src="<?php echo base_url();?>camera/barview_cam.swf" 
 					width="550" 
 					height="400" 
-					FlashVars="bar_id=<?php echo $bar_id; ?>&server_url=http://localhost:8888/barview/index.php/barimages/save/<?php echo $bar_id; ?>"></embed>
+					FlashVars="bar_id=<?php echo $bar_id; ?>&server_url=http://localhost:8888/barview/index.php/rest/barimage/<?php echo $bar_id; ?>"></embed>
 			<!--<![endif]-->
 		</object>	
 	</div>

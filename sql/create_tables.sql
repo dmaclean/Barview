@@ -15,6 +15,8 @@ CREATE TABLE  `barview`.`bars` (
     username varchar(30) NOT NULL,
   password varchar(30) NOT NULL,
   email varchar(30) NOT NULL,
+  reference varchar(200) NOT NULL,
+  verified tinyint(1) NOT NULL,
   PRIMARY KEY (`bar_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8
 COMMENT='Contains data about each bar registered with Barview.';
@@ -50,3 +52,15 @@ CREATE TABLE `logs` (
   `authorized` tinyint(1) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+
+-- CodeIgniter sessions
+CREATE TABLE IF NOT EXISTS  `ci_sessions` (
+session_id varchar(40) DEFAULT '0' NOT NULL,
+ip_address varchar(16) DEFAULT '0' NOT NULL,
+user_agent varchar(50) NOT NULL,
+last_activity int(10) unsigned DEFAULT 0 NOT NULL,
+user_data text DEFAULT '' NOT NULL,
+bar_name varchar(20) DEFAULT '' NOT NULL,
+PRIMARY KEY (session_id)
+);

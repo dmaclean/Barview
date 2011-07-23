@@ -50,34 +50,27 @@
 			return $this->form_validation->run();
 		}
 		
+		private function record_session_data($session_id, $username) {
+			$sql = 'update ci_sessions set bar_name = '.$this->db->escape($username).' where session_id = '.$this->db->escape($session_id);
+			$this->db->query($sql);
+		}
+		
 		public function authenticate() {
 			$this->load->model('bar_model');
 			$auth_result = $this->bar_model->validate();
 			
-			//$id 	= $this->db->escape($this->input->post('username'));
-			//$pass 	= $this->db->escape($this->input->post('password'));
-		
-			//$sql = 'select * from users where id = '.$id.' and pass = '.$pass;
-			//$query = $this->db->query($sql);
-			
-			//if($query->num_rows() == 1) {
 			if($auth_result) {
 				// Create session
 				$data = array (
 					'username' => $this->input->post('username'),	// Do we need this?
 					'is_logged_in' => TRUE,							// Do we need this?
 					'bar_id' => $this->bar_model->get_bar_id(),
+					'bar_name' => $this->bar_model->get_name(),
 					'bar_owner' => true								// Do we need this?
 				);
 				
-				//$row = $query->row();
-				//if($row->type == 'bar') {
-				//if($this->user_model->get_type() == 'bar') {
-				//	$data['bar_owner'] = true;
-					//$data['bar_id'] = $this->bar_model->get_bar_id();
-				//}
-				
 				$this->session->set_userdata($data);
+				$this->record_session_data($this->session->userdata('session_id'), $this->bar_model->get_name());
 				
 				return true;
 			}

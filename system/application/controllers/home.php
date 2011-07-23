@@ -19,6 +19,8 @@
 				print_r( $this->session->userdata);
 				
 				$data['bar_id'] = $this->session->userdata('bar_id');
+				$data['bar_name'] = $this->session->userdata('bar_name');
+				$data['session_id'] = $this->session->userdata('session_id');
 				//$this->load->view('includes/header', $data);
 				$this->load->view('home_bar_view', $data);
 				//$this->load->view('includes/footer', $data);

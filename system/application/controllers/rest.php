@@ -31,10 +31,17 @@
 		 * broadcast_images directory.
 		 */
 		public function barimage_post() {
-		
 			$bar_id = $this->uri->segment(3);
 			log_message('debug', 'Received an image from bar '.$bar_id);
 			
+			// Get the session id and bar name from headers sent in with the request to validate the request.
+			$headers = apache_request_headers();
+			if(!isset($headers['session_id']) || !isset($headers['bar_name']) || !$this->validate_session($headers['session_id'], $headers['bar_name']) ) {
+				echo 'POST failed.  Could not verify user\'s authenticity.';
+				return;
+			}
+			
+			// Looks like the request is valid, get the raw data from the POST and update the bar's image.
 			if(isset($GLOBALS["HTTP_RAW_POST_DATA"])) {
 				// Extract data from POST and save to filesystem.
 				$jpg = $GLOBALS["HTTP_RAW_POST_DATA"];
@@ -63,11 +70,10 @@
 		public function favorites_get() {
 			// Get user_id from header
 			$headers = apache_request_headers();
-			$user_id = $headers['user_id'];
+			$user_id = $headers['User_id'];
 			log_message('debug', 'Received a request for favorites of user '.$user_id);
 			
-			$xml = '<?xml version="1.0" encoding="UTF-8" ?>'.
-						'<favorites>';
+			$xml = '<?xml version="1.0" encoding="UTF-8" ?><favorites>';
 			
 			$results = $this->db->query('select bars.bar_id as "bar_id", name, address from bars inner join favorites on bars.bar_id = favorites.bar_id where user_id = '. $this->db->escape($user_id));
 			foreach ($results->result() as $row) {
@@ -84,7 +90,7 @@
 		public function favorite_post() {
 			// Get user_id from header
 			$headers = apache_request_headers();
-			$user_id = $headers['user_id'];
+			$user_id = $headers['User_id'];
 			$bar_id = $this->uri->segment(3);
 			log_message('debug', 'Received a request to add bar '.$bar_id.' to favorites for user '.$user_id);
 			
@@ -96,7 +102,7 @@
 		public function favorite_delete() {
 			// Get user_id from header
 			$headers = apache_request_headers();
-			$user_id = $headers['user_id'];
+			$user_id = $headers['User_id'];
 			$bar_id = $this->uri->segment(3);
 			log_message('debug', 'Received a request to add bar '.$bar_id.' to favorites for user '.$user_id);
 			
@@ -120,9 +126,9 @@
 		 public function nearbybars_get() {
 		 	// Get user_id from header
 			$headers = apache_request_headers();
-			$lat = $headers['latitude'];
-			$lng = $headers['longitude'];
-			$lat_low = $this->db->escape($lat - 0.025);
+			$lat = $headers['Latitude'];
+			$lng = $headers['Longitude'];
+			$lat_low = $this->db->escape($lat - BAR_RADIUS);
 			$lat_high = $this->db->escape($lat + 0.025);
 			$lng_low = $this->db->escape($lng - 0.025);
 			$lng_high = $this->db->escape($lng + 0.025);
@@ -147,6 +153,22 @@
 			$xml = $xml.'</nearbybars>';
 			
 			echo $xml;
+		 }
+		 
+		 /**
+		  * Ensures that the POST request coming in to update a bar image is authentic.  By demanding
+		  * that the user includes the correct session_id and bar name along with the request we can
+		  * check those values against the database to make sure the request is coming from a logged-in
+		  * bar and not some random person sending cock shots.
+		  */
+		 private function validate_session($session, $bar) {
+		 	$sql = 'select bar_name from ci_sessions where session_id = '.$this->db->escape($session).' and bar_name = '.$this->db->escape($bar);
+		 	
+		 	$query = $this->db->query($sql);
+		 	if($query->num_rows() > 0)
+		 		return true;
+		 	
+		 	return false;
 		 }
 	}
 ?>

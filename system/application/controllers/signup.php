@@ -26,8 +26,8 @@
 			$this->bar_model->set_city($this->input->post('city'));
 			$this->bar_model->set_state($this->input->post('state'));
 			$this->bar_model->set_zip($this->input->post('zip'));
-			$this->bar_model->set_lat(1.000);
-			$this->bar_model->set_lng(2.000);
+			$this->bar_model->set_reference($this->input->post('reference'));
+			$this->bar_model->set_verified(0);
 			
 			$this->bar_model->set_username($this->input->post('username'));
 			$this->bar_model->set_password($this->input->post('password'));

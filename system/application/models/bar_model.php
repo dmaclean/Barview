@@ -8,6 +8,8 @@
 		private $zip;
 		private $lat;
 		private $lng;
+		private $reference;
+		private $verified;
 		
 		private $username;
 		private $password;
@@ -31,6 +33,8 @@
 				$this->zip = $row->zip;
 				$this->lat = $row->lat;
 				$this->lng = $row->lng;
+				$this->reference = $row->reference;
+				$this->verified = $row->verified;
 				
 				$this->username = $row->username;
 				$this->password = $row->password;
@@ -45,14 +49,16 @@
 			$clean_city = $this->db->escape($this->city);
 			$clean_state = $this->db->escape($this->state);
 			$clean_zip = $this->db->escape($this->zip);
+			$clean_reference = $this->db->escape($this->reference);
+			$clean_verified = $this->db->escape($this->verified);
 			
 			$clean_username = $this->db->escape($this->username);
 			$clean_password = $this->db->escape($this->password);
 			$clean_email = $this->db->escape($this->email);
 			
-			$sql = 'insert into bars (name, address, city, state, zip, lat, lng, username, password, email) values ('
+			$sql = 'insert into bars (name, address, city, state, zip, lat, lng, reference, verified, username, password, email) values ('
 			.$clean_name.','.$clean_address.','.$clean_city.','.$clean_state.','.$clean_zip.','.
-				$this->lat.','.$this->lng.','.$clean_username.','.$clean_password.','.$clean_email.')';
+				$this->lat.','.$this->lng.','.clean_reference.','.clean_verified.','.$clean_username.','.$clean_password.','.$clean_email.')';
 			$this->db->query($sql);
 		}
 		
@@ -79,7 +85,7 @@
 			$id 	= $this->db->escape($this->input->post('username'));
 			$pass 	= $this->db->escape($this->input->post('password'));
 		
-			$sql = 'select * from bars where username = '.$id.' and password = '.$pass;
+			$sql = 'select * from bars where username = '.$id.' and password = '.$pass.' and verified = 1';
 			$query = $this->db->query($sql);
 			
 			if($query->num_rows() == 1) {
@@ -93,6 +99,8 @@
 				$this->zip = $row->zip;
 				$this->lat = $row->lat;
 				$this->lng = $row->lng;
+				$this->reference = $row->reference;
+				$this->verified = $row->verified;
 				
 				$this->email = $row->email;
 				$this->username = $row->username;
@@ -172,6 +180,14 @@
 			return $this->lng;
 		}
 		
+		public function get_reference() {
+			return $this->reference;
+		}
+		
+		public function get_verified() {
+			return $this->verified;
+		}
+		
 		public function get_username() {
 			return $this->username;
 		}
@@ -217,6 +233,14 @@
 		
 		public function set_lng($lng) {
 			$this->lng = $lng;
+		}
+		
+		public function set_reference($reference) {
+			$this->reference = $reference;
+		}
+		
+		public function set_verified($verified) {
+			$this->verified = $verified;
 		}
 		
 		public function set_username($username) {

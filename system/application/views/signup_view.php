@@ -41,6 +41,10 @@
 			<?php echo form_input('email', set_value('email'));?>
 		</p>
 		<p>
+			<label for="reference">Business Reference: </label>
+			<?php echo form_input('reference', set_value('reference')); ?>
+		</p>
+		<p>
 			<?php echo form_submit('submit', 'Create Account');?>
 		</p>
 	<?php echo form_close();?>

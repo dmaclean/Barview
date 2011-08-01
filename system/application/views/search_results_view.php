@@ -28,10 +28,26 @@ $(document).ready(function(){
 		this.interval = setInterval($newComm, 10000);
 	});
 	
+	$('.bar_image_div').ready(function(event) {
+		getCurrentSearchImage(event.target.id);
+	
+		var $newComm = "getCurrentSearchImage(" + event.target.id + ")";
+		clearInterval(this.interval);
+		this.interval = setInterval($newComm, 10000);
+	});
+	
 	/////////////////////////////
 	// FANCYBOX BAR OWNER LOGIN
 	/////////////////////////////
 	$('#bar_login').fancybox();
+	
+	$('#image_feed').fancybox(
+		{
+			'onComplete':function() {
+								
+							}
+		}
+	);
  
  	///////////////////////////////////////////////////////////////////
 	// DROPDOWNS FOR MENUBAR
@@ -61,6 +77,13 @@ $(document).ready(function(){
 		var $srcVal = '<?php echo base_url();?>broadcast_images/getimage.php?bar_id=' + bar_id;
 		$('#broadcast_img').remove();
 		$('<img id="broadcast_img" src="' + $srcVal + '" />').appendTo('#broadcast');
+	}
+	
+	function getCurrentSearchImage(bar_id) {
+		alert('calling getCurrentImage('+bar_id+')');
+		var $srcVal = '<?php echo base_url();?>broadcast_images/getimage.php?bar_id=' + bar_id;
+		$('#bar_image').remove();
+		$('<img id="bar_image" src="' + $srcVal + '" />').appendTo('#bar_image_div');
 	}
 	
 	
@@ -242,10 +265,31 @@ div.ads {
 	</div></span>
     
 	<div class="content">
-    	<div id="broadcast" class="broadcast"></div>
+    	<!--<div id="broadcast" class="broadcast"></div>-->
+    	<div style="display:none">
+			<div id="img">
+				
+				<img id="search_image"/>
+			</div>
+		</div>
     	<div class="dyn_content">
-    		Dynamic content here...        		Dynamic content here...        		Dynamic content here...        		Dynamic content here...        		Dynamic content here...        		Dynamic content here...        		Dynamic content here...        		Dynamic content here...        		Dynamic content here...        		Dynamic content here...        		Dynamic content here...    <br/>
-    		
+    		<?php if (count($search_results) == 0) { ?>
+    			<p>No results found.</p>
+    		<?php } else { ?>
+    		<table>
+    			<?php foreach ($search_results as $row) {?>
+    				<tr>
+    					<td><?php echo $row[1]; ?></td>
+    					<td><?php echo $row[2]; ?></td>
+    					<!--<td><a id="image_feed" href="#img" >View feed</a></td>-->
+    					<td><div class="bar_image_div"><img id="<?php echo $row[0]; ?>" src="<?php echo base_url(); ?>broadcast_images/<?php echo $row[0]; ?>.jpg"/></div></td>
+    				</tr>
+    			<?php } ?>
+    		</table>
+    		<?php } ?>
+    		<p>
+    			Don't see your favorite bar here?  Tell them to sign up for Barview!
+    		</p>
     	</div>
     	<div class="ads">
     		Ads go here...

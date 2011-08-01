@@ -1,7 +1,7 @@
 body {
 	margin: 0; padding: 0;
 	font: 10px normal Arial, Helvetica, sans-serif;
-	background: #ddd url(body_bg.gif) repeat-x;
+	background: #ddd --url(body_bg.gif) repeat-x;
 }
 .container {
 	width: 960px;
@@ -9,8 +9,10 @@ body {
 	position: relative;
 }
 #header {
-	background: url(header_bg.gif) no-repeat center top;
+	background: #1b5790;
 	padding-top: 120px;
+	border-top-left-radius: 30px;
+	border-top-right-radius: 30px;
 }
 #header .disclaimer {
 	color: #999;
@@ -27,9 +29,9 @@ ul.topnav {
 	margin: 0;
 	float: left;
 	width: 920px;
-	background: #222;
+	--background: #222;
 	font-size: 1.2em;
-	background: url(topnav_bg.gif) repeat-x;
+	background: #e5ecf3;--url(topnav_bg.gif) repeat-x;
 }
 ul.topnav li {
 	float: left;
@@ -39,7 +41,7 @@ ul.topnav li {
 }
 ul.topnav li a{
 	padding: 10px 5px;
-	color: #fff;
+	color: #000;
 	display: block;
 	text-decoration: none;
 	float: left;
@@ -76,15 +78,46 @@ ul.topnav li ul.subnav li{
 	clear: both;
 	width: 170px;
 }
+
+/* Boxes in dropdown */
 html ul.topnav li ul.subnav li a {
 	float: left;
 	width: 145px;
-	background: #333 url(dropdown_linkbg.gif) no-repeat 10px center;
+	background: #e5ecf3 url(dropdown_linkbg.gif) no-repeat 10px center;
 	padding-left: 20px;
 }
 html ul.topnav li ul.subnav li a:hover { /*--Hover effect for subnav links--*/
-	background: #222 url(dropdown_linkbg.gif) no-repeat 10px center; 
+	background: #fff url(dropdown_linkbg.gif) no-repeat 10px center; 
 }
 #header img {
 	margin: 20px 0 10px;
+}
+
+div.fb_login_div {
+	padding-left: 470px;
+}
+
+div.fb_logout_div {
+	padding-left: 400px;
+}
+
+div.bar_login_div {
+	padding-left: 548px;
+}
+
+div.content {
+	height: 500px;
+	background: #333;
+}
+
+div.dyn_content {
+	float: left;
+	width: 760px;
+	background: #bbb;
+}
+
+div.ads {
+	float: right;
+	width: 200px;
+	background: #999;
 }

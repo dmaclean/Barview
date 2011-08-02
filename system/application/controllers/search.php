@@ -12,7 +12,7 @@
 		
 		function submit() {
 			$clean_param = $this->db->escape('%'.$this->input->post('search').'%');
-			
+
 			$sql = 'select bar_id, name, address, city, state from bars where name like '.$clean_param;
 			$query = $this->db->query($sql);
 			
@@ -24,7 +24,9 @@
 			
 			$data['search_results'] = $results;
 			
+			$this->load->view('includes/header', $data);
 			$this->load->view('search_results_view', $data);
+			$this->load->view('includes/footer', $data);
 		}
 	}
 ?>

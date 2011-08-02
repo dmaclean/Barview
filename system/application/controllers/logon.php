@@ -11,7 +11,7 @@
 		}
 	
 		public function index() {
-			$is_logged_in = $this->session->userdata('is_logged_in');
+			/*$is_logged_in = $this->session->userdata('is_logged_in');
 			
 			if(!isset($is_logged_in) || $is_logged_in != true) {	// Can't use !== because the cookie is stored as 0/1, not true/false.
 				$data['bar_owner'] = true;
@@ -21,16 +21,17 @@
 				$this->load->view('logon_view', $data);
 				//$this->load->view('/includes/footer', $data);
 			}
-			else {
+			else {*/
 				redirect('/home');
-			}
+			//}
 		}
 		
 		public function submit() {
 			if($this->_submit_validation() === FALSE) {
-				die('validation failed');
-				$this->index();
-				return;
+				//die('validation failed');
+				//$this->index();
+				//return;
+				redirect('/home');
 			}
 			
 			redirect('/home');

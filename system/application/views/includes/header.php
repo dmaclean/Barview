@@ -1,95 +1,87 @@
-<!DOCTYPE html>
 
-<html lang="en">
-<head>
-	<meta http-equiv="Content-Type" content="text/html" charset="utf-8">
-	<title>Barview.com</title>
-	<link rel="stylesheet" href="<?php echo base_url();?>css/style.css" type="text/css" media="screen" charset="utf-8">
-	<!--<link rel="stylesheet" href="<?php echo base_url();?>css/menubar.css" type="text/css" media="screen" charset="utf-8">-->
-	<link rel="stylesheet" href="<?php echo base_url();?>javascript/fancybox/jquery.fancybox-1.3.4" type="text/css" media="screen" />
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
+<html class="cufon-active cufon-ready"> 
+<head> 
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" /> 
+	<title>bar-view.com</title> 
 	
+	<link rel="stylesheet" href="<?php echo base_url();?>javascript/fancybox/jquery.fancybox-1.3.4.css" type="text/css" media="screen" />
+	<link href="<?php echo base_url();?>css/style.css" type="text/css" rel="stylesheet"/>
+	
+	<script type="text/javascript" src="<?php echo base_url();?>javascript/cufon.js"></script>
 	<script type="text/javascript" src="<?php echo base_url();?>javascript/jquery.js"></script>
 	<script type="text/javascript" src="<?php echo base_url();?>javascript/fancybox/jquery.fancybox-1.3.4.js"></script>
-
-	<script type="text/javascript">
-		var interval = 0;
-	
-		$(document).ready(function() {
-			
-			///////////////////////////////////////////////////////////
-			// JQUERY EVENT TO SHOW BROADCAST IMAGE WHEN FAVORITE BAR
-			// IS CLICKED.
-			///////////////////////////////////////////////////////////
-			$('ul.subnav li').click(function(event) {
-				getCurrentImage(event.target.id);
-			
-				var $newComm = "getCurrentImage(" + event.target.id + ")";
-				clearInterval(this.interval);
-				this.interval = setInterval($newComm, 10000);
-			});
-			
-			/////////////////////////////
-			// FANCYBOX BAR OWNER LOGIN
-			/////////////////////////////
-			$('#bar_login').fancybox();
-			
-			///////////////////////////////////////////////////////////////////
-			// DROPDOWNS FOR MENUBAR
-			// (http://www.noupe.com/tutorial/drop-down-menu-jquery-css.html)
-			///////////////////////////////////////////////////////////////////
-			$("ul.subnav").parent().append("<span></span>"); //Only shows drop down trigger when js is enabled (Adds empty span tag after ul.subnav*)
-			
-				$("ul.topnav li span").click(function() { //When trigger is clicked...
-			
-					//Following events are applied to the subnav itself (moving subnav up and down)
-					$(this).parent().find("ul.subnav").slideDown('fast').show(); //Drop down the subnav on click
-			
-					$(this).parent().hover(function() {
-					}, function(){
-						$(this).parent().find("ul.subnav").slideUp('slow'); //When the mouse hovers out of the subnav, move it back up
-					});
-			
-					//Following events are applied to the trigger (Hover events for the trigger)
-					}).hover(function() {
-						$(this).addClass("subhover"); //On hover over, add class "subhover"
-					}, function(){	//On Hover Out
-						$(this).removeClass("subhover"); //On hover out, remove class "subhover"
-				});
-		});
+	<script type="text/javascript" src="<?php echo base_url();?>javascript/barview.js"></script> 
+ 
+ 	<style type="text/css">cufon{text-indent:0!important;}@media screen,projection{cufon{display:inline!important;display:inline-block!important;position:relative!important;vertical-align:middle!important;font-size:1px!important;line-height:1px!important;}cufon cufontext{display:-moz-inline-box!important;display:inline-block!important;width:0!important;height:0!important;overflow:hidden!important;text-indent:-10000in!important;}cufon canvas{position:relative!important;}}@media print{cufon{padding:0!important;}cufon canvas{display:none!important;}}</style>
+</head> 
+ 
+<body id="top">
+	<!-- Begin pageWrapper -->
+	<div id="pageWrapper">
 		
-		function getCurrentImage(bar_id) {
-			//alert('calling getCurrentImage('+bar_id+')');
-			var $srcVal = '<?php echo base_url();?>broadcast_images/getimage.php?bar_id=' + bar_id;
-			$('#broadcast_img').remove();
-			$('<img id="broadcast_img" src="' + $srcVal + '" />').appendTo('#broadcast');
-		}
-	</script>
-</head>
-<body>
-	<div class="container">
-		<div id="header">
-		<div class="disclaimer">Sexy Drop Down Menu Tutorial by <a href="http://www.SohTanaka.com">Soh Tanaka</a>.</div> 
-		    <ul class="topnav">
-				<li><a href="#">Home</a></li>
-			</ul>
-		</div>	<!-- disclaimer -->
-		</div>	<!-- header 	-->
-	<div style="display:none">
-		<div id="data">
-	  		<?php echo form_open('logon/submit')?>
-				<?php echo validation_errors('<p class="error">','</p>')?>
-				<p>
-					<label for="username">Username: </label>
-					<?php echo form_input('username', set_value('username'));?>
-				</p>
-				<p>
-					<label for="password">Password: </label>
-					<?php echo form_password('password');?>
-				</p>
-				<p>
-					<?php echo form_submit('submit', 'Login');?>
-				</p>
-			<?php echo form_close();?>
-		</div>
-	</div>
 
+		<!-- Begin header -->
+<header>
+	<!-- Begin logo -->
+	<div id="logo">
+		<h1><a href="<?php echo base_url();?>index.php/" title="Home"><cufon class="cufon cufon-canvas" alt="Barview.com" style="width: 148px; height: 32px; "><canvas width="157" height="39" style="width: 157px; height: 39px; top: -4px; left: -2px; "></canvas><cufontext>Barview.com</cufontext></cufon></a></h1>
+		<h2 class="slogan">Only slightly less profitable than our competitors.</h2>
+	</div>
+	<!-- End logo -->
+
+	<!-- Begin user meta -->
+	<div id="user-meta">
+		<?php if(isset($bar_name)) { ?>
+			<a href="<?php base_url();?>logout">Logout</a>
+		<?php } else { ?>
+			<?php 
+				$attributes = array('id' => 'login-small', 'accept-charset' => 'utf-8');
+				echo form_open('logon/submit', $attributes);
+			?>
+				<ul>
+					<li class="email">
+						<?php 
+							$user_atts = array('name' => 'username', 'id' => 'username', 'maxlength' => '120', 'onblur' => 'if (this.value == \'\') { this.value = \'Username\'; }" onfocus="if (this.value == \'Username\') { this.value = \'\'; }');
+							echo form_input($user_atts);
+						?>
+					</li>
+						
+					<li class="pword">
+						<?php 
+							$pass_atts = array('name' => 'password', 'id' => 'password','maxlength' => '20', 'onblur' => 'if (this.value == \'\') { this.value = \'Password\'; }" onfocus="if (this.value == \'Password\') { this.value = \'\'; }');
+							echo form_password($pass_atts);
+						?>
+					</li>
+				
+					<li class="form-buttons">
+						<input type="submit" value="Bar Login" name="btnLogin"> | &nbsp;<a href="<?php echo base_url();?>index.php?/signup">Register</a>
+						<input type="checkbox" id="remember-checksidebar" name="remember" value="1"><span>Remember Me</span>
+					</li>
+				</ul>
+			<?php echo form_close(); ?>
+		<?php } ?>
+	</div>
+<!-- End user meta -->
+</header>
+<!-- End header -->
+
+		<!-- Begin nav -->
+		<nav>
+			<ul id="head-nav">
+				<li class="first current"><a href="<?php echo base_url(); ?>index.php">Home</a></li>
+				<li class="last"><a href="<?php echo base_url(); ?>index.php">Contact</a></li>
+				<li class="last">
+					<span class="current">
+						<?php echo form_open('search/submit'); ?>
+							Search bars: 
+							<?php 
+								$search_atts = array('id' => 'search', 'name' => 'search', 'maxlength' => '100');
+								echo form_input($search_atts); 
+							?>
+						<?php echo form_close(); ?>
+					</span>
+				</li>
+			</ul>
+		</nav>
+		<!-- End nav -->

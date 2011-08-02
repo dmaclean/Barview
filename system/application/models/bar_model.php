@@ -81,6 +81,12 @@
 			$this->db->query($sql);
 		}
 		
+		public function verify() {
+			$sql = 'update bars set verified = 1 where bar_id = '.$this->bar_id;
+			
+			$query = $this->db->query($sql);
+		}
+		
 		public function validate() {
 			$id 	= $this->db->escape($this->input->post('username'));
 			$pass 	= $this->db->escape($this->input->post('password'));
@@ -110,7 +116,6 @@
 				return true;
 			}
 			else {
-				die('no rows returned');
 				return false;
 			}
 		}

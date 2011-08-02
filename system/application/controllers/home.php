@@ -14,24 +14,25 @@
 		}
 	
 		function index() {
+			if(DEV_MODE)
+				print_r( $this->session->userdata);
+		
 			// Send bars to home_bar
 			if($this->session->userdata('bar_id')) {
-				print_r( $this->session->userdata);
 				
 				$data['bar_id'] = $this->session->userdata('bar_id');
 				$data['bar_name'] = $this->session->userdata('bar_name');
 				$data['session_id'] = $this->session->userdata('session_id');
-				//$this->load->view('includes/header', $data);
+				$this->load->view('includes/header', $data);
 				$this->load->view('home_bar_view', $data);
-				//$this->load->view('includes/footer', $data);
+				$this->load->view('includes/footer', $data);
 				
 			}
 			// Send users to home.
 			else {
-				print_r($this->session->userdata);
-				//$this->load->view('includes/header', $data);
+				$this->load->view('includes/header');
 				$this->load->view('home_view');
-				//$this->load->view('includes/footer', $data);
+				$this->load->view('includes/footer');
 			}
 		}
 		

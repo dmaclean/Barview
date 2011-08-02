@@ -1,58 +1,20 @@
-
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
-<html xmlns="http://www.w3.org/1999/xhtml"> 
-<head> 
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" /> 
-<title>bar-view.com</title> 
-
-<link rel="stylesheet" href="<?php echo base_url();?>javascript/fancybox/jquery.fancybox-1.3.4" type="text/css" media="screen" />
-<link href="<?php echo base_url();?>css/style.css" type="text/css" rel="stylesheet">
-
-<script type="text/javascript" src="http://code.jquery.com/jquery-latest.js"></script> 
-<script type="text/javascript" src="<?php echo base_url();?>javascript/fancybox/jquery.fancybox-1.3.4.js"></script>
-	<script type="text/javascript" src="<?php echo base_url();?>javascript/barview.js"></script> 
-
-</head> 
- 
-<body> 
-
-<div class="container"> 
-    <div id="header"> 
-		<div class="disclaimer"></div> 
-        <ul class="topnav"> 
-            <li><a href="<?php echo base_url(); ?>">Home</a></li> 
-            <li><a href="#">About Us</a></li>
-            <li><a href="#">Advertise</a></li> 
-            <li><a href="#">Contact Us</a></li> 
-            
-            <li>
-            	<?php if ($bar_id): ?>
-            		<div class="fb_logout_div"><a href="<?php echo base_url(); ?>index.php/logout">logout</a></div>
-            	<?php endif ?>
-            </li>
-        </ul> 
-        <div style="display:none">
-			<div id="data">
-				<?php echo form_open('logon/submit')?>
-					<?php echo validation_errors('<p class="error">','</p>')?>
-					<p>
-						<label for="username">Username: </label>
-						<?php echo form_input('username', set_value('username'));?>
-					</p>
-					<p>
-						<label for="password">Password: </label>
-						<?php echo form_password('password');?>
-					</p>
-					<p>
-						<?php echo form_submit('submit', 'Login');?>
-					</p>
-				<?php echo form_close();?>
-			</div>
-		</div>
-	</div></span>
-    </div> 
+		<!-- Begin contentWrapper -->
+		<div id="contentWrapper">
+			
+			<!-- Begin 2 column content -->
+<div id="content">
+				<p id="forum_breadcrumbs">
+									<span class="current">Home</span>
+					
+		</p>
+	
+	
+	<section class="post clearfix">
+		<!-- Page layout: Default -->
+<h2><cufon class="cufon cufon-canvas" alt="Home" style="width: 51px; height: 24px; "><canvas width="64" height="29" style="width: 64px; height: 29px; top: -3px; left: -2px; "></canvas><cufontext>Home</cufontext></cufon></h2>
 
 
+<div class="page-chunk default"><p>
 	<div id="broadcast" class="broadcast">			
 		<object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" width="100%" height="100%" id="barview_cam">
 			<param name="movie" value="<?php echo base_url();?>camera/barview_cam.swf" />
@@ -68,6 +30,22 @@
 			<!--<![endif]-->
 		</object>	
 	</div>
+</div>
 
-</body> 
-</html> 
+
+	</section>
+</div>
+<!-- End 2 column content -->
+<aside>
+	<div id="navigation">
+		<h2><cufon class="cufon cufon-canvas" alt="Navigation" style="width: 94px; height: 24px; "><canvas width="106" height="29" style="width: 106px; height: 29px; top: -3px; left: -2px; "></canvas><cufontext>Navigation</cufontext></cufon></h2>
+		<ul>
+			
+		</ul>
+	</div>
+	
+</aside>
+
+			
+		</div>
+	<!-- End contentWrapper -->

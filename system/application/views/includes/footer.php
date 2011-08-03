@@ -2,7 +2,7 @@
 	<!-- Begin footer -->
 <div id="footerWrapper">
 <footer>
-	<div id="poweredby"><a href="http://pyrocms.com/"><img src="/pyrocms/system/cms/themes/default/img/logo.png" alt="Powered by PyroCMS"> Powered by PyroCMS</a></div>
+	<!--<div id="poweredby"><a href="http://pyrocms.com/"><img src="/pyrocms/system/cms/themes/default/img/logo.png" alt="Powered by PyroCMS"> Powered by PyroCMS</a></div>-->
 	<ul id="foot-nav">
 		
 		<li><a class="last" href="#top" title="Back to Top">Top ↑</a></li>

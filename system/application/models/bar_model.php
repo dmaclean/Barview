@@ -58,7 +58,7 @@
 			
 			$sql = 'insert into bars (name, address, city, state, zip, lat, lng, reference, verified, username, password, email) values ('
 			.$clean_name.','.$clean_address.','.$clean_city.','.$clean_state.','.$clean_zip.','.
-				$this->lat.','.$this->lng.','.clean_reference.','.clean_verified.','.$clean_username.','.$clean_password.','.$clean_email.')';
+				$this->lat.','.$this->lng.','.$clean_reference.','.$clean_verified.','.$clean_username.','.$clean_password.','.$clean_email.')';
 			$this->db->query($sql);
 		}
 		

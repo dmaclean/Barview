@@ -33,7 +33,7 @@
 	<!-- Begin user meta -->
 	<div id="user-meta">
 		<?php if(isset($bar_name)) { ?>
-			<a href="<?php base_url();?>logout">Logout</a>
+			<a href="<?php base_url();?>index.php?/logout">Logout</a>
 		<?php } else { ?>
 			<?php 
 				$attributes = array('id' => 'login-small', 'accept-charset' => 'utf-8');

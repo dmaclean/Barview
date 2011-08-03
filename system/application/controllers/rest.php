@@ -45,7 +45,7 @@
 			if(isset($GLOBALS["HTTP_RAW_POST_DATA"])) {
 				// Extract data from POST and save to filesystem.
 				$jpg = $GLOBALS["HTTP_RAW_POST_DATA"];
-				$filename = "/Applications/MAMP/htdocs/barview/broadcast_images/".$bar_id.".jpg";
+				$filename = "broadcast_images/".$bar_id.".jpg";
 				file_put_contents($filename, $jpg);
 			} else {
 				echo "Encoded JPEG information not received.";

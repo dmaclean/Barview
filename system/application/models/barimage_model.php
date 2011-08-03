@@ -20,7 +20,7 @@
 		}
 		
 		public function fetch_image_from_filesystem() {
-			return file_get_contents(base_url()."broadcast_images/".$this->bar_id.".jpg");
+			return file_get_contents("broadcast_images/".$this->bar_id.".jpg");
 		}
 		
 		public function insert_image() {

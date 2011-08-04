@@ -32,12 +32,10 @@
 		 */
 		public function barimage_post() {
 			$bar_id = $this->uri->segment(3);
-			//log_message('debug', 'Received an image from bar '.$bar_id);
 			$this->do_logging('Received an image from bar '.$bar_id.'\n');
 			
 			// Get the session id and bar name from headers sent in with the request to validate the request.
-			$headers = apache_request_headers();
-			if(!isset($headers['session_id']) || !isset($headers['bar_name']) || !$this->validate_session($headers['session_id'], $headers['bar_name']) ) {
+			if(!isset($_SERVER['HTTP_SESSION_ID']) || !isset($_SERVER['HTTP_BAR_NAME']) || !$this->validate_session($_SERVER['HTTP_SESSION_ID'], $_SERVER['HTTP_BAR_NAME']) ) {
 				$this->do_logging('POST failed.  Could not verify user\'s authenticity.');
 				echo 'POST failed.  Could not verify user\'s authenticity.';
 				return;
@@ -177,7 +175,7 @@
 			$myFile = "system/logs/restlog.txt";
 			$fh = fopen($myFile, 'a');
 			
-			fwrite($fh, $msg);
+			fwrite($fh, date(DATE_RFC822).' - '.$msg.'\n');
 		}
 	}
 ?>

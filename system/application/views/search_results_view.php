@@ -25,7 +25,7 @@
 						<tr>
 							<td><?php echo $row[1]; ?></td>
 							<td><?php echo $row[2]; ?></td>
-							<td><div class="bar_image_div"><img id="<?php echo $row[0]; ?>" src="broadcast_images/<?php echo $row[0]; ?>.jpg"/></div></td>
+							<td><img id="<?php echo $row[0]; ?>" class="bar_image" src="broadcast_images/<?php echo $row[0]; ?>.jpg"/></td>
 						</tr>
 					<?php } ?>
 				</table>

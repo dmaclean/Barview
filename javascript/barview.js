@@ -1,6 +1,42 @@
 var interval = 0;
+var timer = -1;
 
 $(document).ready(function(){
+ 
+ 	/**
+ 	 * Determine if we are on the search page by looking for entities with class="bar_image".  This
+ 	 * will be used for determining whether to turn on/off the refreshSearchImages interval.
+ 	 */
+ 	function onSearchPage() {
+	 	if($('.bar_image').size() > 0)
+	 		return true;
+	 	
+	 	return false;
+ 	}
+ 
+ 	/**
+ 	 * Iterates through all the class="bar_image" elements (which happen to be img tags) and refreshes
+ 	 * the image currently being displayed.
+ 	 *
+ 	 * This function will be used in conjunction with an interval.
+ 	 */
+	function refreshSearchImages() {
+
+		$('.bar_image').each(
+			function(index) {
+				var id = $(this).attr('id');
+				var d = new Date();
+				var newsrc = 'broadcast_images/' + id + '.jpg?'+d.getTime();
+				$(this).attr('src', newsrc);
+			}
+		);
+		
+		//alert('piss');
+	}
+	
+	// Refresh images on the search page every 5 seconds.
+	if(onSearchPage())
+		timer = setInterval(refreshSearchImages, 5000);
  
  /*	$('.verify').click( function() {
  		var row = $(this).parent;
@@ -68,4 +104,11 @@ $(document).ready(function(){
 	}
 	
 	
+});
+
+$(window).unload(function() {
+	if(onSearchPage()) {
+		alert('closing timer ' + timer);
+		clearInterval(timer);
+	}
 });

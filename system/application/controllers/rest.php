@@ -12,7 +12,8 @@
 		/**
 		 * Retrieves the image specified in the URL and sends back to the
 		 * user an XML document containing the bar id and the image encoded
-		 * as a Base64 string.
+		 * as a Base64 string.  If there is no image for the requested bar
+		 * then the <barimage> field is empty.
 		 */
 		public function barimage_get() {
 			$bar_id = $this->uri->segment(3);
@@ -22,8 +23,14 @@
 			$image = $this->barimage_model->fetch_image_from_filesystem();
 			
 			header("Content-type: text/xml");
-			echo '<?xml version="1.0" encoding="UTF-8" ?>'.
-					'<barimage><bar_id>'.$bar_id.'</bar_id><image>'.base64_encode($image).'</image></barimage>';
+			$xml = '<?xml version="1.0" encoding="UTF-8" ?><barimage><bar_id>'.$bar_id.'</bar_id>';
+			
+			if($image == '')
+				$xml = $xml.'<image></image></barimage>';
+			else
+				$xml = $xml.'<image>'.base64_encode($image).'</image></barimage>';
+			
+			echo $xml;
 		}
 		
 		/**

@@ -20,7 +20,10 @@
 		}
 		
 		public function fetch_image_from_filesystem() {
-			return file_get_contents("broadcast_images/".$this->bar_id.".jpg");
+			if(file_exists("broadcast_images/".$this->bar_id.".jpg"))
+				return file_get_contents("broadcast_images/".$this->bar_id.".jpg");
+			
+			return "";
 		}
 		
 		public function insert_image() {

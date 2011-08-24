@@ -92,9 +92,8 @@
 		 *****************************************************************************************/
 		public function favorites_get() {
 			// Get user_id from header
-			$headers = apache_request_headers();
-			$user_id = $headers['User_id'];
-			log_message('debug', 'Received a request for favorites of user '.$user_id);
+			$user_id = $_SERVER['HTTP_USER_ID'];
+			$this->do_logging('Received a request for favorites of user '.$user_id);
 			
 			$xml = '<?xml version="1.0" encoding="UTF-8" ?><favorites>';
 			
@@ -112,10 +111,9 @@
 		
 		public function favorite_post() {
 			// Get user_id from header
-			$headers = apache_request_headers();
-			$user_id = $headers['User_id'];
+			$user_id = $_SERVER['HTTP_USER_ID'];
 			$bar_id = $this->uri->segment(3);
-			log_message('debug', 'Received a request to add bar '.$bar_id.' to favorites for user '.$user_id);
+			$this->do_logging('Received a request to add bar '.$bar_id.' to favorites for user '.$user_id);
 			
 			$this->favorite_model->set_user_id($user_id);
 			$this->favorite_model->set_bar_id($bar_id);
@@ -124,10 +122,9 @@
 		
 		public function favorite_delete() {
 			// Get user_id from header
-			$headers = apache_request_headers();
-			$user_id = $headers['User_id'];
+			$user_id = $_SERVER['HTTP_USER_ID'];
 			$bar_id = $this->uri->segment(3);
-			log_message('debug', 'Received a request to add bar '.$bar_id.' to favorites for user '.$user_id);
+			$this->do_logging('Received a request to delete bar '.$bar_id.' to favorites for user '.$user_id);
 			
 			$this->favorite_model->set_user_id($user_id);
 			$this->favorite_model->set_bar_id($bar_id);
@@ -148,13 +145,14 @@
 		 **********************************************************************************************************/
 		 public function nearbybars_get() {
 		 	// Get user_id from header
-			$headers = apache_request_headers();
-			$lat = $headers['Latitude'];
-			$lng = $headers['Longitude'];
+			$lat = $_SERVER['HTTP_LATITUDE'];
+			$lng = $_SERVER['HTTP_LONGITUDE'];
 			$lat_low = $this->db->escape($lat - BAR_RADIUS);
 			$lat_high = $this->db->escape($lat + 0.025);
 			$lng_low = $this->db->escape($lng - 0.025);
 			$lng_high = $this->db->escape($lng + 0.025);
+			
+			$this->do_logging('Attempting to find bars in the proximity of '.$lat.'/'.$lng);
 			
 			$xml = '<?xml version="1.0" encoding="UTF-8" ?><nearbybars>';
 			
@@ -194,11 +192,15 @@
 		 	return false;
 		}
 		
+		/**
+		 * Custom logging function since the CodeIgniter logging doesn't seem to be working
+		 * for this REST class.
+		 */
 		private function do_logging($msg) {
 			$myFile = "system/logs/restlog.txt";
 			$fh = fopen($myFile, 'a');
 			
-			fwrite($fh, date(DATE_RFC822).' - '.$msg.'\n');
+			fwrite($fh, date(DATE_RFC822)." - ".$msg."\n");
 		}
 	}
 ?>

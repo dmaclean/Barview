@@ -34,6 +34,22 @@
 		}
 		
 		/**
+		 * Experimental GET handler that just sends the Base64 representation of the image
+		 * in the response, instead of an XML response.  This is far more efficient for the
+		 * Android clients because the XML parser is painfully slow.  Simply handling the
+		 * entire response is much better since the bar id is not necessary to send back.
+		 */
+		public function barimagebinary_get() {
+			$bar_id = $this->uri->segment(3);
+			log_message('info','Received a request for bar image '.$bar_id);
+			
+			$this->barimage_model->set_bar_id($bar_id);
+			$image = $this->barimage_model->fetch_image_from_filesystem();
+			
+			echo base64_encode($image);
+		}
+		
+		/**
 		 * Saves an image sent in the request as POST data.  Images are stored in the
 		 * broadcast_images directory.
 		 */

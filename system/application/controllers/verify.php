@@ -35,7 +35,29 @@
 			$this->bar_model->select($this->input->post('bar_id'));
 			$this->bar_model->verify();
 			
+			$this->send_verify_email($this->bar_model->get_email(), $this->bar_model->get_username());
+			
 			redirect('verify');
+		}
+		
+		/**
+		 * Creates and sends an email to the bar that has just signed up alerting them that
+		 * we are reviewing their business reference.
+		 */
+		private function send_verify_email($email, $username) {
+			$subject = "bar-view.com registration";
+			$message = "Thanks again for registering with bar-view.com!\n\n";
+			$message = $message."We have reviewed your business reference and successfully verified you.  ";
+			$message = $message."You can now log in with your account (".$username.") and begin streaming.\n\n\n";
+			$message = $message."- The bar-view.com staff";
+			
+			$from = 'support@bar-view.com';
+			$headers = 'From:'.$from;
+			
+			if(mail($email, $subject, $message, $headers))
+				log_message('debug','Verification email to '.$email.' sent successfully.');
+			else
+				log_message('error','Verification email to '. $email.' failed.');
 		}
 	}
 ?>

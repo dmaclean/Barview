@@ -38,6 +38,9 @@
 			$this->bar_model->set_lng($coords[1]);
 			$this->bar_model->insert();
 			
+			$this->send_registration_email($this->bar_model->get_email(), $this->bar_model->get_username());
+			$this->send_support_alert_email($this->bar_model->get_name(), $this->bar_model->get_address());
+			
 			// Send the user back to the logon page.
 			$data['create_message'] = '';
 			redirect('');
@@ -59,6 +62,10 @@
 			return $this->form_validation->run();
 		}
 		
+		/**
+		 * Performs geocoding of an address (address --> latitude/longitude) with the Google API
+		 * so we can have coordinates to put on a map for the mobile apps.
+		 */
 		private function get_coordinates($bar) {
 			$reverseCodingUrl = 'http://maps.googleapis.com/maps/api/geocode/xml?address='.
 					str_replace(" ", "+", $bar->get_address()).','.
@@ -79,6 +86,9 @@
 			return $coords;
 		}
 		
+		/**
+		 * Check the database to determine whether a requested username has already been taken.
+		 */
 		public function check_username_exists($username) {
 			$this->load->model('bar_model');
 
@@ -89,6 +99,46 @@
 			else {
 				return true;
 			}
+		}
+		
+		/**
+		 * Creates and sends an email to the bar that has just signed up alerting them that
+		 * we are reviewing their business reference.
+		 */
+		private function send_registration_email($email, $username) {
+			$subject = "bar-view.com registration";
+			$message = "Thank you for registering with bar-view.com.\n\n";
+			$message = $message."We are currently reviewing your business reference and should be in contact with you soon to verify it.  ";
+			$message = $message."You will receive another email as soon as your account is verified, and you can then log ";
+			$message = $message."into your account (".$username.") and begin streaming!\n\n\n";
+			$message = $message."- The bar-view.com staff";
+			
+			$from = 'support@bar-view.com';
+			$headers = 'From:'.$from;
+			
+			if(mail($email, $subject, $message, $headers))
+				log_message('debug','Registration email to '.$email.' sent successfully.');
+			else
+				log_message('error','Registration email to '. $email.' failed.');
+		}
+		
+		/**
+		 * Creates and sends an email to support@bar-view.com alerting us that someone
+		 * has registered for bar-view.com.
+		 */
+		private function send_support_alert_email($name, $address) {
+			$subject = "Sign-up from ".$name." (".$address.")";
+			$message = $name." has registered for bar-view.com.\n\n";
+			$message = $message."Go to http://bar-view.com/index.php?/verify to look at their business reference and verify them.";
+			
+			$to = "support@bar-view.com";
+			$from = 'support@bar-view.com';
+			$headers = 'From:'.$from;
+			
+			if(mail($to, $subject, $message, $headers))
+				log_message('debug','Alert email for '.$name.' sent successfully.');
+			else
+				log_message('error','Alert email for '. $name.' failed.');
 		}
 	}
 ?>

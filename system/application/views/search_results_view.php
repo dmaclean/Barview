@@ -22,18 +22,9 @@
 								<?php if($this->session->userdata('is_logged_in')) { ?>
 									<div class="search_bar_favorite">
 										<?php if(isset($favorites[$row[0]])) { ?>
-											<a id="<?php echo $row[0];?>_favorite" onclick="alert('trying to remove <?php echo $row[1]; ?> from favorites');">Remove from favorites</a>
+											<a id="<?php echo $row[0];?>_favorite" onclick="removeFromFavorites('<?php echo base_url(); ?>', <?php echo $row[0]; ?>, '<?php echo $this->session->userdata('uid'); ?>');">Remove from favorites</a>
 										<?php } else { ?>
-											<a id="<?php echo $row[0];?>_favorite" onclick="$.ajax({
-  																	type: 'POST',
-  																	url: '<?php echo base_url();?>index.php?/rest/favorite/<?php echo $row[0]; ?>',
-  																	beforeSend: function(xhr) {
-																			xhr.setRequestHeader('USER_ID', '<?php echo $this->session->userdata('uid'); ?>');
- 																		},
-  																	success: function() {
-  																				$('#<?php echo $row[0];?>_favorite').text('Remove from favorites');
-  																			}
-																});">Add to favorites</a>
+											<a id="<?php echo $row[0];?>_favorite" onclick="addToFavorites('<?php echo base_url(); ?>', <?php echo $row[0]; ?>, '<?php echo $this->session->userdata('uid'); ?>');">Add to favorites</a>
 										<?php } ?>
 									</div>
 								<?php } ?>

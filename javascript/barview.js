@@ -118,3 +118,49 @@ $(window).unload(function() {
 		clearInterval(timer);
 	}
 });
+
+/**
+ * An AJAX call that makes a POST request to the REST interface to add a favorite bar
+ * for a user.  If successful, the link "Add to favorites" will be changed to "Remove from favorites"
+ * and its onClick event will be changed to the removeFromFavorites() function.
+ */
+function addToFavorites(base_url, bar_id, user_id) {
+	$.ajax({
+		type: 'POST',
+		url: base_url + 'index.php?/rest/favorite/' + bar_id,
+		beforeSend: function(xhr) {
+				xhr.setRequestHeader('USER_ID', user_id);
+			},
+		success: function() {
+					var element = '#' + bar_id + '_favorite';
+					$(element).text('Remove from favorites');
+					$(element).click({'base_url' : base_url, 'bar_id' : bar_id, 'user_id' : user_id}, function(e) {
+							removeFromFavorites(e.data.base_url, e.data.bar_id, e.data.user_id);
+						}
+					);
+				}
+	});
+}
+
+/**
+ * An AJAX call that makes a DELETE request to the REST interface to delete a favorite bar
+ * for a user.  If successful, the link "Remove from favorites" will be changed to "Add to favorites"
+ * and its onClick event will be changed to the addToFavorites() function.
+ */
+function removeFromFavorites(base_url, bar_id, user_id) {
+	$.ajax({
+		type: 'DELETE',
+		url: base_url + 'index.php?/rest/favorite/' + bar_id,
+		beforeSend: function(xhr) {
+				xhr.setRequestHeader('USER_ID', user_id);
+			},
+		success: function() {
+					var element = '#' + bar_id + '_favorite';
+					$(element).text('Add to favorites');
+					$(element).click({'base_url' : base_url, 'bar_id' : bar_id, 'user_id' : user_id}, function(e) {
+							addToFavorites(e.data.base_url, e.data.bar_id, e.data.user_id);
+						}
+					);
+				}
+	});
+}

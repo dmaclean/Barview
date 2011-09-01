@@ -164,3 +164,47 @@ function removeFromFavorites(base_url, bar_id, user_id) {
 				}
 	});
 }
+
+/**
+ * An AJAX call that makes a POST request to the REST interface to add a new event/deal
+ * for a bar.  If successful, the event text will be listed in the list of events along with
+ * a delete link.
+ */
+function addEvent(base_url, event_detail, bar_id, bar_name, session_id) {
+	$.ajax({
+		type: 'POST',
+		url: base_url + 'index.php?/rest/events/' + bar_id,
+		data: {'detail' : $('#event_text').val()},
+		beforeSend: function(xhr) {
+						xhr.setRequestHeader('BAR_NAME', bar_name);
+						xhr.setRequestHeader('SESSION_ID', session_id);
+					},
+		success: function(data, textStatus, jqXHR) {
+					var newlistitem = '<li id="event_' + data + '"><div style="float:left;">' + event_detail + '</div><div><a class="bar_events_link" id="event_' + data + '_a" >delete</a></div></li>';
+					$('.bar_events_list ul').append(newlistitem);
+					$('#event_' + data + '_a').click( {'base_url' : base_url, 'event_id' : data, 'bar_id' : bar_id, 'bar_name' : bar_name, 'session_id' : session_id}, function(e) {
+							deleteEvent(e.data.base_url, e.data.event_id, e.data.bar_id, e.data.bar_name, e.data.session_id);
+						}
+					);
+				}
+		});
+}
+
+/**
+ * An AJAX call that makes a DELETE request to the REST interface to delete an event/deal
+ * for a bar.  If successful, the event will be delete from the database and the list on the page.
+ */
+function deleteEvent(base_url, event_id, bar_id, bar_name, session_id) {
+	$.ajax({
+		type: 'DELETE',
+		url: base_url + 'index.php?/rest/events/' + event_id,
+		beforeSend: function(xhr) {
+						xhr.setRequestHeader('BAR_ID', bar_id);
+						xhr.setRequestHeader('BAR_NAME', bar_name);
+						xhr.setRequestHeader('SESSION_ID', session_id);
+					},
+		success: function() {
+					$('#event_' + event_id).remove();
+				}
+	});
+}

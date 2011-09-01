@@ -204,6 +204,8 @@
 			$this->barevent_model->set_bar_id($bar_id);
 			$this->barevent_model->set_detail($this->input->post('detail'));
 			$this->barevent_model->create();
+			
+			echo $this->db->insert_id();
 		 }
 		 
 		 public function events_delete() {

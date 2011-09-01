@@ -222,6 +222,12 @@ div.home_header {
 }
 
 
+/* BAR EVENTS */
+a.bar_events_link {
+	padding-left: 10px;
+}
+
+
 
 /* SEARCH CSS */
 div.search_bar_container {

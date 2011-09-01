@@ -38,40 +38,15 @@
 				<?php foreach($events as $e) { ?>
 					<li id="event_<?php echo $e['id'] ?>">
 						<div style="float:left;"><?php echo $e['detail']; ?></div>
-						<div><a onclick="$.ajax({
-  												type: 'DELETE',
-  												url: '<?php echo base_url();?>index.php?/rest/events/<?php echo $e['id']; ?>',
-  												beforeSend: function(xhr) {
-  																xhr.setRequestHeader('BAR_ID', '<?php echo $bar_id; ?>');
-																xhr.setRequestHeader('BAR_NAME', '<?php echo $bar_name; ?>');
-																xhr.setRequestHeader('SESSION_ID', '<?php echo $session_id; ?>');
- 															},
-  												success: function() {
-  															$('#event_<?php echo $e['id']; ?>').remove();
-  														}
-												});">delete</a></div>
+						<div><a class="bar_events_link" id="event_<?php $e['id'];?>_a" onclick="deleteEvent('<?php echo base_url(); ?>', <?php echo $e['id']; ?>, <?php echo $bar_id; ?>, '<?php echo $bar_name; ?>', '<?php echo $session_id; ?>');">delete</a></div>
 					</li>
 				<?php } ?>
 			</ul>
 		</div>
 		<div class="bar_events_edit">
-			<?php echo form_open('search/submit'); ?>
 			<textarea id="event_text" name="event_text" rows="5"></textarea><br/>
 			<button type="button" id="submit" name="submit" value="Add new event or deal." 
-							onclick="$.ajax({
-  												type: 'POST',
-  												url: '<?php echo base_url();?>index.php?/rest/events/<?php echo $bar_id; ?>',
-  												data: {'detail' : $('#event_text').val()},
-  												beforeSend: function(xhr) {
-																xhr.setRequestHeader('BAR_NAME', '<?php echo $bar_name; ?>');
-																xhr.setRequestHeader('SESSION_ID', '<?php echo $session_id; ?>');
- 															},
-  												success: function() {
-  															var newlistitem = '<li>' + $('#event_text').val() + '</li>';
-  															$('.bar_events_list ul').append(newlistitem);
-  														}
-												});"/>Add new event or deal.</button>
-			<?php echo form_close(); ?>
+							onclick="addEvent('<?php echo base_url(); ?>', $('#event_text').val(), <?php echo $bar_id; ?>, '<?php echo $bar_name; ?>', '<?php echo $session_id; ?>');">Add new event or deal.</button>
 		</div>
 	</div>
 	

@@ -7,6 +7,7 @@
 			
 			$this->load->model('barimage_model');
 			$this->load->model('favorite_model');
+			$this->load->model('barevent_model');
 		}
 	
 		/**
@@ -174,6 +175,45 @@
 			$xml = $xml.'</nearbybars>';
 			
 			echo $xml;
+		 }
+		 
+		 public function events_post() {
+		 	$bar_id = $this->uri->segment(3);
+			$this->do_logging("Received an event update from bar ".$bar_id);
+			
+			// Get the session id and bar name from headers sent in with the request to validate the request.
+			if(!isset($_SERVER['HTTP_SESSION_ID']) || !isset($_SERVER['HTTP_BAR_NAME']) || !$this->validate_session($_SERVER['HTTP_SESSION_ID'], $_SERVER['HTTP_BAR_NAME']) ) {
+				$this->do_logging('POST for events failed.  Could not verify bar\'s authenticity.');
+				echo 'POST for events failed.  Could not verify user\'s authenticity.';
+				return;
+			}
+			
+			$this->do_logging("Attempting to add event ".$this->input->post('detail')." for bar ".$bar_id);
+			
+			$this->barevent_model->set_bar_id($bar_id);
+			$this->barevent_model->set_detail($this->input->post('detail'));
+			$this->barevent_model->create();
+		 }
+		 
+		 public function events_delete() {
+		 	$id = $this->uri->segment(3);
+			$this->do_logging("Received an event delete for event ".$id);
+			
+			$bar_id = $_SERVER['HTTP_BAR_ID'];
+			
+			// Get the session id and bar name from headers sent in with the request to validate the request.
+			if(!isset($_SERVER['HTTP_SESSION_ID']) || !isset($_SERVER['HTTP_BAR_NAME']) || !$this->validate_session($_SERVER['HTTP_SESSION_ID'], $_SERVER['HTTP_BAR_NAME']) ) {
+				$this->do_logging('POST for events failed.  Could not verify bar\'s authenticity.');
+				echo 'POST for events failed.  Could not verify user\'s authenticity.';
+				return;
+			}
+			
+			$this->do_logging("Attempting to delete event ".$id." for bar ".$bar_id);
+			
+			$this->barevent_model->set_id($id);
+			$this->barevent_model->set_bar_id($bar_id);
+			$this->barevent_model->set_detail($this->input->post('detail'));
+			$this->barevent_model->delete();
 		 }
 		 
 		 /**

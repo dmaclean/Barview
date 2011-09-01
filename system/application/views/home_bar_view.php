@@ -1,17 +1,11 @@
-		<!-- Begin contentWrapper -->
-		<div id="contentWrapper">
-			
+<!-- Begin contentWrapper -->
+<div id="contentWrapper">
+	
 			<!-- Begin 2 column content -->
 <div id="content">
-				<p id="forum_breadcrumbs">
-									<span class="current">Home</span>
-					
-		</p>
-	
-	
 	<section class="post clearfix">
 		<!-- Page layout: Default -->
-<h2><cufon class="cufon cufon-canvas" alt="Home" style="width: 51px; height: 24px; "><canvas width="64" height="29" style="width: 64px; height: 29px; top: -3px; left: -2px; "></canvas><cufontext>Home</cufontext></cufon></h2>
+<h2><cufon class="cufon cufon-canvas" alt="Broadcast to bar-view!" style="width: 51px; height: 24px; "><canvas width="64" height="29" style="width: 64px; height: 29px; top: -3px; left: -2px; "></canvas><cufontext>Home</cufontext></cufon></h2>
 
 
 <div class="page-chunk default"><p>
@@ -35,17 +29,54 @@
 
 	</section>
 </div>
-<!-- End 2 column content -->
+
 <aside>
 	<div id="navigation">
-		<h2><cufon class="cufon cufon-canvas" alt="Navigation" style="width: 94px; height: 24px; "><canvas width="106" height="29" style="width: 106px; height: 29px; top: -3px; left: -2px; "></canvas><cufontext>Navigation</cufontext></cufon></h2>
-		<ul>
-			
-		</ul>
+		<h2><cufon class="cufon cufon-canvas" alt="My Current Deals and Events" style="width: 94px; height: 24px; "><canvas width="106" height="29" style="width: 106px; height: 29px; top: -3px; left: -2px; "></canvas><cufontext>My Current Deals and Events</cufontext></cufon></h2>
+		<div class="bar_events_list">
+			<ul>
+				<?php foreach($events as $e) { ?>
+					<li id="event_<?php echo $e['id'] ?>">
+						<div style="float:left;"><?php echo $e['detail']; ?></div>
+						<div><a onclick="$.ajax({
+  												type: 'DELETE',
+  												url: '<?php echo base_url();?>index.php?/rest/events/<?php echo $e['id']; ?>',
+  												beforeSend: function(xhr) {
+  																xhr.setRequestHeader('BAR_ID', '<?php echo $bar_id; ?>');
+																xhr.setRequestHeader('BAR_NAME', '<?php echo $bar_name; ?>');
+																xhr.setRequestHeader('SESSION_ID', '<?php echo $session_id; ?>');
+ 															},
+  												success: function() {
+  															$('#event_<?php echo $e['id']; ?>').remove();
+  														}
+												});">delete</a></div>
+					</li>
+				<?php } ?>
+			</ul>
+		</div>
+		<div class="bar_events_edit">
+			<?php echo form_open('search/submit'); ?>
+			<textarea id="event_text" name="event_text" rows="5"></textarea><br/>
+			<button type="button" id="submit" name="submit" value="Add new event or deal." 
+							onclick="$.ajax({
+  												type: 'POST',
+  												url: '<?php echo base_url();?>index.php?/rest/events/<?php echo $bar_id; ?>',
+  												data: {'detail' : $('#event_text').val()},
+  												beforeSend: function(xhr) {
+																xhr.setRequestHeader('BAR_NAME', '<?php echo $bar_name; ?>');
+																xhr.setRequestHeader('SESSION_ID', '<?php echo $session_id; ?>');
+ 															},
+  												success: function() {
+  															var newlistitem = '<li>' + $('#event_text').val() + '</li>';
+  															$('.bar_events_list ul').append(newlistitem);
+  														}
+												});"/>Add new event or deal.</button>
+			<?php echo form_close(); ?>
+		</div>
 	</div>
 	
 </aside>
 
 			
-		</div>
-	<!-- End contentWrapper -->
+</div>
+<!-- End contentWrapper -->

@@ -140,6 +140,21 @@
 			}
 		}
 		
+		public function get_events($bar_id) {
+			$events = array();
+		
+			$clean_id = $this->db->escape($bar_id);
+			
+			$sql = 'select id, bar_id, detail from barevents where bar_id = '.$clean_id;
+			$query = $this->db->query($sql);
+			
+			foreach($query->result() as $row) {
+				$events[] = array('id' => $row->id, 'bar_id' => $row->bar_id, 'detail' => $row->detail);
+			}
+			
+			return $events;
+		}
+		
 		/**
 		 * A convenience function that returns a string to the user of the address in the following format.
 		 *

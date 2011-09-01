@@ -1,47 +1,64 @@
-		<!-- Begin contentWrapper -->
-		<div id="contentWrapper">
+<!-- Begin contentWrapper -->
+<div id="contentWrapper">
 			
-			<!-- Begin 2 column content -->
-<div id="content">
-				<p id="forum_breadcrumbs">
-									<span class="current">Home</span>
-					
-		</p>
-	
-	
-	<section class="post clearfix">
-	<!-- Page layout: Default -->
-		<h2><cufon class="cufon cufon-canvas" alt="Home" style="width: 51px; height: 24px; "><canvas width="64" height="29" style="width: 64px; height: 29px; top: -3px; left: -2px; "></canvas><cufontext>Welcome to Barview.com!</cufontext></cufon></h2>
-
-		<div class="page-chunk default"><p>
-			Welcome to Barview.com.  Barview.com is a service that allows bars to provide a real-time video 
-			stream of what's happening at their establishment to Barview users.</p>
+	<div class="colmask threecol">
+		<div class="colmid">
+			<div class="colleft">
+				<!-- Middle column -->
+				<div class="col1">
+					<?php if($this->session->userdata('uid')) { ?>
+						Feeds from your favorites
+					<?php } else { ?>
+						<div class="home_header">Current Feeds</div>
+					<?php } ?>
+					<ul>
+						<?php if(isset($no_favorites) && $no_favorites) { ?>
+							You don't have any favorite bars yet, so we'll show you some feeds from random bars.
+						<?php } 
+							foreach($bars as $b) { 
+								$entry = $b['name'].' ('.$b['city'].', '.$b['state'].')';
+							?>
+							<li>
+								<div><?php echo $entry; ?></div>
+								<div><img id="<?php echo $b['bar_id']; ?>" class="bar_image" src="broadcast_images/<?php echo $b['bar_id']; ?>.jpg"/></div>
+							</li>
+						<?php } ?>
+					</ul>
+				</div>
+				<!-- Left column (Favorites or just all the bars) -->
+				<div class="col2">
+					<div class="home_header">
+					<?php if($this->session->userdata('uid')) { ?>
+						Your Favorites
+					<?php } else { ?>
+						Bar-view Bars
+					<?php } ?>
+					</div>
+					<ul>
+					<?php foreach($bars as $b) {   
+						$entry = $b['name'].' ('.$b['city'].', '.$b['state'].')';
+						?>
+						<li><?php echo $entry; ?></li>
+					<?php } ?>
+					</ul>
+				</div>
+				<!-- Right column (Current deals) -->
+				<div class="col3">
+					<div class="home_header">Current Deals and Events</div>
+					<ul>
+						<?php if(isset($no_favorites) && $no_favorites) { ?>
+							You don't have any favorite bars yet, so we'll show you some events and deals for random bars.
+						<?php } ?>
+						<?php foreach($events as $e) {   
+							$entry = $e['name'].' - '.$e['detail'];
+							?>
+							<li><?php echo $entry; ?></li>
+						<?php } ?>
+					</ul>
+				</div>
+			</div>
 		</div>
-		
-		<div class="page-chunk default">
-		<p>
-			Barview.com users
-		</p>
-		<p>
-			To be a Barview.com user, all you need is an iPhone and a Facebook account.  After that, it's as easy
-			as downloading the Barview.com iPhone app and you can begin viewing what's going on at your favorite
-			hangout instantly.</p>
-		</div>
-
-	</section>
-	
-</div>
-<!-- End 2 column content -->
-<aside>
-	<div id="navigation">
-		<h2><cufon class="cufon cufon-canvas" alt="Navigation" style="width: 94px; height: 24px; "><canvas width="106" height="29" style="width: 106px; height: 29px; top: -3px; left: -2px; "></canvas><cufontext>Navigation</cufontext></cufon></h2>
-		<ul>
-			
-		</ul>
 	</div>
 	
-</aside>
-
-			
-		</div>
-	<!-- End contentWrapper -->
+</div>
+<!-- End contentWrapper -->

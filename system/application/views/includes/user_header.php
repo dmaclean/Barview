@@ -17,6 +17,16 @@
 </head> 
  
 <body id="top">
+	<div id="fb-root"></div>
+	<script src="http://connect.facebook.net/en_US/all.js"></script>
+	<script>
+         FB.init({ 
+            appId:'177771455596726', cookie:true, 
+            status:true, xfbml:true 
+         });
+	</script>
+
+
 	<!-- Begin pageWrapper -->
 	<div id="pageWrapper">
 		
@@ -32,25 +42,20 @@
 
 	<!-- Begin user meta -->
 	<div id="user-meta">
-		<?php if(isset($bar_name)) { ?>
+		<?php if(isset($user_name)) { ?>
 			<a href="<?php echo base_url();?>index.php?/logout">Logout</a>
 		<?php } else { ?>
-			<?php 
-				$attributes = array('id' => 'login-small', 'accept-charset' => 'utf-8');
-				echo form_open('logon/submit', $attributes);
-			?>
 				<ul>
 					<li class="form-buttons">
 						<div>
-						<?php if($this->session->userdata('bar_id')) { ?>
+						<?php if(!$this->session->userdata('uid')) { ?>
+							<div class="user_login_div" style="float:left;"><a id="user_login" href="#data">Login</a></div>&nbsp; | &nbsp;<a href="<?php echo base_url();?>index.php?/barhome">Bars</a>
+						<?php } else {?>
 							<div style="float:left;"><a href="<?php echo base_url();?>index.php?/logout">Log out</a></div>
-						<?php } else { ?>
-							<div style="float:left;"><a id="bar_login" href="#data">Login</a></div>&nbsp; | &nbsp;<a href="<?php echo base_url();?>index.php?/home">Users</a>
 						<?php } ?>
 						</div>
 					</li>
 				</ul>
-			<?php echo form_close(); ?>
 		<?php } ?>
 	</div>
 <!-- End user meta -->
@@ -62,17 +67,31 @@
 			<ul id="head-nav">
 				<li class="first current"><a href="<?php echo base_url(); ?>index.php">Home</a></li>
 				<li class="last"><a href="<?php echo base_url(); ?>index.php">Contact</a></li>
+				<li class="last">
+					<span class="current">
+						<?php echo form_open('search/submit'); ?>
+							Search bars: 
+							<?php 
+								$search_atts = array('id' => 'search', 'name' => 'search', 'maxlength' => '100');
+								echo form_input($search_atts); 
+							?>
+						<?php echo form_close(); ?>
+					</span>
+				</li>
 			</ul>
 		</nav>
 		<!-- End nav -->
 		
+		
 		<div style="display:none">
 			<div id="data">
-				<?php echo form_open('logon/submit')?>
+				<div style="float:left;">
+				<?php echo form_open('userlogon/submit')?>
 					<?php echo validation_errors('<p class="error">','</p>')?>
+					<p>Log in to Barview</p>
 					<p>
-						<label for="username">Username: </label>
-						<?php echo form_input('username', set_value('username'));?>
+						<label for="username">Email: </label>
+						<?php echo form_input('email', set_value('email'));?>
 					</p>
 					<p>
 						<label for="password">Password: </label>
@@ -83,7 +102,12 @@
 					</p>
 				<?php echo form_close();?>
 				<p>
-					Don't have an account?  Register <a href="<?php echo base_url(); ?>index.php?/signup">here</a>.
+					Don't have an account?  Register <a href="<?php echo base_url(); ?>index.php?/usersignup">here</a>.
 				</p>
+				</div>
+				<div style="float:left;">
+					<p>Use an existing account:</p>
+					<fb:login-button>Login with Facebook</fb:login-button>
+				</div>
 			</div>
 		</div>

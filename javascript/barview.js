@@ -38,6 +38,12 @@ $(document).ready(function(){
 	if(onSearchPage())
 		timer = setInterval(refreshSearchImages, 5000);
  
+ 
+	/////////////////////////////
+	// FANCYBOX USER LOGIN
+	/////////////////////////////
+	$('#user_login').fancybox();
+ 
  /*	$('.verify').click( function() {
  		var row = $(this).parent;
  		alert('fuck');
@@ -71,7 +77,7 @@ $(document).ready(function(){
 	/////////////////////////////
 	// FANCYBOX BAR OWNER LOGIN
 	/////////////////////////////
-	//$('#bar_login').fancybox();
+	$('#bar_login').fancybox();
  
  	///////////////////////////////////////////////////////////////////
 	// DROPDOWNS FOR MENUBAR

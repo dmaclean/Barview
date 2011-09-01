@@ -37,16 +37,16 @@
 $active_group = "default";
 $active_record = TRUE;
 
-/*$db['default']['hostname'] = "localhost";
+$db['default']['hostname'] = "localhost";
 $db['default']['port'] = 8889;
 $db['default']['username'] = "barview";
 $db['default']['password'] = "barview";
-$db['default']['database'] = "barview";*/
-$db['default']['hostname'] = "barview.db.8197805.hostedresource.com";
+$db['default']['database'] = "barview";
+/*$db['default']['hostname'] = "barview.db.8197805.hostedresource.com";
 $db['default']['port'] = 3306;
 $db['default']['username'] = "barview";
 $db['default']['password'] = "HeSX@nP1";
-$db['default']['database'] = "barview";
+$db['default']['database'] = "barview";*/
 $db['default']['dbdriver'] = "mysql";
 $db['default']['dbprefix'] = "";
 $db['default']['pconnect'] = TRUE;

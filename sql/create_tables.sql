@@ -53,6 +53,29 @@ CREATE TABLE `logs` (
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
+-- Barview users table
+DROP TABLE IF EXISTS `users`;
+create table `users` (
+	first_name varchar(20) not null,
+	last_name varchar(30) not null,
+	email varchar(30) not null primary key,
+	password varchar(20) not null,
+	dob date not null,
+	city varchar(20) not null,
+	state varchar(2) not null
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+
+-- Bar events and deals table
+drop table if exists `barevents`;
+create table `barevents` (
+	id int not null auto_increment,
+	bar_id int(11) not null,
+	detail varchar(1000) not null,
+	primary key (id),
+	foreign key (bar_id) references bars(bar_id) on delete cascade
+) engine=MyISAM default charset=utf8;
+
 
 -- CodeIgniter sessions
 CREATE TABLE IF NOT EXISTS  `ci_sessions` (

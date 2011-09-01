@@ -1,59 +1,78 @@
 <?php
 	class User_model extends CI_Model {
-		private $username;
-		private $pass;
-		private $name;
+		private $first_name;
+		private $last_name;
 		private $email;
-		private $type;
+		private $pass;
+		private $dob;
+		private $city;
+		private $state;
 		
 		public function User_model() {
 			parent::__construct();
 		}
 		
 		public function validate() {
-			$id 	= $this->db->escape($this->input->post('username'));
+			$email 	= $this->db->escape($this->input->post('email'));
 			$pass 	= $this->db->escape($this->input->post('password'));
 		
-			$sql = 'select * from users where id = '.$id.' and pass = '.$pass;
+			$sql = 'select * from users where email = '.$email.' and password = '.$pass;
 			$query = $this->db->query($sql);
 			
 			if($query->num_rows() == 1) {
 				$row = $query->row();
-				$this->username = $row->id;
-				$this->pass = $row->pass;
-				$this->name = $row->name;
+				$this->first_name = $row->first_name;
+				$this->last_name = $row->last_name;
 				$this->email = $row->email;
-				$this->type = $row->type;
-			
+				$this->pass = $row->password;
+				$this->dob = $row->dob;
+				$this->city = $row->city;
+				$this->state = $row->state;
+				
 				return true;
 			}
-			else {
-				die('no rows returned');
-				return false;
-			}
+
+			return false;
 		}
 		
 		public function create() {
-			$clean_username = $this->db->escape($this->username);
-			$clean_password = $this->db->escape($this->pass);
-			$clean_name = $this->db->escape($this->name);
+			$clean_first_name = $this->db->escape($this->first_name);
+			$clean_last_name = $this->db->escape($this->last_name);
 			$clean_email = $this->db->escape($this->email);
-			$clean_type = $this->db->escape($this->type);
+			$clean_password = $this->db->escape($this->pass);
+			$clean_dob = $this->db->escape($this->dob);
+			$clean_city = $this->db->escape($this->city);
+			$clean_state = $this->db->escape($this->state);
 			
-			$sql = 'insert into users values ('.$clean_username.','.$clean_password.','.$clean_type.','.$clean_name.', current_timestamp, current_timestamp,'.$clean_email.', 0)';
+			$sql = 'insert into users values ('.$clean_first_name.','.$clean_last_name.','.$clean_email.','.$clean_password.','.$clean_dob.','.$clean_city.','.$clean_state.')';
 			$this->db->query($sql);
 		}
 		
-		/**
-		 * Check to see if the proposed username is already registered.
-		 *
-		 * @param username 	- The username to check for.
-		 * @return			- True, if the username already exists.  False, otherwise.
-		 */
-		public function username_exists($username) {
-			$clean_username = $this->db->escape($username);
+		public function get_favorites($uid) {
+			$favorites = array();
 			
-			$sql = 'select id from users where id = '.$clean_username;
+			$clean_uid = $this->db->escape($uid);
+		
+			$sql = 'select bar_id from favorites where user_id = '.$clean_uid;
+			$query = $this->db->query($sql);
+			
+			foreach($query->result() as $row) {
+				$favorites[$row->bar_id] = $row->bar_id;
+			}
+			
+			return $favorites;
+		}
+		
+		/**
+		 * Check to see if the proposed email is already registered.
+		 *
+		 * @param username 	- The email to check for.
+		 * @return			- True, if the email already exists.  False, otherwise.
+		 */
+		public function username_exists($email) {
+			$clean_email = $this->db->escape($email);
+			
+			$sql = 'select email from users where email = '.$clean_email;
 			$query = $this->db->query($sql);
 			
 			if($query->num_rows() > 0) {
@@ -64,43 +83,60 @@
 			}
 		}
 		
-		public function get_bar_id() {
-			if($this->type == 'user')
-				return -1;
-			
-			$clean_username = $this->db->escape($this->username);
-			
-			$sql = 'select bar_id from bars_users where user_id = '.$clean_username;
-			$query = $this->db->query($sql);
-			
-			if($query->num_rows() > 0) {
-				$row = $query->row();
-				return $row->bar_id;
-			}
+		public function get_first_name() {
+			return $this->first_name;
 		}
 		
-		public function set_username($username) {
-			$this->username = $username;
+		public function set_first_name($first_name) {
+			$this->first_name = $first_name;
 		}
 		
-		public function set_password($password) {
-			$this->pass = $password;
+		public function get_last_name() {
+			return $this->last_name;
 		}
 		
-		public function set_realname($name) {
-			$this->name = $name;
+		public function set_last_name($last_name) {
+			$this->last_name = $last_name;
+		}
+		
+		public function get_email() {
+			return $this->email;
 		}
 		
 		public function set_email($email) {
 			$this->email = $email;
 		}
 		
-		public function set_type($type) {
-			$this->type = $type;
+		public function get_password() {
+			return $this->pass;
 		}
 		
-		public function get_type() {
-			return $this->type;
+		public function set_password($password) {
+			$this->pass = $password;
+		}
+		
+		public function get_dob() {
+			return $this->dob;
+		}
+		
+		public function set_dob($dob) {
+			$this->dob = $dob;
+		}
+		
+		public function get_city() {
+			return $this->city;
+		}
+		
+		public function set_city($city) {
+			$this->city = $city;
+		}
+		
+		public function get_state() {
+			return $this->state;
+		}
+		
+		public function set_state($state) {
+			$this->state = $state;
 		}
 	}
 ?>

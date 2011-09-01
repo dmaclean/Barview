@@ -1,6 +1,6 @@
 <?php
-	class Logon extends CI_Controller {
-		function Logon() {
+	class UserLogon extends CI_Controller {
+		function UserLogon() {
 			parent::__construct();
 			$this->load->library('form_validation');
 			
@@ -16,10 +16,10 @@
 		
 		public function submit() {
 			if($this->_submit_validation() === FALSE) {
-				redirect('/barhome');
+				redirect('/home');
 			}
 			
-			redirect('/barhome');
+			redirect('/home');
 		}
 		
 		public function logoff() {
@@ -29,32 +29,31 @@
 		}
 		
 		private function _submit_validation() {
-			$this->form_validation->set_rules('username', 'Username', 'trim|required|callback_authenticate');
+			$this->form_validation->set_rules('email', 'Email', 'trim|required|callback_authenticate');
 			$this->form_validation->set_rules('password', 'Password', 'trim|required');
 			$this->form_validation->set_message('authenticate', 'Invalid login.  Please try again.');
 			
 			return $this->form_validation->run();
 		}
 		
-		private function record_session_data($session_id, $username) {
-			$sql = 'update ci_sessions set bar_name = '.$this->db->escape($username).' where session_id = '.$this->db->escape($session_id);
+		private function record_session_data($session_id, $uid) {
+			$sql = 'update ci_sessions set bar_name = '.$this->db->escape($uid).' where session_id = '.$this->db->escape($session_id);
 			$this->db->query($sql);
 		}
 		
 		public function authenticate() {
-			$this->load->model('bar_model');
-			$auth_result = $this->bar_model->validate();
+			$this->load->model('user_model');
+			$auth_result = $this->user_model->validate();
 			
 			if($auth_result) {
 				// Create session
 				$data = array (
-					'is_logged_in' => TRUE,							// Do we need this?
-					'bar_id' => $this->bar_model->get_bar_id(),
-					'bar_name' => $this->bar_model->get_name()
+					'uid' => $this->input->post('email'),
+					'is_logged_in' => TRUE
 				);
 				
 				$this->session->set_userdata($data);
-				$this->record_session_data($this->session->userdata('session_id'), $this->bar_model->get_name());
+				$this->record_session_data($this->session->userdata('session_id'), $this->user_model->get_email());
 				
 				return true;
 			}

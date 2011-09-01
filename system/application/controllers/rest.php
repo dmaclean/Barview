@@ -177,6 +177,17 @@
 			echo $xml;
 		 }
 		 
+		 /**
+		  * EVENTS
+		  *
+		  * The REST interface for servicing events requests will satisfy the following needs:
+		  *
+		  * - POST requests to add a new event for a bar
+		  * - DELETE requests to delete an existing event for a bar.  The bar needs to own this
+		  *				event for it to be deleted.
+		  *
+		  * The interface will not respond to any GET requests.
+		  */
 		 public function events_post() {
 		 	$bar_id = $this->uri->segment(3);
 			$this->do_logging("Received an event update from bar ".$bar_id);

@@ -1,0 +1,39 @@
+<project name="barview" basedir=".">
+	<loadproperties srcFile="build.properties"/>
+
+	<target name="clean">
+		<echo>Deleting build and dist directories</echo>
+		<delete dir="${build.dir}"/>
+		<delete dir="${dist.dir}"/>
+	</target>
+
+	<!--
+		Set up build and dist directories, as well as copy the project into the build directory
+		for building.
+	-->
+	<target name="init" depends="clean">
+		<echo>Creating build and dist directories</echo>
+		<mkdir dir="${build.dir}"/>
+		<mkdir dir="${dist.dir}"/>
+		
+		<echo>Copying project into ${build.dir}</echo>
+		<copy todir="${build.dir}">
+			<fileset dir="${basedir}" excludes="${build.dir}, build.xml, build.properties, **/test_*.php" />
+		</copy>
+	</target>
+	
+	<target name="dev" depends="init">
+		<copy file="${dev.database.config}" tofile="${database.config}" overwrite="true"/>
+		
+		<echo>Zipping up the build...</echo>
+		<antcall target="zip"/>
+	</target>
+	
+	<target name="prod" depends="init">
+		<antcall target="zip"/>
+	</target>
+	
+	<target name="zip">
+		<zip destfile="${dist.dir}/barview.zip" basedir="${build.dir}"/>
+	</target>
+</project>

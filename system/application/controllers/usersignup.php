@@ -23,7 +23,7 @@
 			
 			$this->user_model->set_first_name($this->input->post('first_name'));
 			$this->user_model->set_last_name($this->input->post('last_name'));
-			$this->user_model->set_email($this->input->post('email'));
+			$this->user_model->set_user_id($this->input->post('email'));
 			$this->user_model->set_password($this->input->post('password'));
 			$this->user_model->set_dob(date('m/d/y'));
 			$this->user_model->set_city($this->input->post('city'));

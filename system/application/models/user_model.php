@@ -2,7 +2,7 @@
 	class User_model extends CI_Model {
 		private $first_name;
 		private $last_name;
-		private $email;
+		private $user_id;
 		private $pass;
 		private $dob;
 		private $city;
@@ -33,6 +33,39 @@
 			}
 
 			return false;
+		}
+		
+		public function mobile_login() {
+			$clean_username = $this->db->escape($this->user_id);
+			$clean_password = $this->db->escape($this->pass);
+			
+			$sql = 'select * from users where email = ? and password = ?';
+			$query = $this->db->query($sql, array($this->user_id, $this->pass));
+			
+			$xml = '<user>';
+			if($query->num_rows() == 1) {
+				log_message("debug", "Got a db result");
+				foreach($query->result() as $row) {
+					$xml = $xml.'<firstname>'.$row->first_name.'</firstname>';
+					$xml = $xml.'<lastname>'.$row->last_name.'</lastname>';
+					$xml = $xml.'<email>'.$row->email.'</email>';
+					$xml = $xml.'<dob>'.$row->dob.'</dob>';
+					$xml = $xml.'<city>'.$row->city.'</city>';
+					$xml = $xml.'<state>'.$row->state.'</state>';
+				}
+				
+				$token = $this->insert_mobile_token();
+				
+				$xml = $xml.'<token>'.$token.'</token>';
+			}
+			$xml = $xml.'</user>';
+			
+			return $xml;
+		}
+		
+		public function mobile_logout($token) {
+			$sql = 'delete from mobile_tokens where token = ?';
+			$this->db->query($sql, array($token));
 		}
 		
 		public function create() {
@@ -69,10 +102,10 @@
 		 * @param username 	- The email to check for.
 		 * @return			- True, if the email already exists.  False, otherwise.
 		 */
-		public function username_exists($email) {
-			$clean_email = $this->db->escape($email);
+		public function username_exists($user_id) {
+			$clean_user_id = $this->db->escape($user_id);
 			
-			$sql = 'select email from users where email = '.$clean_email;
+			$sql = 'select email from users where email = '.$clean_user_id;
 			$query = $this->db->query($sql);
 			
 			if($query->num_rows() > 0) {
@@ -81,6 +114,34 @@
 			else {
 				return false;
 			}
+		}
+		
+		/**
+		 * Insert a token into the database for the mobile user.  After inserting we
+		 * will return the token back to the caller (the logon function) so it can be
+		 * handed back to the mobile device in an XML response.
+		 *
+		 * This function assumes that the user model already has the username/password set.
+		 */
+		private function insert_mobile_token() {
+			$token = $this->generate_token();
+			log_message("debug", "generate_token yielded ".$token);
+			
+			$sql = 'insert into mobile_tokens (token, user_id) values (?,?)';
+			$this->db->query($sql, array($token, $this->user_id));
+			
+			return $token;
+		}
+		
+		/**
+		 * Generate a token for mobile apps logging in with a barview account.  The
+		 * token generator is currently a SHA-256 hash of the the user's id concatenated
+		 * with the UNIX microtime() output.
+		 */
+		private function generate_token() {
+			$str = $this->user_id.''.microtime();
+			log_message("debug","generate_token() - using string ".$str);
+			return hash('sha256',$str);
 		}
 		
 		public function get_first_name() {
@@ -99,12 +160,12 @@
 			$this->last_name = $last_name;
 		}
 		
-		public function get_email() {
-			return $this->email;
+		public function get_user_id() {
+			return $this->user_id;
 		}
 		
-		public function set_email($email) {
-			$this->email = $email;
+		public function set_user_id($user_id) {
+			$this->user_id = $user_id;
 		}
 		
 		public function get_password() {

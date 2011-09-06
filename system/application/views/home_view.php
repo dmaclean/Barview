@@ -20,7 +20,7 @@
 							?>
 							<li>
 								<div><?php echo $entry; ?></div>
-								<div><img id="<?php echo $b['bar_id']; ?>" class="bar_image" src="broadcast_images/<?php echo $b['bar_id']; ?>.jpg"/></div>
+								<div><img id="<?php echo $b['bar_id']; ?>" class="bar_image" src="<?php echo base_url(); ?>broadcast_images/<?php echo $b['bar_id']; ?>.jpg"/></div>
 							</li>
 						<?php } ?>
 					</ul>

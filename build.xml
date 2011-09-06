@@ -18,22 +18,38 @@
 		
 		<echo>Copying project into ${build.dir}</echo>
 		<copy todir="${build.dir}">
-			<fileset dir="${basedir}" excludes="${build.dir}, build.xml, build.properties, **/test_*.php" />
+			<fileset dir="${basedir}" excludes="${build.dir}, ${dist.dir}, ${broadcast.dir}, build.xml, build.properties, **/test*.php" />
 		</copy>
 	</target>
 	
 	<target name="dev" depends="init">
 		<copy file="${dev.database.config}" tofile="${database.config}" overwrite="true"/>
+		<copy file="${dev.config}" tofile="${config}" overwrite="true"/>
 		
-		<echo>Zipping up the build...</echo>
-		<antcall target="zip"/>
+		<antcall target="zip_dev"/>
+	</target>
+	
+	<target name="demo" depends="init">
+		<copy file="${demo.database.config}" tofile="${database.config}" overwrite="true"/>
+		<copy file="${demo.config}" tofile="${config}" overwrite="true"/>
+		
+		<antcall target="zip_demo"/>
 	</target>
 	
 	<target name="prod" depends="init">
-		<antcall target="zip"/>
+		<copy file="${prod.database.config}" tofile="${database.config}" overwrite="true"/>
+		<copy file="${prod.config}" tofile="${config}" overwrite="true"/>
+	
+		<antcall target="zip_prod"/>
 	</target>
 	
-	<target name="zip">
-		<zip destfile="${dist.dir}/barview.zip" basedir="${build.dir}"/>
+	<target name="zip_prod">
+		<zip destfile="${dist.dir}/${zip.prod}" basedir="${build.dir}"/>
+	</target>
+	<target name="zip_dev">
+		<zip destfile="${dist.dir}/${zip.dev}" basedir="${build.dir}"/>
+	</target>
+	<target name="zip_demo">
+		<zip destfile="${dist.dir}/${zip.demo}" basedir="${build.dir}"/>
 	</target>
 </project>

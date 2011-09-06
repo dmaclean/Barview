@@ -2,8 +2,8 @@
 -- Definition of table `barview`.`bars`
 --
 
-DROP TABLE IF EXISTS `barview`.`bars`;
-CREATE TABLE  `barview`.`bars` (
+DROP TABLE IF EXISTS `bars`;
+CREATE TABLE `bars` (
   bar_id int(11) NOT NULL AUTO_INCREMENT,
   name varchar(20) NOT NULL,
   address varchar(40) NOT NULL,
@@ -26,8 +26,8 @@ COMMENT='Contains data about each bar registered with Barview.';
 -- Definition of table `barview`.`favorites`
 --
 
-DROP TABLE IF EXISTS `barview`.`favorites`;
-CREATE TABLE  `barview`.`favorites` (
+DROP TABLE IF EXISTS `favorites`;
+CREATE TABLE `favorites` (
   `user_id` varchar(20) NOT NULL,
   `bar_id` int(11) NOT NULL,
   KEY `user_bar_idx` (`user_id`,`bar_id`),
@@ -40,7 +40,7 @@ COMMENT='Holds the bars that each user has flagged as a favorite.';
 -- Logging for REST interface
 --
 
-DROP TABLE IF EXISTS `barview`.`logs`;
+DROP TABLE IF EXISTS `logs`;
 CREATE TABLE `logs` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `uri` varchar(255) NOT NULL,
@@ -74,6 +74,15 @@ create table `barevents` (
 	detail varchar(1000) not null,
 	primary key (id),
 	foreign key (bar_id) references bars(bar_id) on delete cascade
+) engine=MyISAM default charset=utf8;
+
+
+-- Tokens for mobile Bar-view users
+drop table if exists `mobile_tokens`;
+create table `mobile_tokens` (
+	token char(64) not null primary key,
+	user_id varchar(30) not null,
+	ts timestamp default current_timestamp on update current_timestamp
 ) engine=MyISAM default charset=utf8;
 
 

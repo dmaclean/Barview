@@ -43,6 +43,9 @@ define('BAR_RADIUS', 0.025);
 
 define('DEV_MODE', false);
 
+define('FACEBOOK_TYPE', 'facebook');
+define('BARVIEW_TYPE', 'barview');
+
 
 /* End of file constants.php */
 /* Location: ./system/application/config/constants.php */

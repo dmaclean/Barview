@@ -7,6 +7,7 @@
 	
 	<link rel="stylesheet" href="<?php echo base_url();?>javascript/fancybox/jquery.fancybox-1.3.4.css" type="text/css" media="screen" />
 	<link href="<?php echo base_url();?>css/style.css" type="text/css" rel="stylesheet"/>
+	<link rel="stylesheet" href="http://twitter.github.com/bootstrap/assets/css/bootstrap-1.2.0.min.css">
 	
 	<script type="text/javascript" src="<?php echo base_url();?>javascript/cufon.js"></script>
 	<script type="text/javascript" src="<?php echo base_url();?>javascript/jquery.js"></script>

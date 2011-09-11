@@ -25,6 +25,7 @@
 	<target name="dev" depends="init">
 		<copy file="${dev.database.config}" tofile="${database.config}" overwrite="true"/>
 		<copy file="${dev.config}" tofile="${config}" overwrite="true"/>
+		<copy file="${facebook_dev.config}" tofile="${facebook.config}" overwrite="true"/>
 		
 		<antcall target="zip_dev"/>
 	</target>

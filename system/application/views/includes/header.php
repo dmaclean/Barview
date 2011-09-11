@@ -26,7 +26,7 @@
 	<!-- Begin logo -->
 	<div id="logo">
 		<h1><a href="<?php echo base_url();?>index.php/" title="Home"><cufon class="cufon cufon-canvas" alt="Barview.com" style="width: 148px; height: 32px; "><canvas width="157" height="39" style="width: 157px; height: 39px; top: -4px; left: -2px; "></canvas><cufontext>Barview.com</cufontext></cufon></a></h1>
-		<h2 class="slogan">Only slightly less profitable than our competitors.</h2>
+		<h2 class="slogan">Your night starts here.</h2>
 	</div>
 	<!-- End logo -->
 

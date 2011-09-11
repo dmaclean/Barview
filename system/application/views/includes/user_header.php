@@ -7,10 +7,11 @@
 	
 	<link rel="stylesheet" href="<?php echo base_url();?>javascript/fancybox/jquery.fancybox-1.3.4.css" type="text/css" media="screen" />
 	<link href="<?php echo base_url();?>css/style.css" type="text/css" rel="stylesheet"/>
-	<link rel="stylesheet" href="http://twitter.github.com/bootstrap/assets/css/bootstrap-1.2.0.min.css">
+	<!--<link rel="stylesheet" href="http://twitter.github.com/bootstrap/assets/css/bootstrap-1.2.0.min.css">-->
 	
 	<script type="text/javascript" src="<?php echo base_url();?>javascript/cufon.js"></script>
 	<script type="text/javascript" src="<?php echo base_url();?>javascript/jquery.js"></script>
+	<!--<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.3/jquery.min.js" />-->
 	<script type="text/javascript" src="<?php echo base_url();?>javascript/fancybox/jquery.fancybox-1.3.4.js"></script>
 	<script type="text/javascript" src="<?php echo base_url();?>javascript/barview.js"></script> 
  
@@ -37,13 +38,13 @@
 	<!-- Begin logo -->
 	<div id="logo">
 		<h1><a href="<?php echo base_url();?>index.php/" title="Home"><cufon class="cufon cufon-canvas" alt="Barview.com" style="width: 148px; height: 32px; "><canvas width="157" height="39" style="width: 157px; height: 39px; top: -4px; left: -2px; "></canvas><cufontext>Barview.com</cufontext></cufon></a></h1>
-		<h2 class="slogan">Only slightly less profitable than our competitors.</h2>
+		<h2 class="slogan">Your night starts here.</h2>
 	</div>
 	<!-- End logo -->
 
 	<!-- Begin user meta -->
 	<div id="user-meta">
-		<?php if(isset($user_name)) { ?>
+		<?php if($this->session->userdata('uid')) { ?>
 			<a href="<?php echo base_url();?>index.php?/logout">Logout</a>
 		<?php } else { ?>
 				<ul>

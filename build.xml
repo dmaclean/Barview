@@ -18,7 +18,7 @@
 		
 		<echo>Copying project into ${build.dir}</echo>
 		<copy todir="${build.dir}">
-			<fileset dir="${basedir}" excludes="${build.dir}, ${dist.dir}, ${broadcast.dir}, build.xml, build.properties, **/test*.php" />
+			<fileset dir="${basedir}" excludes="${logfiles}, ${build.dir}, ${dist.dir}, ${broadcast.dir}, build.xml, build.properties, **/test*.php" />
 		</copy>
 	</target>
 	

@@ -44,21 +44,30 @@
 
 	<!-- Begin user meta -->
 	<div id="user-meta">
-		<?php if($this->session->userdata('uid')) { ?>
-			<a href="<?php echo base_url();?>index.php?/logout">Logout</a>
-		<?php } else { ?>
-				<ul>
-					<li class="form-buttons">
-						<div>
-						<?php if(!$this->session->userdata('uid')) { ?>
-							<div class="user_login_div" style="float:left;"><a id="user_login" href="#data">Login</a></div>&nbsp; | &nbsp;<a href="<?php echo base_url();?>index.php?/barhome">Bars</a>
-						<?php } else {?>
-							<div style="float:left;"><a href="<?php echo base_url();?>index.php?/logout">Log out</a></div>
-						<?php } ?>
-						</div>
-					</li>
-				</ul>
-		<?php } ?>
+		<ul>
+			<li class="form-buttons">
+				<div>
+				<!--
+					No one logged in.
+				-->
+				<?php if(!$this->session->userdata('uid')) { ?>
+					<div class="user_login_div" style="float:left;"><a id="user_login" href="#data">Login</a></div>&nbsp; | &nbsp;<a href="<?php echo base_url();?>index.php?/barhome">Bars</a>
+				<!--
+					Facebook user logged in.
+				-->
+				<?php } else if($this->session->userdata('uid') && $this->session->userdata('usertype') == FACEBOOK_TYPE) { 
+					$callback_url = base_url() . 'index.php?/logout';
+				?>
+					<div style="float:left;"><a href="<?php echo $this->facebook->getLogoutUrl(array('next' => $callback_url));?>">Log out</a></div>
+				<!--
+					Non-facebook user logged in.
+				-->
+				<?php } else {?>
+					<div style="float:left;"><a href="<?php echo base_url();?>index.php?/logout">Log out</a></div>
+				<?php } ?>
+				</div>
+			</li>
+		</ul>
 	</div>
 <!-- End user meta -->
 </header>
@@ -108,7 +117,7 @@
 				</p>
 				</div>
 				<div style="float:left;">
-					<p>Use an existing account:</p>
+					<p>Use an existing account: <a href="<?php echo $facebook->getLoginUrl(); ?>">facebook</a></p>
 					<fb:login-button>Login with Facebook</fb:login-button>
 				</div>
 			</div>

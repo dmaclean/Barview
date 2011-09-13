@@ -3,19 +3,27 @@
 		function Home() {
 			parent::__construct();
 			
-			$config['appId'] = '177771455596726';
-			$config['secret'] = '673c8bee019e397e296d9a47b6a5e9c3';
+			$this->config->load('facebook');
+			
+			$config['appId'] = $this->config->item('facebook_app_id');
+			$config['secret'] = $this->config->item('facebook_api_secret');
 			$config['cookie'] = true;
 			
 			//load Facebook php-sdk library with $config[] options
-			//$this->load->library('facebook', $config); 
+			$this->load->library('facebook', $config); 
+			$this->load->library('barviewusermanager', array('session' => $this->session));
 			
 			$this->load->helper('form');
 		}
 	
 		function index() {
+			$this->barviewusermanager->processSession();
+		
 			if(DEV_MODE)
 				print_r( $this->session->userdata);
+				
+			// Make the facebook object available
+			$data['facebook'] = $this->facebook;
 		
 			// Send logged-in users to their personalized page.
 			if($this->session->userdata('uid')) {

@@ -3,9 +3,7 @@
 <div id="footerWrapper">
 <footer>
 	<!--<div id="poweredby"><a href="http://pyrocms.com/"><img src="/pyrocms/system/cms/themes/default/img/logo.png" alt="Powered by PyroCMS"> Powered by PyroCMS</a></div>-->
-	<ul id="foot-nav">
-		
-		<li><a class="last" href="#top" title="Back to Top">Top ↑</a></li>
+	<ul id="foot-nav" class="unstyled">
 		<li>©2011 Barview.com. All Rights Reserved.</li>
 	</ul>
 </footer>

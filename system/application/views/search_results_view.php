@@ -36,14 +36,6 @@
 						Don't see your favorite bar here?  Tell them to sign up for Barview!
 					</p>
 				</div>
-				<!-- Left column -->
-				<div class="col2">
-					
-				</div>
-				<!-- Right column -->
-				<div class="col3">
-					
-				</div>
 			</div>
 		</div>
 	</div>

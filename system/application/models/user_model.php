@@ -81,6 +81,11 @@
 			$this->db->query($sql);
 		}
 		
+		public function update() {
+			$sql = 'update users set first_name = ?, last_name = ?, dob = ?, city = ?, state = ?';
+			$this->db->query($sql, array($this->first_name, $this->last_name, $this->dob, $this->city, $this->state));
+		}
+		
 		public function get_favorites($uid) {
 			$favorites = array();
 			

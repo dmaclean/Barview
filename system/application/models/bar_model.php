@@ -69,16 +69,12 @@
 			$this->db->query($sql);
 		}
 		
+		/**
+		 * Update a bar.  For updates the verified, bar_id, password, and reference columns are excluded.
+		 */
 		public function update() {
-			$clean_bar_id = $this->bar_id;
-			$clean_name = $this->db->escape($this->name);
-			$clean_address = $this->db->escape($this->address);
-			$clean_city = $this->db->escape($this->city);
-			$clean_state = $this->db->escape($this->state);
-			$clean_zip = $this->db->escape($this->zip);
-			
-			$sql = 'update bars set bar_id = '.$clean_bar_id.', name = '.$clean_name.', address ='.$clean_address.', city ='.$clean_city.', state = '.$clean_state.', zip = '.$clean_zip.' where bar_id = '.$clean_bar_id;
-			$this->db->query($sql);
+			$sql = 'update bars set name = ?, address = ?, city = ?, state = ?, zip = ?, lat = ?, lng = ?, email = ? where bar_id = ?';
+			$this->db->query($sql, array($this->name, $this->address, $this->city, $this->state, $this->zip, $this->lat, $this->lng, $this->email));
 		}
 		
 		public function verify() {

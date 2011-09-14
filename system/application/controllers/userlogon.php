@@ -49,11 +49,12 @@
 				// Create session
 				$data = array (
 					'uid' => $this->input->post('email'),
+					'usertype' => BARVIEW_TYPE,
 					'is_logged_in' => TRUE
 				);
 				
 				$this->session->set_userdata($data);
-				$this->record_session_data($this->session->userdata('session_id'), $this->user_model->get_email());
+				$this->record_session_data($this->session->userdata('session_id'), $this->user_model->get_user_id());
 				
 				return true;
 			}

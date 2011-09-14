@@ -77,6 +77,9 @@
 		<nav>
 			<ul id="head-nav">
 				<li class="first current"><a href="<?php echo base_url(); ?>index.php">Home</a></li>
+				<?php if($this->session->userdata('usertype') && $this->session->userdata('usertype') == BARVIEW_TYPE) { ?>
+				<li class="last"><a href="<?php echo base_url(); ?>index.php?/editinfo">Edit Info</a></li>
+				<?php } ?>
 				<li class="last"><a href="<?php echo base_url(); ?>index.php">Contact</a></li>
 				<li class="last">
 					<span class="current">
@@ -117,7 +120,7 @@
 				</p>
 				</div>
 				<div style="float:left;">
-					<p>Use an existing account: <a href="<?php echo $facebook->getLoginUrl(); ?>">facebook</a></p>
+					<p>Use an existing account:</p>
 					<fb:login-button>Login with Facebook</fb:login-button>
 				</div>
 			</div>

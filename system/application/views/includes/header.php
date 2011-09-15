@@ -61,6 +61,9 @@
 		<nav>
 			<ul id="head-nav">
 				<li class="first current"><a href="<?php echo base_url(); ?>index.php">Home</a></li>
+				<?php if($this->session->userdata('bar_id')) { ?>
+				<li class="last"><a href="<?php echo base_url(); ?>index.php?/editinfo">Edit Info</a></li>
+				<?php } ?>
 				<li class="last"><a href="<?php echo base_url(); ?>index.php">Contact</a></li>
 			</ul>
 		</nav>

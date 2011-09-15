@@ -12,6 +12,21 @@
 			parent::__construct();
 		}
 		
+		public function select($user_id) {
+			$sql = 'select * from users where email = ?';
+			$query = $this->db->query($sql, array($user_id));
+			
+			foreach($query->result() as $row) {
+				$this->first_name = $row->first_name;
+				$this->last_name = $row->last_name;
+				$this->user_id = $user_id;
+				$this->pass = $row->password;
+				$this->dob = $row->dob;
+				$this->city = $row->city;
+				$this->state = $row->state;
+			}
+		}
+		
 		public function validate() {
 			$email 	= $this->db->escape($this->input->post('email'));
 			$pass 	= $this->db->escape($this->input->post('password'));

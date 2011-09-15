@@ -49,9 +49,9 @@
 		private function _submit_validation() {
 			$this->form_validation->set_rules('name', 'Bar name', 'trim|required');
 			$this->form_validation->set_rules('address', 'Address', 'trim|required');
-			$this->form_validation->set_rules('city', 'City', 'trim|required');
-			$this->form_validation->set_rules('state', 'State', 'trim|required');
-			$this->form_validation->set_rules('zip', 'Zip code', 'trim|required');
+			$this->form_validation->set_rules('city', 'City', 'trim|required|alpha');
+			$this->form_validation->set_rules('state', 'State', 'trim|required|alpha');
+			$this->form_validation->set_rules('zip', 'Zip code', 'trim|required|numeric|exact_length[5]');
 			
 			$this->form_validation->set_rules('username', 'Username', 'trim|required|callback_check_username_exists');
 			$this->form_validation->set_rules('password', 'Password', 'trim|required|matches[password_conf]');

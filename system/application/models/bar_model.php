@@ -74,7 +74,7 @@
 		 */
 		public function update() {
 			$sql = 'update bars set name = ?, address = ?, city = ?, state = ?, zip = ?, lat = ?, lng = ?, email = ? where bar_id = ?';
-			$this->db->query($sql, array($this->name, $this->address, $this->city, $this->state, $this->zip, $this->lat, $this->lng, $this->email));
+			$this->db->query($sql, array($this->name, $this->address, $this->city, $this->state, $this->zip, $this->lat, $this->lng, $this->email, $this->bar_id));
 		}
 		
 		public function verify() {

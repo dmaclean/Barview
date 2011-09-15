@@ -39,14 +39,14 @@
 		}
 		
 		private function _submit_validation() {
-			$this->form_validation->set_rules('first_name', 'First name', 'trim|required');
-			$this->form_validation->set_rules('last_name', 'Last name', 'trim|required');
+			$this->form_validation->set_rules('first_name', 'First name', 'trim|required|alpha');
+			$this->form_validation->set_rules('last_name', 'Last name', 'trim|required|alpha');
 			$this->form_validation->set_rules('email', 'Email', 'trim|required|valid_email|callback_check_username_exists');
 			$this->form_validation->set_rules('password', 'Password', 'trim|required|matches[password_conf]');
 			$this->form_validation->set_rules('password_conf', 'Confirm password', 'required');
 			//$this->form_validation->set_rules('dob', 'Date of Birth', );
-			$this->form_validation->set_rules('city', 'City', 'trim|required');
-			$this->form_validation->set_rules('state', 'State', 'trim|required');
+			$this->form_validation->set_rules('city', 'City', 'trim|required|alpha');
+			$this->form_validation->set_rules('state', 'State', 'trim|required|alpha');
 			
 			
 			return $this->form_validation->run();

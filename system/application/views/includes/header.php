@@ -69,6 +69,14 @@
 		</nav>
 		<!-- End nav -->
 		
+		
+		<!-- ERROR/INFO MESSAGES -->
+		<?php if(isset($error_msg)) { ?>
+			<div class="error"><?php echo $error_msg; ?></div>
+		<?php } else if(isset($info_msg)) { ?>
+			<div class="info"><?php echo $info_msg; ?></div>
+		<?php } ?>
+		
 		<div style="display:none">
 			<div id="data">
 				<?php echo form_open('logon/submit')?>

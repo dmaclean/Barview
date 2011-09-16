@@ -34,6 +34,15 @@
 				$data['user_model'] = $this->user_model;
 			}
 			
+			if($this->session->flashdata('error_msg')) {
+				$data['error_msg'] = $this->session->flashdata('error_msg');
+				log_message("debug", "flash data is ".$this->session->flashdata('error_msg'));
+			}
+			else if($this->session->flashdata('info_msg')) {
+				$data['info_msg'] = $this->session->flashdata('info_msg');
+				log_message("debug", "flash data is ".$this->session->flashdata('info_msg'));
+			}
+			
 			// Show the form for updating info.
 			if($this->is_bar)
 				$this->load->view('includes/header', $data);

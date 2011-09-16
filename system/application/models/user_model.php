@@ -137,6 +137,17 @@
 		}
 		
 		/**
+		 * Change the password for the user specified by user_id.
+		 *
+		 * It is assumed that all necessary validations have already been
+		 * performed prior to executing this function.
+		 */
+		public function change_password($user_id, $new_password) {
+			$sql = 'update users set password = ? where email = ?';
+			$this->db->query($sql, array($new_password, $user_id));
+		}
+		
+		/**
 		 * Insert a token into the database for the mobile user.  After inserting we
 		 * will return the token back to the caller (the logon function) so it can be
 		 * handed back to the mobile device in an XML response.

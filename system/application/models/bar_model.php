@@ -62,6 +62,9 @@
 			$this->db->query($sql);
 		}
 		
+		/**
+		 * Delete the bar from the database.
+		 */
 		public function delete() {
 			$clean_bar_id = $this->db->escape($this->bar_id);
 
@@ -77,6 +80,9 @@
 			$this->db->query($sql, array($this->name, $this->address, $this->city, $this->state, $this->zip, $this->lat, $this->lng, $this->email, $this->bar_id));
 		}
 		
+		/**
+		 * Flag the bar as verified
+		 */
 		public function verify() {
 			$sql = 'update bars set verified = 1 where bar_id = '.$this->bar_id;
 			
@@ -134,6 +140,17 @@
 			else {
 				return false;
 			}
+		}
+		
+		/**
+		 * Change the password for the bar specified by bar_id.
+		 *
+		 * It is assumed that all necessary validations have already been
+		 * performed prior to executing this function.
+		 */
+		public function change_password($bar_id, $new_password) {
+			$sql = 'update bars set password = ? where bar_id = ?';
+			$this->db->query($sql, array($new_password, $bar_id));
 		}
 		
 		public function get_events($bar_id) {

@@ -16,7 +16,6 @@
 					</cufon>
 				</h2>
 	
-	
 				<div class="page-chunk default">
 					<?php echo form_open('editinfo/submit')?>
 						<?php echo validation_errors('<p class="error">','</p>')?>
@@ -57,6 +56,27 @@
 						</p>
 					<?php echo form_close();?>
 				</div>
+				
+				<!-- CHANGE PASSWORD FORM -->
+				<div class="page-chunk default">
+					<?php echo form_open('changepassword'); ?>
+						<p>
+							<label for="password">Current password: </label>
+							<?php echo form_password('password'); ?>
+						</p>
+						<p>
+							<label for="new_password">New password: </label>
+							<?php echo form_password('new_password');?>
+						</p>
+						<p>
+							<label for="new_password_conf">Confirm new password: </label>
+							<?php echo form_password('new_password_conf');?>
+						</p>
+						<p>
+							<?php echo form_submit('submit', 'Change Password');?>
+						</p>
+					<?php echo form_close(); ?>
+				</div>
 	
 			</section>
 		</div>
@@ -86,8 +106,7 @@
 						<cufontext>Edit Information</cufontext>
 					</cufon>
 				</h2>
-	
-	
+
 				<div class="page-chunk default">
 					<?php echo form_open('editinfo/submit')?>
 						<?php echo validation_errors('<p class="error">','</p>')?>
@@ -135,6 +154,27 @@
 							<?php echo form_submit('submit', 'Update');?>
 						</p>
 					<?php echo form_close();?>
+				</div>
+				
+				<!-- CHANGE PASSWORD FORM -->
+				<div class="page-chunk default">
+					<?php echo form_open('changepassword'); ?>
+						<p>
+							<label for="password">Current password: </label>
+							<?php echo form_password('password'); ?>
+						</p>
+						<p>
+							<label for="new_password">New password: </label>
+							<?php echo form_password('new_password');?>
+						</p>
+						<p>
+							<label for="new_password_conf">Confirm new password: </label>
+							<?php echo form_password('new_password_conf');?>
+						</p>
+						<p>
+							<?php echo form_submit('submit', 'Change Password');?>
+						</p>
+					<?php echo form_close(); ?>
 				</div>
 	
 			</section>

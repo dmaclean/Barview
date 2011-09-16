@@ -16,6 +16,7 @@
 		
 		public function submit() {
 			if($this->_submit_validation() === FALSE) {
+				$this->session->set_flashdata('error_msg', validation_errors());
 				redirect('/home');
 			}
 			

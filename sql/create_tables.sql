@@ -13,7 +13,7 @@ CREATE TABLE `bars` (
   lat float(10) NULL,
   lng float(10) NULL,
     username varchar(30) NOT NULL,
-  password varchar(30) NOT NULL,
+  password varchar(100) NOT NULL,
   email varchar(30) NOT NULL,
   reference varchar(200) NOT NULL,
   verified tinyint(1) NOT NULL,
@@ -59,7 +59,7 @@ create table `users` (
 	first_name varchar(20) not null,
 	last_name varchar(30) not null,
 	email varchar(30) not null primary key,
-	password varchar(20) not null,
+	password varchar(100) not null,
 	dob date not null,
 	city varchar(20) not null,
 	state varchar(2) not null

@@ -19,6 +19,8 @@
 		
 		public function Bar_model() {
 			parent::__construct();
+			
+			$this->load->library('encrypt');
 		}
 		
 		public function select($bar_id) {
@@ -107,11 +109,11 @@
 		}
 		
 		public function validate() {
-			$id 	= $this->db->escape($this->input->post('username'));
-			$pass 	= $this->db->escape($this->input->post('password'));
+			//$id 	= $this->db->escape($this->input->post('username'));
+			//$pass 	= $this->encrypt->encode($this->db->escape($this->input->post('password')));
 		
-			$sql = 'select * from bars where username = '.$id.' and password = '.$pass.' and verified = 1';
-			$query = $this->db->query($sql);
+			$sql = 'select * from bars where username = ? and verified = 1';
+			$query = $this->db->query($sql, array($this->input->post('username')));
 			
 			if($query->num_rows() == 1) {
 				$row = $query->row();
@@ -131,8 +133,8 @@
 				$this->username = $row->username;
 				$this->password = $row->password;
 
-			
-				return true;
+				if($this->encrypt->decode($this->password) == $this->input->post('password'))
+					return true;
 			}
 			else {
 				return false;

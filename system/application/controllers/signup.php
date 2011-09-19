@@ -3,6 +3,7 @@
 		function Signup() {
 			parent::__construct();
 			$this->load->library('form_validation');
+			$this->load->library('encrypt');
 			
 			$this->load->helper('form');
 		}
@@ -35,7 +36,7 @@
 			$this->bar_model->set_security_answer($this->input->post('security_answer'));
 						
 			$this->bar_model->set_username($this->input->post('username'));
-			$this->bar_model->set_password($this->input->post('password'));
+			$this->bar_model->set_password( $this->encrypt->encode($this->input->post('password')) );
 			$this->bar_model->set_email($this->input->post('email'));
 			
 			$coords = $this->get_coordinates($this->bar_model);

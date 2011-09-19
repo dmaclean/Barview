@@ -32,12 +32,20 @@
 			}
 		}
 		
+		/**
+		 * Check if a user's login credentials are valid.
+		 *
+		 * This utilizes the encryption library and our encryption key in the config file
+		 * to decode the hashed password in the database and match it's plaintext value to
+		 * what was entered in the form field.
+		 *
+		 * The reason we decode the db password instead of hashing the input password is because
+	 	 * the encryption scheme seems to be time sensitive so subsequent attempts to use it yield
+	 	 * very different hash values.
+		 */
 		public function validate() {
-			$email 	= $this->db->escape($this->input->post('email'));
-			$pass 	= $this->db->escape($this->input->post('password'));
-		
-			$sql = 'select * from users where email = '.$email.' and password = '.$pass;
-			$query = $this->db->query($sql);
+			$sql = 'select * from users where email = ?';
+			$query = $this->db->query($sql, array($this->input->post('email')));
 			
 			if($query->num_rows() == 1) {
 				$row = $query->row();
@@ -49,7 +57,8 @@
 				$this->city = $row->city;
 				$this->state = $row->state;
 				
-				return true;
+				if($this->encrypt->decode($this->pass) == $this->input->post('password'))
+					return true;
 			}
 
 			return false;

@@ -3,6 +3,7 @@
 		function UserSignup() {
 			parent::__construct();
 			$this->load->library('form_validation');
+			$this->load->library('encrypt');
 			
 			$this->load->helper('form');
 		}
@@ -26,7 +27,8 @@
 			$this->user_model->set_first_name($this->input->post('first_name'));
 			$this->user_model->set_last_name($this->input->post('last_name'));
 			$this->user_model->set_user_id($this->input->post('email'));
-			$this->user_model->set_password($this->input->post('password'));
+			$this->user_model->set_password( $this->encrypt->encode($this->input->post('password')) );
+			log_message("debug", "Encrypted password for ". $this->input->post('password'). " is " . $this->encrypt->encode($this->input->post('password')));
 			$this->user_model->set_dob(date('m/d/y'));
 			$this->user_model->set_city($this->input->post('city'));
 			$this->user_model->set_state($this->input->post('state'));

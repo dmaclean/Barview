@@ -5,6 +5,8 @@
 		public function Forgotpassword() {
 			parent::__construct();
 			
+			$this->load->library('encrypt');
+			
 			$this->load->helper('form');
 			
 			$this->is_bar = true;
@@ -51,7 +53,7 @@
 				
 				foreach($query->result() as $row) {
 					if($row->security_answer == $this->input->post('answer'))
-						$data['password'] = $row->password;
+						$data['password'] = $this->encrypt->decode($row->password);
 				}
 				
 				// Determine whether we got a database hit for the username

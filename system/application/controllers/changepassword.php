@@ -5,6 +5,7 @@
 		public function Changepassword() {
 			parent::__construct();
 			$this->load->library('form_validation');
+			$this->load->library('encrypt');
 			
 			$this->load->helper('form');
 			
@@ -77,7 +78,7 @@
 		 */
 		public function matches_current_password() {
 			log_message("debug", "Current password is ".$this->current_password." and form field is ".$this->input->post('password'));
-			if($this->input->post('password') == $this->current_password)
+			if($this->input->post('password') == $this->encrypt->decode($this->current_password))
 				return true;
 			else {
 				$this->form_validation->set_message('matches_current_password', 'The password entered does not match the the current password.');

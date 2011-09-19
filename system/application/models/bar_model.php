@@ -169,7 +169,7 @@
 		 */
 		public function change_password($bar_id, $new_password) {
 			$sql = 'update bars set password = ? where bar_id = ?';
-			$this->db->query($sql, array($new_password, $bar_id));
+			$this->db->query($sql, array($this->encrypt->encode($new_password), $bar_id));
 		}
 		
 		public function get_events($bar_id) {

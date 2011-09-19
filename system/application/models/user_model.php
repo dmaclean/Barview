@@ -181,7 +181,7 @@
 		 */
 		public function change_password($user_id, $new_password) {
 			$sql = 'update users set password = ? where email = ?';
-			$this->db->query($sql, array($new_password, $user_id));
+			$this->db->query($sql, array($this->encrypt->encode($new_password), $user_id));
 		}
 		
 		/**

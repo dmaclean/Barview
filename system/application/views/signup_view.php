@@ -56,6 +56,17 @@
 						<?php echo form_input('email', set_value('email'));?>
 					</p>
 					<p>
+						<label for="security_question">Security Question: </label>
+						<?php echo form_dropdown('security_question', $security_questions); ?>
+					</p>
+					<p>
+						<label for="security_answer">Security Answer: </label>
+						<?php
+							$options = array('name' => 'security_answer', 'size' => 30, 'max_length' => 30);
+							echo form_input($options); 
+						?>
+					</p>
+					<p>
 						<label for="reference">Business Reference: </label>
 						<?php echo form_input('reference', set_value('reference')); ?>
 					</p>

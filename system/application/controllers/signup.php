@@ -8,6 +8,8 @@
 		}
 		
 		function index() {
+			$data['security_questions'] = $this->get_security_questions();
+		
 			$data['main_content'] = 'signup_view';
 			$this->load->view('/includes/template', $data);	
 		}
@@ -29,6 +31,9 @@
 			$this->bar_model->set_reference($this->input->post('reference'));
 			$this->bar_model->set_verified(0);
 			
+			$this->bar_model->set_security_id($this->input->post('security_question'));
+			$this->bar_model->set_security_answer($this->input->post('security_answer'));
+						
 			$this->bar_model->set_username($this->input->post('username'));
 			$this->bar_model->set_password($this->input->post('password'));
 			$this->bar_model->set_email($this->input->post('email'));
@@ -37,6 +42,7 @@
 			$this->bar_model->set_lat($coords[0]);
 			$this->bar_model->set_lng($coords[1]);
 			$this->bar_model->insert();
+			$this->bar_model->insert_security();
 			
 			$this->send_registration_email($this->bar_model->get_email(), $this->bar_model->get_username());
 			$this->send_support_alert_email($this->bar_model->get_name(), $this->bar_model->get_address());
@@ -49,7 +55,7 @@
 		private function _submit_validation() {
 			$this->form_validation->set_rules('name', 'Bar name', 'trim|required');
 			$this->form_validation->set_rules('address', 'Address', 'trim|required');
-			$this->form_validation->set_rules('city', 'City', 'trim|required|alpha');
+			$this->form_validation->set_rules('city', 'City', 'trim|required');
 			$this->form_validation->set_rules('state', 'State', 'trim|required|alpha');
 			$this->form_validation->set_rules('zip', 'Zip code', 'trim|required|numeric|exact_length[5]');
 			
@@ -57,7 +63,8 @@
 			$this->form_validation->set_rules('password', 'Password', 'trim|required|matches[password_conf]');
 			$this->form_validation->set_rules('password_conf', 'Confirm password', 'required');
 			$this->form_validation->set_rules('email', 'Email', 'trim|required|valid_email');
-			#$this->form_validation->set_rules('type', 'Account Type', 'trim|required');
+			$this->form_validation->set_rules('security_question', 'Security Question', 'trim|required');
+			$this->form_validation->set_rules('security_answer', 'Security Answer', 'trim|required');
 			
 			return $this->form_validation->run();
 		}
@@ -84,6 +91,17 @@
 			}
 			
 			return $coords;
+		}
+		
+		private function get_security_questions() {
+			$sql = 'select * from security_question';
+			$query = $this->db->query($sql);
+			
+			$results = array();
+			foreach($query->result() as $row)
+				$results[$row->id] = $row->question;
+			
+			return $results;
 		}
 		
 		/**

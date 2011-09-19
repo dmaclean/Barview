@@ -8,6 +8,8 @@
 		}
 		
 		function index() {
+			$data['security_questions'] = $this->get_security_questions();
+		
 			$data['main_content'] = 'user_signup_view';
 			$this->load->view('/includes/template', $data);	
 		}
@@ -28,10 +30,13 @@
 			$this->user_model->set_dob(date('m/d/y'));
 			$this->user_model->set_city($this->input->post('city'));
 			$this->user_model->set_state($this->input->post('state'));
+			$this->user_model->set_security_id($this->input->post('security_question'));
+			$this->user_model->set_security_answer($this->input->post('security_answer'));
 			
 			$this->user_model->create();
+			$this->user_model->insert_security();
 			
-			$this->send_registration_email($this->user_model->get_email());
+			$this->send_registration_email($this->user_model->get_user_id());
 			
 			// Send the user back to the logon page.
 			$data['create_message'] = '';
@@ -47,6 +52,8 @@
 			//$this->form_validation->set_rules('dob', 'Date of Birth', );
 			$this->form_validation->set_rules('city', 'City', 'trim|required|alpha');
 			$this->form_validation->set_rules('state', 'State', 'trim|required|alpha');
+			$this->form_validation->set_rules('security_question', 'Security Question', 'trim|required');
+			$this->form_validation->set_rules('security_answer', 'Security Answer', 'trim|required');
 			
 			
 			return $this->form_validation->run();
@@ -65,6 +72,17 @@
 			else {
 				return true;
 			}
+		}
+		
+		private function get_security_questions() {
+			$sql = 'select * from security_question';
+			$query = $this->db->query($sql);
+			
+			$results = array();
+			foreach($query->result() as $row)
+				$results[$row->id] = $row->question;
+			
+			return $results;
 		}
 		
 		/**

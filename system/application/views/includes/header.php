@@ -96,5 +96,8 @@
 				<p>
 					Don't have an account?  Register <a href="<?php echo base_url(); ?>index.php?/signup">here</a>.
 				</p>
+				<p>
+					<a href="<?php echo base_url(); ?>index.php?/forgotpassword">Forgot your password?</a>
+				</p>
 			</div>
 		</div>

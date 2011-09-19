@@ -9,12 +9,7 @@
 			-->
 			<section class="post clearfix">
 				<!-- Page layout: Default -->
-				<h2>
-					<cufon class="cufon cufon-canvas" alt="Home" style="width: 51px; height: 24px; ">
-						<canvas width="64" height="29" style="width: 64px; height: 29px; top: -3px; left: -2px; "></canvas>
-						<cufontext>Edit Information</cufontext>
-					</cufon>
-				</h2>
+				<h2>Edit Information</h2>
 	
 				<div class="page-chunk default">
 					<?php echo form_open('editinfo/submit')?>
@@ -27,18 +22,6 @@
 							<label for="last_name">Last Name: </label>
 							<?php echo form_input('last_name', set_value('last_name', $user_model->get_last_name() ));?>
 						</p>
-						<!--<p>
-							<label for="email">Email: </label>
-							<?php echo form_input('email', set_value('email'));?>
-						</p>
-						<p>
-							<label for="password">Password: </label>
-							<?php echo form_password('password');?>
-						</p>
-						<p>
-							<label for="password_conf">Confirm password: </label>
-							<?php echo form_password('password_conf');?>
-						</p>-->
 						<p>
 							<label for="dob">Date of Birth: </label>
 							<?php echo form_input('dob', set_value('dob', $user_model->get_dob() ));?>
@@ -52,46 +35,48 @@
 							<?php echo form_input('state', set_value('state', $user_model->get_state() ));?>
 						</p>
 						<p>
+							<label for="security_question">Security Question: </label>
+							<?php echo form_dropdown('security_question', $security_questions, $user_model->get_security_id()); ?>
+						</p>
+						<p>
+							<label for="security_answer">Security Answer: </label>
+							<?php
+								$options = array('name' => 'security_answer', 'size' => 30, 'max_length' => 30);
+								echo form_input($options, set_value('security_answer', $user_model->get_security_answer())); 
+							?>
+						</p>
+						<p>
 							<?php echo form_submit('submit', 'Update');?>
 						</p>
 					<?php echo form_close();?>
 				</div>
 				
-				<!-- CHANGE PASSWORD FORM -->
-				<div class="page-chunk default">
-					<?php echo form_open('changepassword'); ?>
-						<p>
-							<label for="password">Current password: </label>
-							<?php echo form_password('password'); ?>
-						</p>
-						<p>
-							<label for="new_password">New password: </label>
-							<?php echo form_password('new_password');?>
-						</p>
-						<p>
-							<label for="new_password_conf">Confirm new password: </label>
-							<?php echo form_password('new_password_conf');?>
-						</p>
-						<p>
-							<?php echo form_submit('submit', 'Change Password');?>
-						</p>
-					<?php echo form_close(); ?>
-				</div>
+				
 	
 			</section>
 		</div>
 		<!-- End 2 column content -->
 		<aside>
-			<div id="navigation">
-				<h2>
-					<cufon class="cufon cufon-canvas" alt="Navigation" style="width: 94px; height: 24px; ">
-						<canvas width="106" height="29" style="width: 106px; height: 29px; top: -3px; left: -2px; "></canvas>
-						<cufontext>Navigation</cufontext>
-					</cufon>
-				</h2>
-				<ul>
-					
-				</ul>
+			<h2>Change Password</h2>
+			<!-- CHANGE PASSWORD FORM -->
+			<div class="page-chunk default">
+				<?php echo form_open('changepassword'); ?>
+					<p>
+						<label for="password">Current password: </label>
+						<?php echo form_password('password'); ?>
+					</p>
+					<p>
+						<label for="new_password">New password: </label><br/>
+						<?php echo form_password('new_password');?>
+					</p>
+					<p>
+						<label for="new_password_conf">Confirm new password: </label>
+						<?php echo form_password('new_password_conf');?>
+					</p>
+					<p>
+						<?php echo form_submit('submit', 'Change Password');?>
+					</p>
+				<?php echo form_close(); ?>
 			</div>
 		</aside>
 	<?php } else { ?>
@@ -100,12 +85,7 @@
 		-->
 		<section class="post clearfix">
 				<!-- Page layout: Default -->
-				<h2>
-					<cufon class="cufon cufon-canvas" alt="Home" style="width: 51px; height: 24px; ">
-						<canvas width="64" height="29" style="width: 64px; height: 29px; top: -3px; left: -2px; "></canvas>
-						<cufontext>Edit Information</cufontext>
-					</cufon>
-				</h2>
+				<h2>Edit Information</h2>
 
 				<div class="page-chunk default">
 					<?php echo form_open('editinfo/submit')?>
@@ -130,67 +110,53 @@
 							<label for="zip">Zip Code: </label>
 							<?php echo form_input('zip', set_value('zip', $bar_model->get_zip() ));?>
 						</p>
-						<!--<p>
-							<label for="username">Username: </label>
-							<?php echo form_input('username', set_value('username'));?>
-						</p>
-						<p>
-							<label for="password">Password: </label>
-							<?php echo form_password('password');?>
-						</p>
-						<p>
-							<label for="password_conf">Confirm password: </label>
-							<?php echo form_password('password_conf');?>
-						</p>-->
 						<p>
 							<label for="email">Email: </label>
 							<?php echo form_input('email', set_value('email', $bar_model->get_email() ));?>
 						</p>
-						<!--<p>
-							<label for="reference">Business Reference: </label>
-							<?php echo form_input('reference', set_value('reference')); ?>
-						</p>-->
+						<p>
+							<label for="security_question">Security Question: </label>
+							<?php echo form_dropdown('security_question', $security_questions, $bar_model->get_security_id()); ?>
+						</p>
+						<p>
+							<label for="security_answer">Security Answer: </label>
+							<?php
+								$options = array('name' => 'security_answer', 'size' => 30, 'max_length' => 30);
+								echo form_input($options, set_value('security_answer', $bar_model->get_security_answer())); 
+							?>
+						</p>
 						<p>
 							<?php echo form_submit('submit', 'Update');?>
 						</p>
 					<?php echo form_close();?>
 				</div>
 				
-				<!-- CHANGE PASSWORD FORM -->
-				<div class="page-chunk default">
-					<?php echo form_open('changepassword'); ?>
-						<p>
-							<label for="password">Current password: </label>
-							<?php echo form_password('password'); ?>
-						</p>
-						<p>
-							<label for="new_password">New password: </label>
-							<?php echo form_password('new_password');?>
-						</p>
-						<p>
-							<label for="new_password_conf">Confirm new password: </label>
-							<?php echo form_password('new_password_conf');?>
-						</p>
-						<p>
-							<?php echo form_submit('submit', 'Change Password');?>
-						</p>
-					<?php echo form_close(); ?>
-				</div>
+				
 	
 			</section>
 		</div>
 		<!-- End 2 column content -->
 		<aside>
-			<div id="navigation">
-				<h2>
-					<cufon class="cufon cufon-canvas" alt="Navigation" style="width: 94px; height: 24px; ">
-						<canvas width="106" height="29" style="width: 106px; height: 29px; top: -3px; left: -2px; "></canvas>
-						<cufontext>Navigation</cufontext>
-					</cufon>
-				</h2>
-				<ul>
-					
-				</ul>
+			<!-- CHANGE PASSWORD FORM -->
+			<h2>Change Password</h2>
+			<div class="page-chunk default">
+				<?php echo form_open('changepassword'); ?>
+					<p>
+						<label for="password">Current password: </label>
+						<?php echo form_password('password'); ?>
+					</p>
+					<p>
+						<label for="new_password">New password: </label><br/>
+						<?php echo form_password('new_password');?>
+					</p>
+					<p>
+						<label for="new_password_conf">Confirm new password: </label>
+						<?php echo form_password('new_password_conf');?>
+					</p>
+					<p>
+						<?php echo form_submit('submit', 'Change Password');?>
+					</p>
+				<?php echo form_close(); ?>
 			</div>
 		</aside>
 	<?php } ?>

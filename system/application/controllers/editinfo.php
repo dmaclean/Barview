@@ -21,6 +21,8 @@
 			// they are URL hacking.
 			if(!$this->is_barview_user() && !$this->session->userdata('bar_id'))
 				redirect("/");
+				
+			$data['security_questions'] = $this->get_security_questions();
 		
 			// Determine whether we are a user or bar and pull the appropriate information
 			// from the database so we can pre-populate the form fields.
@@ -32,6 +34,7 @@
 			else {
 				$this->user_model->select($this->session->userdata('uid'));
 				$data['user_model'] = $this->user_model;
+				log_message("debug", "Saved user_model to data (".$data['user_model']->get_first_name().")");
 			}
 			
 			if($this->session->flashdata('error_msg')) {
@@ -77,24 +80,17 @@
 			if(!$this->is_bar) {
 				$this->form_validation->set_rules('first_name', 'First name', 'trim|required|alpha');
 				$this->form_validation->set_rules('last_name', 'Last name', 'trim|required|alpha');
-				//$this->form_validation->set_rules('email', 'Email', 'trim|required|valid_email|callback_check_username_exists');
-				//$this->form_validation->set_rules('password', 'Password', 'trim|required|matches[password_conf]');
-				//$this->form_validation->set_rules('password_conf', 'Confirm password', 'required');
 				//$this->form_validation->set_rules('dob', 'Date of Birth', );
-				$this->form_validation->set_rules('city', 'City', 'trim|required|alpha');
+				$this->form_validation->set_rules('city', 'City', 'trim|required');
 				$this->form_validation->set_rules('state', 'State', 'trim|required|alpha');
 			}
 			// Validation for bars.
 			else {
 				$this->form_validation->set_rules('name', 'Bar name', 'trim|required');
 				$this->form_validation->set_rules('address', 'Address', 'trim|required');
-				$this->form_validation->set_rules('city', 'City', 'trim|required|alpha');
+				$this->form_validation->set_rules('city', 'City', 'trim|required');
 				$this->form_validation->set_rules('state', 'State', 'trim|required|alpha');
 				$this->form_validation->set_rules('zip', 'Zip code', 'trim|required|numeric|exact_length[5]');
-				
-				//$this->form_validation->set_rules('username', 'Username', 'trim|required|callback_check_username_exists');
-				//$this->form_validation->set_rules('password', 'Password', 'trim|required|matches[password_conf]');
-				//$this->form_validation->set_rules('password_conf', 'Confirm password', 'required');
 				$this->form_validation->set_rules('email', 'Email', 'trim|required|valid_email');
 			}
 			
@@ -111,10 +107,12 @@
 			$this->user_model->set_dob(date('m/d/y'));
 			$this->user_model->set_city($this->input->post('city'));
 			$this->user_model->set_state($this->input->post('state'));
+			$this->user_model->set_security_id($this->input->post('security_question'));
+			$this->user_model->set_security_answer($this->input->post('security_answer'));
 			
+			// Update the user info as well as the account security info.
 			$this->user_model->update();
-			
-			//$this->send_registration_email($this->user_model->get_email());
+			$this->user_model->update_security();
 		}
 		
 		private function process_bar() {
@@ -126,20 +124,18 @@
 			$this->bar_model->set_city($this->input->post('city'));
 			$this->bar_model->set_state($this->input->post('state'));
 			$this->bar_model->set_zip($this->input->post('zip'));
-			//$this->bar_model->set_reference($this->input->post('reference'));
-			//$this->bar_model->set_verified(0);
 			
-			//$this->bar_model->set_username($this->input->post('username'));
-			//$this->bar_model->set_password($this->input->post('password'));
 			$this->bar_model->set_email($this->input->post('email'));
+			$this->bar_model->set_security_id($this->input->post('security_question'));
+			$this->bar_model->set_security_answer($this->input->post('security_answer'));
 			
 			$coords = $this->get_coordinates($this->bar_model);
 			$this->bar_model->set_lat($coords[0]);
 			$this->bar_model->set_lng($coords[1]);
-			$this->bar_model->update();
 			
-			//$this->send_registration_email($this->bar_model->get_email(), $this->bar_model->get_username());
-			//$this->send_support_alert_email($this->bar_model->get_name(), $this->bar_model->get_address());
+			// Update the bar info as well as its account security info.
+			$this->bar_model->update();
+			$this->bar_model->update_security();
 		}
 		
 		/**
@@ -198,6 +194,17 @@
 			}
 			
 			return $coords;
+		}
+		
+		private function get_security_questions() {
+			$sql = 'select * from security_question';
+			$query = $this->db->query($sql);
+			
+			$results = array();
+			foreach($query->result() as $row)
+				$results[$row->id] = $row->question;
+			
+			return $results;
 		}
 		
 		/**

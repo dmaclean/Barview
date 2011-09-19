@@ -10,6 +10,8 @@
 		private $lng;
 		private $reference;
 		private $verified;
+		private $security_id;
+		private $security_answer;
 		
 		private $username;
 		private $password;
@@ -20,8 +22,8 @@
 		}
 		
 		public function select($bar_id) {
-			$sql = 'select * from bars where bar_id = '.$bar_id;
-			$query = $this->db->query($sql);
+			$sql = 'select 	b.bar_id as bar_id, b.name as name, b.address as address, b.city as city, b.state as state, b.zip as zip, b.lat as lat, b.lng as lng, b.reference as reference, b.verified as verified, b.username as username, b.password as password, b.email as email, bas.security_id as security_id, bas.security_answer as security_answer from bars b inner join bar_account_security bas on b.bar_id = bas.bar_id where b.bar_id = ?';
+			$query = $this->db->query($sql, array($bar_id));
 			
 			if($query->num_rows() == 1) {
 				$row = $query->row();
@@ -35,6 +37,9 @@
 				$this->lng = $row->lng;
 				$this->reference = $row->reference;
 				$this->verified = $row->verified;
+				
+				$this->security_id = $row->security_id;
+				$this->security_answer = $row->security_answer;
 				
 				$this->username = $row->username;
 				$this->password = $row->password;
@@ -60,6 +65,13 @@
 			.$clean_name.','.$clean_address.','.$clean_city.','.$clean_state.','.$clean_zip.','.
 				$this->lat.','.$this->lng.','.$clean_reference.','.$clean_verified.','.$clean_username.','.$clean_password.','.$clean_email.')';
 			$this->db->query($sql);
+			
+			$this->bar_id = $this->db->insert_id();
+		}
+		
+		public function insert_security() {
+			$sql = 'insert into bar_account_security (bar_id, security_id, security_answer) values(?, ?, ?)';
+			$this->db->query($sql, array($this->bar_id, $this->security_id, $this->security_answer));
 		}
 		
 		/**
@@ -78,6 +90,11 @@
 		public function update() {
 			$sql = 'update bars set name = ?, address = ?, city = ?, state = ?, zip = ?, lat = ?, lng = ?, email = ? where bar_id = ?';
 			$this->db->query($sql, array($this->name, $this->address, $this->city, $this->state, $this->zip, $this->lat, $this->lng, $this->email, $this->bar_id));
+		}
+		
+		public function update_security() {
+			$sql = 'update bar_account_security set security_id = ?, security_answer = ? where bar_id = ?';
+			$this->db->query($sql, array($this->security_id, $this->security_answer, $this->bar_id));
 		}
 		
 		/**
@@ -178,6 +195,22 @@
 			return $this->address.'\n'.$this->city.', '.$this->state.' '.$this->zip;
 		}
 		
+		/**
+		 * Fetch the text of the security question from the security_question table based on
+		 * the security_id in the user profile.
+		 */
+		public function get_security_question() {
+			$sql = 'select question from security_question where id = ?';
+			$query = $this->db->query($sql, $this->security_id);
+			
+			$question = '';
+			foreach($query->result() as $row) {
+				$question = $row->question;
+			}
+			
+			return $question;
+		}
+		
 		/*
 		 * GETTERS
 		 */
@@ -219,6 +252,14 @@
 		
 		public function get_verified() {
 			return $this->verified;
+		}
+		
+		public function get_security_id() {
+			return $this->security_id;
+		}
+		
+		public function get_security_answer() {
+			return $this->security_answer;
 		}
 		
 		public function get_username() {
@@ -274,6 +315,14 @@
 		
 		public function set_verified($verified) {
 			$this->verified = $verified;
+		}
+		
+		public function set_security_id($id) {
+			$this->security_id = $id;
+		}
+		
+		public function set_security_answer($answer) {
+			$this->security_answer = $answer;
 		}
 		
 		public function set_username($username) {

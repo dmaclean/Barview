@@ -29,8 +29,7 @@
 			$this->user_model->set_last_name($this->input->post('last_name'));
 			$this->user_model->set_user_id($this->input->post('email'));
 			$this->user_model->set_password( $this->encrypt->encode($this->input->post('password')) );
-			log_message("debug", "Encrypted password for ". $this->input->post('password'). " is " . $this->encrypt->encode($this->input->post('password')));
-			$this->user_model->set_dob(date('m/d/y'));
+			$this->user_model->set_dob($this->input->post('dob'));
 			$this->user_model->set_city($this->input->post('city'));
 			$this->user_model->set_state($this->input->post('state'));
 			$this->user_model->set_security_id($this->input->post('security_question'));
@@ -52,7 +51,7 @@
 			$this->form_validation->set_rules('email', 'Email', 'trim|required|valid_email|callback_check_username_exists');
 			$this->form_validation->set_rules('password', 'Password', 'trim|required|matches[password_conf]');
 			$this->form_validation->set_rules('password_conf', 'Confirm password', 'required');
-			//$this->form_validation->set_rules('dob', 'Date of Birth', );
+			$this->form_validation->set_rules('dob', 'Date of Birth', 'trim|required|alpha_dash|callback_valid_date');
 			$this->form_validation->set_rules('city', 'City', 'trim|required|alpha');
 			$this->form_validation->set_rules('state', 'State', 'trim|required|alpha');
 			$this->form_validation->set_rules('security_question', 'Security Question', 'trim|required');
@@ -75,6 +74,18 @@
 			else {
 				return true;
 			}
+		}
+		
+		/**
+		 * Check that the date follows the format yyyy/mm/dd.
+		 */
+		public function valid_date($date) {
+			if(!preg_match("/^\d{4}-\d{2}-\d{2}$/",$date)) {
+				$this->form_validation->set_message('valid_date', 'The date '.$date.' is invalid.  Please use the format yyyy/mm/dd');
+				return false;
+			}
+			
+			return true;
 		}
 		
 		private function get_security_questions() {

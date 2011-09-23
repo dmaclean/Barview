@@ -43,6 +43,12 @@ $(document).ready(function(){
 	// FANCYBOX USER LOGIN
 	/////////////////////////////
 	$('#user_login').fancybox();
+	
+	$('#dob').keyup(function() {
+		if($(this).val().length == 4 || $(this).val().length == 7)
+			$(this).val($(this).val() + '-');
+			
+	});
  
  /*	$('.verify').click( function() {
  		var row = $(this).parent;

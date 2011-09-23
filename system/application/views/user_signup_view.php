@@ -36,8 +36,11 @@
 						<?php echo form_password('password_conf');?>
 					</p>
 					<p>
-						<label for="age">Age: </label>
-						<?php echo form_input('age', set_value('age'));?>
+						<label for="dob">Date of Birth (yyyy/mm/dd): </label>
+						<?php 
+							$options = array('type' => 'text', 'id' => 'dob', 'name' => 'dob', 'maxlength' => 10);
+							echo form_input($options, set_value('dob'));
+						?>
 					</p>
 					<p>
 						<label for="city">City: </label>

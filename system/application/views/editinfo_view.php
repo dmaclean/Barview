@@ -23,8 +23,11 @@
 							<?php echo form_input('last_name', set_value('last_name', $user_model->get_last_name() ));?>
 						</p>
 						<p>
-							<label for="dob">Date of Birth: </label>
-							<?php echo form_input('dob', set_value('dob', $user_model->get_dob() ));?>
+							<label for="dob">Date of Birth (yyyy/mm/dd): </label><br/>
+							<?php 
+								$options = array('type' => 'text', 'id' => 'dob', 'name' => 'dob', 'maxlength' => 10);
+								echo form_input($options, set_value('dob', $user_model->get_dob() ));
+							?>
 						</p>
 						<p>
 							<label for="city">City: </label>

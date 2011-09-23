@@ -32,7 +32,7 @@
 						</p>
 						<p>
 							<label for="state">State: </label>
-							<?php echo form_input('state', set_value('state', $user_model->get_state() ));?>
+							<?php echo form_dropdown('state', get_state_list(), set_value('state', $user_model->get_state() )); ?>
 						</p>
 						<p>
 							<label for="security_question">Security Question: </label>
@@ -104,7 +104,7 @@
 						</p>
 						<p>
 							<label for="state">State: </label>
-							<?php echo form_input('state', set_value('state', $bar_model->get_state() ));?>
+							<?php echo form_dropdown('state', get_state_list(), set_value('state', $bar_model->get_state() )); ?>
 						</p>
 						<p>
 							<label for="zip">Zip Code: </label>

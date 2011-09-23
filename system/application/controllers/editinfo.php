@@ -7,6 +7,7 @@
 			$this->load->library('form_validation');
 			
 			$this->load->helper('form');
+			$this->load->helper('statelist');
 			
 			$this->is_bar = $this->session->userdata('bar_id') ? true : false;
 			

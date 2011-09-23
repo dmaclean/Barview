@@ -6,6 +6,7 @@
 			$this->load->library('encrypt');
 			
 			$this->load->helper('form');
+			$this->load->helper('statelist');
 		}
 		
 		function index() {

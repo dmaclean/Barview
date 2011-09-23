@@ -45,7 +45,7 @@
 					</p>
 					<p>
 						<label for="state">State: </label>
-						<?php echo form_input('state', set_value('state'));?>
+						<?php echo form_dropdown('state', get_state_list(), set_value('state'));?>
 					</p>
 					<p>
 						<label for="security_question">Security Question: </label>

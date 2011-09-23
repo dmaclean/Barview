@@ -16,17 +16,21 @@
 		
 		public function submit() {
 			if($this->_submit_validation() === FALSE) {
+				$this->session->set_flashdata('error_msg', validation_errors());
 				redirect('/barhome');
 			}
 			
 			redirect('/barhome');
 		}
 		
-		public function logoff() {
+		/**
+		 * This isn't used.  I think we can get rid of it.
+		 */
+		/*public function logoff() {
 			$this->session->sess_destroy();
 			
 			redirect('/home');
-		}
+		}*/
 		
 		private function _submit_validation() {
 			$this->form_validation->set_rules('username', 'Username', 'trim|required|callback_authenticate');

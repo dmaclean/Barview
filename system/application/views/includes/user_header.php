@@ -10,6 +10,7 @@
 	
 	<script type="text/javascript" src="<?php echo base_url();?>javascript/cufon.js"></script>
 	<script type="text/javascript" src="<?php echo base_url();?>javascript/jquery.js"></script>
+	<!--<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.3/jquery.min.js" />-->
 	<script type="text/javascript" src="<?php echo base_url();?>javascript/fancybox/jquery.fancybox-1.3.4.js"></script>
 	<script type="text/javascript" src="<?php echo base_url();?>javascript/barview.js"></script> 
  
@@ -63,21 +64,30 @@
 	</div>
 	
 	<div id="user-meta">
-		<?php if(isset($user_name)) { ?>
-			<a href="<?php echo base_url();?>index.php?/logout">Logout</a>
-		<?php } else { ?>
-				<ul>
-					<li class="form-buttons">
-						<div>
-						<?php if(!$this->session->userdata('uid')) { ?>
-							<div class="user_login_div" style="float:left;"><a id="user_login" href="#data">Login</a></div>&nbsp; | &nbsp;<a href="<?php echo base_url();?>index.php?/barhome">Bars</a>
-						<?php } else {?>
-							<div style="float:left;"><a href="<?php echo base_url();?>index.php?/logout">Log out</a></div>
-						<?php } ?>
-						</div>
-					</li>
-				</ul>
-		<?php } ?>
+		<ul>
+			<li class="form-buttons">
+				<div>
+				<!--
+					No one logged in.
+				-->
+				<?php if(!$this->session->userdata('uid')) { ?>
+					<div class="user_login_div" style="float:left;"><a id="user_login" href="#data">Login</a></div>&nbsp; | &nbsp;<a href="<?php echo base_url();?>index.php?/barhome">Bars</a>
+				<!--
+					Facebook user logged in.
+				-->
+				<?php } else if($this->session->userdata('uid') && $this->session->userdata('usertype') == FACEBOOK_TYPE) { 
+					$callback_url = base_url() . 'index.php?/logout';
+				?>
+					<div style="float:left;"><a href="<?php echo $this->facebook->getLogoutUrl(array('next' => $callback_url));?>">Log out</a></div>
+				<!--
+					Non-facebook user logged in.
+				-->
+				<?php } else {?>
+					<div style="float:left;"><a href="<?php echo base_url();?>index.php?/logout">Log out</a></div>
+				<?php } ?>
+				</div>
+			</li>
+		</ul>
 	</div>
 </header>-->
 <!-- End header -->
@@ -86,6 +96,9 @@
 		<!--<nav>
 			<ul id="head-nav">
 				<li class="first current"><a href="<?php echo base_url(); ?>index.php">Home</a></li>
+				<?php if($this->session->userdata('usertype') && $this->session->userdata('usertype') == BARVIEW_TYPE) { ?>
+				<li class="last"><a href="<?php echo base_url(); ?>index.php?/editinfo">Edit Info</a></li>
+				<?php } ?>
 				<li class="last"><a href="<?php echo base_url(); ?>index.php">Contact</a></li>
 				<li class="last">
 					<span class="current">
@@ -102,6 +115,14 @@
 		</nav>-->
 		<!-- End nav -->
 		
+		
+		
+		<!-- ERROR/INFO MESSAGES -->
+		<?php if(isset($error_msg)) { ?>
+			<div class="error"><?php echo $error_msg; ?></div>
+		<?php } else if(isset($info_msg)) { ?>
+			<div class="info"><?php echo $info_msg; ?></div>
+		<?php } ?>
 		
 		<div style="display:none">
 			<div id="data">
@@ -123,6 +144,9 @@
 				<?php echo form_close();?>
 				<p>
 					Don't have an account?  Register <a href="<?php echo base_url(); ?>index.php?/usersignup">here</a>.
+				</p>
+				<p>
+					<a href="<?php echo base_url(); ?>index.php?/forgotpassworduser">Forgot your password?</a>
 				</p>
 				</div>
 				<div style="float:left;">

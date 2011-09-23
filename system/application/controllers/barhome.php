@@ -18,6 +18,15 @@
 		
 			if(DEV_MODE)
 				print_r( $this->session->userdata);
+			
+			if($this->session->flashdata('error_msg')) {
+				$data['error_msg'] = $this->session->flashdata('error_msg');
+				log_message("debug", "flash data is ".$this->session->flashdata('error_msg'));
+			}
+			else if($this->session->flashdata('info_msg')) {
+				$data['info_msg'] = $this->session->flashdata('info_msg');
+				log_message("debug", "flash data is ".$this->session->flashdata('info_msg'));
+			}
 		
 			// Bar is already logged in.  Send them to their personalized homepage.
 			if($this->session->userdata('bar_id')) {
@@ -34,9 +43,14 @@
 			}
 			// Not logged in.  Send to generic bar landing page.
 			else {
-				$this->load->view('includes/header');
-				$this->load->view('bar_landing_view');
-				$this->load->view('includes/footer');
+				// add a garbage value in here just so we have $data available to us.
+				// If we've just arrived on the page then nothing would have been put
+				// in $data otherwise.
+				$data['placeholder'] = null;
+				
+				$this->load->view('includes/header', $data);
+				$this->load->view('bar_landing_view', $data);
+				$this->load->view('includes/footer', $data);
 			}
 		}
 	}

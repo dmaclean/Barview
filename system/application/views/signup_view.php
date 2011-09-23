@@ -33,7 +33,7 @@
 					</p>
 					<p>
 						<label for="state">State: </label>
-						<?php echo form_input('state', set_value('state'));?>
+						<?php echo form_dropdown('state', get_state_list(), set_value('state'));?>
 					</p>
 					<p>
 						<label for="zip">Zip Code: </label>
@@ -54,6 +54,17 @@
 					<p>
 						<label for="email">Email: </label>
 						<?php echo form_input('email', set_value('email'));?>
+					</p>
+					<p>
+						<label for="security_question">Security Question: </label>
+						<?php echo form_dropdown('security_question', $security_questions); ?>
+					</p>
+					<p>
+						<label for="security_answer">Security Answer: </label>
+						<?php
+							$options = array('name' => 'security_answer', 'size' => 30, 'max_length' => 30);
+							echo form_input($options); 
+						?>
 					</p>
 					<p>
 						<label for="reference">Business Reference: </label>

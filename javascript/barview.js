@@ -36,13 +36,19 @@ $(document).ready(function(){
 	
 	// Refresh images on the search page every 5 seconds.
 	if(onSearchPage())
-		timer = setInterval(refreshSearchImages, 5000);
+		timer = setInterval(refreshSearchImages, 10000);
  
  
 	/////////////////////////////
 	// FANCYBOX USER LOGIN
 	/////////////////////////////
 	$('#user_login').fancybox();
+	
+	$('#dob').keyup(function() {
+		if($(this).val().length == 4 || $(this).val().length == 7)
+			$(this).val($(this).val() + '-');
+			
+	});
  
  /*	$('.verify').click( function() {
  		var row = $(this).parent;

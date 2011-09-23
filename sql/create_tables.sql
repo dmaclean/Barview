@@ -13,7 +13,7 @@ CREATE TABLE `bars` (
   lat float(10) NULL,
   lng float(10) NULL,
     username varchar(30) NOT NULL,
-  password varchar(30) NOT NULL,
+  password varchar(100) NOT NULL,
   email varchar(30) NOT NULL,
   reference varchar(200) NOT NULL,
   verified tinyint(1) NOT NULL,
@@ -59,7 +59,7 @@ create table `users` (
 	first_name varchar(20) not null,
 	last_name varchar(30) not null,
 	email varchar(30) not null primary key,
-	password varchar(20) not null,
+	password varchar(100) not null,
 	dob date not null,
 	city varchar(20) not null,
 	state varchar(2) not null
@@ -96,3 +96,39 @@ user_data text DEFAULT '' NOT NULL,
 bar_name varchar(20) DEFAULT '' NOT NULL,
 PRIMARY KEY (session_id)
 );
+
+--------------------------------------
+-- Account security question tables
+--------------------------------------
+drop table if exists `bar_account_security`;
+create table `bar_account_security` (
+	id int not null auto_increment,
+	bar_id int(11) not null,
+	security_id int not null,
+	security_answer varchar(30),
+	primary key (id),
+	foreign key (bar_id) references bars(bar_id) on delete cascade,
+	foreign key (security_id) references security_question(id)
+) engine=MyISAM default charset=utf8;
+
+drop table if exists `user_account_security`;
+create table `user_account_security` (
+	id int not null auto_increment,
+	email varchar(30) not null,
+	security_id int not null,
+	security_answer varchar(30),
+	primary key (id),
+	foreign key (email) references users(email) on delete cascade,
+	foreign key (security_id) references security_question(id)
+) engine=MyISAM default charset=utf8;
+
+drop table if exists `security_question`;
+create table `security_question` (
+	id int not null auto_increment,
+	question varchar(50) not null,
+	primary key (id)
+) engine=MyISAM default charset=utf8;
+
+insert into security_question(question) values('What is the name of your favorite pet?');
+insert into security_question(question) values('What was your first car?');
+insert into security_question(question) values('What was your first job?');

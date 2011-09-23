@@ -176,7 +176,7 @@ $config['directory_trigger'] 	= 'd'; // experimental not currently in use
 | your log files will fill up very fast.
 |
 */
-$config['log_threshold'] = 4;
+$config['log_threshold'] = 1;
 
 /*
 |--------------------------------------------------------------------------
@@ -187,7 +187,7 @@ $config['log_threshold'] = 4;
 | system/logs/ folder.  Use a full server path with trailing slash.
 |
 */
-$config['log_path'] = '';
+$config['log_path'] = 'system/logs/';
 
 /*
 |--------------------------------------------------------------------------
@@ -220,7 +220,7 @@ $config['cache_path'] = '';
 | enabled you MUST set an encryption key.  See the user guide for info.
 |
 */
-$config['encryption_key'] = "cfSZ9KiM";
+$config['encryption_key'] = "abdf2fe6482431328c23b28092923865";
 
 /*
 |--------------------------------------------------------------------------

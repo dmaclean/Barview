@@ -26,7 +26,7 @@
 	<!-- Begin logo -->
 	<div id="logo">
 		<h1><a href="<?php echo base_url();?>index.php/" title="Home"><cufon class="cufon cufon-canvas" alt="Barview.com" style="width: 148px; height: 32px; "><canvas width="157" height="39" style="width: 157px; height: 39px; top: -4px; left: -2px; "></canvas><cufontext>Barview.com</cufontext></cufon></a></h1>
-		<h2 class="slogan">Only slightly less profitable than our competitors.</h2>
+		<h2 class="slogan">Your night starts here.</h2>
 	</div>
 	<!-- End logo -->
 
@@ -61,10 +61,21 @@
 		<nav>
 			<ul id="head-nav">
 				<li class="first current"><a href="<?php echo base_url(); ?>index.php">Home</a></li>
+				<?php if($this->session->userdata('bar_id')) { ?>
+				<li class="last"><a href="<?php echo base_url(); ?>index.php?/editinfo">Edit Info</a></li>
+				<?php } ?>
 				<li class="last"><a href="<?php echo base_url(); ?>index.php">Contact</a></li>
 			</ul>
 		</nav>
 		<!-- End nav -->
+		
+		
+		<!-- ERROR/INFO MESSAGES -->
+		<?php if(isset($error_msg)) { ?>
+			<div class="error"><?php echo $error_msg; ?></div>
+		<?php } else if(isset($info_msg)) { ?>
+			<div class="info"><?php echo $info_msg; ?></div>
+		<?php } ?>
 		
 		<div style="display:none">
 			<div id="data">
@@ -84,6 +95,9 @@
 				<?php echo form_close();?>
 				<p>
 					Don't have an account?  Register <a href="<?php echo base_url(); ?>index.php?/signup">here</a>.
+				</p>
+				<p>
+					<a href="<?php echo base_url(); ?>index.php?/forgotpassword">Forgot your password?</a>
 				</p>
 			</div>
 		</div>

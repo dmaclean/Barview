@@ -36,8 +36,11 @@
 						<?php echo form_password('password_conf');?>
 					</p>
 					<p>
-						<label for="age">Age: </label>
-						<?php echo form_input('age', set_value('age'));?>
+						<label for="dob">Date of Birth (yyyy-mm-dd): </label>
+						<?php 
+							$options = array('type' => 'text', 'id' => 'dob', 'name' => 'dob', 'maxlength' => 10);
+							echo form_input($options, set_value('dob'));
+						?>
 					</p>
 					<p>
 						<label for="city">City: </label>
@@ -45,7 +48,18 @@
 					</p>
 					<p>
 						<label for="state">State: </label>
-						<?php echo form_input('state', set_value('state'));?>
+						<?php echo form_dropdown('state', get_state_list(), set_value('state'));?>
+					</p>
+					<p>
+						<label for="security_question">Security Question: </label>
+						<?php echo form_dropdown('security_question', $security_questions); ?>
+					</p>
+					<p>
+						<label for="security_answer">Security Answer: </label>
+						<?php
+							$options = array('name' => 'security_answer', 'size' => 30, 'max_length' => 30);
+							echo form_input($options); 
+						?>
 					</p>
 					<p>
 						<?php echo form_submit('submit', 'Create Account');?>

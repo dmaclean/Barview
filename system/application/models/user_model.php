@@ -7,17 +7,45 @@
 		private $dob;
 		private $city;
 		private $state;
+		private $security_id;
+		private $security_answer;
 		
 		public function User_model() {
 			parent::__construct();
 		}
 		
-		public function validate() {
-			$email 	= $this->db->escape($this->input->post('email'));
-			$pass 	= $this->db->escape($this->input->post('password'));
+		public function select($user_id) {
+			$sql = 'select 	u.first_name as first_name, u.last_name as last_name, u.password as password, u.dob as dob, u.city as city, u.state as state, ua.security_id as security_id, ua.security_answer as security_answer from users u inner join user_account_security ua on u.email = ua.email where u.email = ?';
+			$query = $this->db->query($sql, array($user_id));
+			
+			foreach($query->result() as $row) {
+				$this->first_name = $row->first_name;
+				$this->last_name = $row->last_name;
+				$this->user_id = $user_id;
+				$this->pass = $row->password;
+				$this->dob = $row->dob;
+				$this->city = $row->city;
+				$this->state = $row->state;
+				
+				$this->security_id = $row->security_id;
+				$this->security_answer = $row->security_answer;
+			}
+		}
 		
-			$sql = 'select * from users where email = '.$email.' and password = '.$pass;
-			$query = $this->db->query($sql);
+		/**
+		 * Check if a user's login credentials are valid.
+		 *
+		 * This utilizes the encryption library and our encryption key in the config file
+		 * to decode the hashed password in the database and match it's plaintext value to
+		 * what was entered in the form field.
+		 *
+		 * The reason we decode the db password instead of hashing the input password is because
+	 	 * the encryption scheme seems to be time sensitive so subsequent attempts to use it yield
+	 	 * very different hash values.
+		 */
+		public function validate() {
+			$sql = 'select * from users where email = ?';
+			$query = $this->db->query($sql, array($this->input->post('email')));
 			
 			if($query->num_rows() == 1) {
 				$row = $query->row();
@@ -29,7 +57,8 @@
 				$this->city = $row->city;
 				$this->state = $row->state;
 				
-				return true;
+				if($this->encrypt->decode($this->pass) == $this->input->post('password'))
+					return true;
 			}
 
 			return false;
@@ -71,7 +100,7 @@
 		public function create() {
 			$clean_first_name = $this->db->escape($this->first_name);
 			$clean_last_name = $this->db->escape($this->last_name);
-			$clean_email = $this->db->escape($this->email);
+			$clean_email = $this->db->escape($this->user_id);
 			$clean_password = $this->db->escape($this->pass);
 			$clean_dob = $this->db->escape($this->dob);
 			$clean_city = $this->db->escape($this->city);
@@ -79,6 +108,34 @@
 			
 			$sql = 'insert into users values ('.$clean_first_name.','.$clean_last_name.','.$clean_email.','.$clean_password.','.$clean_dob.','.$clean_city.','.$clean_state.')';
 			$this->db->query($sql);
+		}
+		
+		/**
+		 * Insert the user account security information (security question and answer).
+		 *
+		 * This call will occur when a user signs up in usersignup.php.
+		 */
+		public function insert_security() {
+			$sql = 'insert into user_account_security (email, security_id, security_answer) values (?, ?, ?)';
+			$this->db->query($sql, array($this->user_id, $this->security_id, $this->security_answer));
+		}
+		
+		/**
+		 * Update the user's basic information with the data currently set in the bar model.
+		 */
+		public function update() {
+			$sql = 'update users set first_name = ?, last_name = ?, dob = ?, city = ?, state = ?';
+			$this->db->query($sql, array($this->first_name, $this->last_name, $this->dob, $this->city, $this->state));
+		}
+		
+		/**
+		 * Update the account security information (security question and answer) for a user.
+		 *
+		 * This call occurs inside editinfo.php.
+		 */
+		public function update_security() {
+			$sql = 'update user_account_security set security_id = ?, security_answer = ? where email = ?';
+			$this->db->query($sql, array($this->security_id, $this->security_answer, $this->user_id));
 		}
 		
 		public function get_favorites($uid) {
@@ -117,6 +174,17 @@
 		}
 		
 		/**
+		 * Change the password for the user specified by user_id.
+		 *
+		 * It is assumed that all necessary validations have already been
+		 * performed prior to executing this function.
+		 */
+		public function change_password($user_id, $new_password) {
+			$sql = 'update users set password = ? where email = ?';
+			$this->db->query($sql, array($this->encrypt->encode($new_password), $user_id));
+		}
+		
+		/**
 		 * Insert a token into the database for the mobile user.  After inserting we
 		 * will return the token back to the caller (the logon function) so it can be
 		 * handed back to the mobile device in an XML response.
@@ -142,6 +210,22 @@
 			$str = $this->user_id.''.microtime();
 			log_message("debug","generate_token() - using string ".$str);
 			return hash('sha256',$str);
+		}
+		
+		/**
+		 * Fetch the text of the security question from the security_question table based on
+		 * the security_id in the user profile.
+		 */
+		public function get_security_question() {
+			$sql = 'select question from security_question where id = ?';
+			$query = $this->db->query($sql, $this->security_id);
+			
+			$question = '';
+			foreach($query->result() as $row) {
+				$question = $row->question;
+			}
+			
+			return $question;
 		}
 		
 		public function get_first_name() {
@@ -199,5 +283,21 @@
 		public function set_state($state) {
 			$this->state = $state;
 		}
-	}
+		
+		public function get_security_id() {
+			return $this->security_id;
+		}
+		
+		public function set_security_id($id) {
+			$this->security_id = $id;
+		}
+		
+		public function get_security_answer() {
+			return $this->security_answer;
+		}
+		
+		public function set_security_answer($answer) {
+			$this->security_answer = $answer;
+		}
+	}	
 ?>

@@ -36,7 +36,7 @@
 						<?php echo form_password('password_conf');?>
 					</p>
 					<p>
-						<label for="dob">Date of Birth (yyyy/mm/dd): </label>
+						<label for="dob">Date of Birth (yyyy-mm-dd): </label>
 						<?php 
 							$options = array('type' => 'text', 'id' => 'dob', 'name' => 'dob', 'maxlength' => 10);
 							echo form_input($options, set_value('dob'));

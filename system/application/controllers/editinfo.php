@@ -22,7 +22,8 @@
 			// they are URL hacking.
 			if(!$this->is_barview_user() && !$this->session->userdata('bar_id'))
 				redirect("/");
-				
+			
+			$data['no_hero'] = true;
 			$data['security_questions'] = $this->get_security_questions();
 		
 			// Determine whether we are a user or bar and pull the appropriate information
@@ -71,9 +72,6 @@
 				$this->process_user();
 				redirect('');
 			}
-			
-			// Send the user back to the logon page.
-			//$data['create_message'] = '';
 		}
 		
 		private function _submit_validation() {

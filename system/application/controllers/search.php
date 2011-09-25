@@ -24,6 +24,7 @@
 				$results[] = $curr;
 			}
 			
+			$data['no_hero'] = true;
 			$data['search_results'] = $results;
 			
 			if(count($results) > 0 && $this->session->userdata('is_logged_in')) {

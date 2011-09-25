@@ -1,69 +1,108 @@
-<!-- Begin contentWrapper -->
-<div id="contentWrapper">
-	<!-- Begin 2 column content -->
-	<div id="content">
-		<section class="post clearfix">
-			<!-- Page layout: Default -->
-			<h2>
-				<cufon class="cufon cufon-canvas" alt="Home" style="width: 51px; height: 24px; ">
-					<canvas width="64" height="29" style="width: 64px; height: 29px; top: -3px; left: -2px; "></canvas>
-					<cufontext>User Registration</cufontext>
-				</cufon>
-			</h2>
+<h1>User Registration</h1>
 
 
-			<div class="page-chunk default">
+			<div class="span16">
 				<?php echo form_open('usersignup/submit')?>
-					<?php echo validation_errors('<p class="error">','</p>')?>
-					<p>
+					<?php echo validation_errors('<div class="alert-message error"><p><strong>','</strong></p></div>')?>
+					<div class="clearfix">
 						<label for="first_name">First Name: </label>
-						<?php echo form_input('first_name', set_value('first_name'));?>
-					</p>
-					<p>
+						<div class="input">
+							<?php 
+								$options = array('class' => 'xlarge', 'type'=>'text', 'id' => 'first_name', 'name' => 'first_name', 'maxlength'=>20);
+								echo form_input($options, set_value('first_name'));
+							?>
+						</div>
+					</div>
+					
+					<div class="clearfix">
 						<label for="last_name">Last Name: </label>
-						<?php echo form_input('last_name', set_value('last_name'));?>
-					</p>
-					<p>
+						<div class="input">
+							<?php 
+								$options = array('class' => 'xlarge', 'type'=>'text', 'id' => 'last_name', 'name' => 'last_name', 'maxlength'=>30);
+								echo form_input($options, set_value('last_name'));
+							?>
+						</div>
+					</div>
+					
+					<div class="clearfix">
 						<label for="email">Email: </label>
-						<?php echo form_input('email', set_value('email'));?>
-					</p>
-					<p>
+						<div class="input">
+							<?php 
+								$options = array('class' => 'xlarge', 'type'=>'text', 'id' => 'email', 'name' => 'email');
+								echo form_input($options, set_value('email'));
+							?>
+						</div>
+					</div>
+					
+					<div class="clearfix">
 						<label for="password">Password: </label>
-						<?php echo form_password('password');?>
-					</p>
-					<p>
+						<div class="input">
+							<?php 
+								$options = array('class' => 'xlarge', 'type'=>'password', 'id' => 'password', 'name' => 'password');
+								echo form_password($options);
+							?>
+						</div>
+					</div>
+					
+					<div class="clearfix">
 						<label for="password_conf">Confirm password: </label>
-						<?php echo form_password('password_conf');?>
-					</p>
-					<p>
+						<div class="input">
+							<?php
+								$options = array('class' => 'xlarge', 'type'=>'password', 'id' => 'password_conf', 'name' => 'password_conf');
+								echo form_password($options);
+							?>
+						</div>
+					</div>
+					
+					<div class="clearfix">
 						<label for="dob">Date of Birth (yyyy-mm-dd): </label>
+						<div class="input">
 						<?php 
-							$options = array('type' => 'text', 'id' => 'dob', 'name' => 'dob', 'maxlength' => 10);
+							$options = array('class' => 'xlarge', 'type' => 'text', 'id' => 'dob', 'name' => 'dob', 'maxlength' => 10);
 							echo form_input($options, set_value('dob'));
 						?>
-					</p>
-					<p>
+						</div>
+					</div>
+					
+					<div class="clearfix">
 						<label for="city">City: </label>
-						<?php echo form_input('city', set_value('city'));?>
-					</p>
-					<p>
+						<div class="input">
+							<?php 
+								$options = array('class' => 'xlarge', 'type' => 'text', 'id' => 'city', 'name' => 'city', 'maxlength' => 20);
+								echo form_input($options, set_value('city'));
+							?>
+						</div>
+					</div>
+					
+					<div class="clearfix">
 						<label for="state">State: </label>
-						<?php echo form_dropdown('state', get_state_list(), set_value('state'));?>
-					</p>
-					<p>
+						<div class="input">
+							<?php echo form_dropdown('state', get_state_list(), set_value('state')); ?>
+						</div>
+					</div>
+					
+					<div class="clearfix">
 						<label for="security_question">Security Question: </label>
-						<?php echo form_dropdown('security_question', $security_questions); ?>
-					</p>
-					<p>
+						<div class="input">
+							<?php echo form_dropdown('security_question', $security_questions); ?>
+						</div>
+					</div>
+					
+					<div class="clearfix">
 						<label for="security_answer">Security Answer: </label>
+						<div class="input">
 						<?php
 							$options = array('name' => 'security_answer', 'size' => 30, 'max_length' => 30);
 							echo form_input($options); 
 						?>
-					</p>
-					<p>
-						<?php echo form_submit('submit', 'Create Account');?>
-					</p>
+						</div>
+					</div>
+					<div class="actions">
+						<?php 
+							$options = array('class' => 'btn primary', 'name' => 'submit', 'value' => 'Create Account');
+							echo form_submit($options);
+						?>
+					</div>
 				<?php echo form_close();?>
 			</div>
 

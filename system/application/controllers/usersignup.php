@@ -11,9 +11,11 @@
 		
 		function index() {
 			$data['security_questions'] = $this->get_security_questions();
+			$data['no_hero'] = true;
 		
-			$data['main_content'] = 'user_signup_view';
-			$this->load->view('/includes/template', $data);	
+			$this->load->view('/includes/user_header', $data);
+			$this->load->view('user_signup_view', $data);
+			$this->load->view('/includes/footer', $data);
 		}
 		
 		function submit() {

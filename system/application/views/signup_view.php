@@ -18,7 +18,7 @@
 
 			<div class="page-chunk default">
 				<?php echo form_open('signup/submit')?>
-					<?php echo validation_errors('<p class="error">','</p>')?>
+					<?php echo validation_errors('<div class="alert-message error"><p><strong>','</strong></p></div>')?>
 					<p>
 						<label for="name">Bar Name: </label>
 						<?php echo form_input('name', set_value('name'));?>

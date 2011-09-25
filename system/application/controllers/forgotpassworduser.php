@@ -19,6 +19,7 @@
 			else if($this->session->flashdata('info_msg'))
 				$data['info_msg'] = $this->session->flashdata('info_msg');
 				
+			$data['no_hero'] = true;
 			$data['is_bar'] = $this->is_bar;
 			$data['action'] = "initial";
 			
@@ -31,6 +32,7 @@
 		public function submit() {
 			$data['is_bar'] = $this->is_bar;
 			$data['email'] = $this->input->post('email');
+			$data['no_hero'] = true;
 		
 			if($this->input->post('action') == "initial") {
 				$sql = 'select sq.question as question from users u inner join user_account_security ua on u.email = ua.email inner join security_question sq on ua.security_id = sq.id where u.email = ?';

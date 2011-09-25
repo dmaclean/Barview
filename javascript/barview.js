@@ -140,6 +140,7 @@ function addToFavorites(base_url, bar_id, user_id) {
 		success: function() {
 					var element = '#' + bar_id + '_favorite';
 					$(element).text('Remove from favorites');
+					$(element).removeClass("btn success").addClass("btn danger");
 					$(element).click({'base_url' : base_url, 'bar_id' : bar_id, 'user_id' : user_id}, function(e) {
 							removeFromFavorites(e.data.base_url, e.data.bar_id, e.data.user_id);
 						}
@@ -163,6 +164,7 @@ function removeFromFavorites(base_url, bar_id, user_id) {
 		success: function() {
 					var element = '#' + bar_id + '_favorite';
 					$(element).text('Add to favorites');
+					$(element).removeClass("btn danger").addClass("btn success");
 					$(element).click({'base_url' : base_url, 'bar_id' : bar_id, 'user_id' : user_id}, function(e) {
 							addToFavorites(e.data.base_url, e.data.bar_id, e.data.user_id);
 						}
@@ -186,8 +188,9 @@ function addEvent(base_url, event_detail, bar_id, bar_name, session_id) {
 						xhr.setRequestHeader('SESSION_ID', session_id);
 					},
 		success: function(data, textStatus, jqXHR) {
-					var newlistitem = '<li id="event_' + data + '"><div style="float:left;">' + event_detail + '</div><div><a class="bar_events_link" id="event_' + data + '_a" >delete</a></div></li>';
-					$('.bar_events_list ul').append(newlistitem);
+					var newlistitem = '<dt id="event_' + data + '">' + event_detail + '</dt><dd><a class="btn small danger" id="event_' + data + '_a" >delete</a></dd>';
+					//$('#bar_events_list').append(newlistitem).fadeIn();
+					$(newlistitem).hide().appendTo('#bar_events_list').fadeIn();
 					$('#event_' + data + '_a').click( {'base_url' : base_url, 'event_id' : data, 'bar_id' : bar_id, 'bar_name' : bar_name, 'session_id' : session_id}, function(e) {
 							deleteEvent(e.data.base_url, e.data.event_id, e.data.bar_id, e.data.bar_name, e.data.session_id);
 						}
@@ -210,7 +213,8 @@ function deleteEvent(base_url, event_id, bar_id, bar_name, session_id) {
 						xhr.setRequestHeader('SESSION_ID', session_id);
 					},
 		success: function() {
-					$('#event_' + event_id).remove();
+					$('#event_' + event_id).fadeOut();
+					$('#event_' + event_id + '_a').fadeOut();
 				}
 	});
 }

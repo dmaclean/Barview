@@ -1,6 +1,6 @@
---
--- Definition of table `barview`.`bars`
---
+/******************************************
+   Definition of table `barview`.`bars`
+******************************************/
 
 DROP TABLE IF EXISTS `bars`;
 CREATE TABLE `bars` (
@@ -22,9 +22,9 @@ CREATE TABLE `bars` (
 COMMENT='Contains data about each bar registered with Barview.';
 
 
---
--- Definition of table `barview`.`favorites`
---
+/***********************************************
+   Definition of table `barview`.`favorites`
+***********************************************/
 
 DROP TABLE IF EXISTS `favorites`;
 CREATE TABLE `favorites` (
@@ -36,10 +36,9 @@ CREATE TABLE `favorites` (
 COMMENT='Holds the bars that each user has flagged as a favorite.';
 
 
---
--- Logging for REST interface
---
-
+/********************************
+   Logging for REST interface
+********************************/
 DROP TABLE IF EXISTS `logs`;
 CREATE TABLE `logs` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -53,7 +52,7 @@ CREATE TABLE `logs` (
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
--- Barview users table
+/* Barview users table */
 DROP TABLE IF EXISTS `users`;
 create table `users` (
 	first_name varchar(20) not null,
@@ -66,7 +65,7 @@ create table `users` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 
--- Bar events and deals table
+/* Bar events and deals table */
 drop table if exists `barevents`;
 create table `barevents` (
 	id int not null auto_increment,
@@ -77,7 +76,7 @@ create table `barevents` (
 ) engine=MyISAM default charset=utf8;
 
 
--- Tokens for mobile Bar-view users
+/* Tokens for mobile Bar-view users */
 drop table if exists `mobile_tokens`;
 create table `mobile_tokens` (
 	token char(64) not null primary key,
@@ -86,7 +85,7 @@ create table `mobile_tokens` (
 ) engine=MyISAM default charset=utf8;
 
 
--- CodeIgniter sessions
+/* CodeIgniter sessions */
 CREATE TABLE IF NOT EXISTS  `ci_sessions` (
 session_id varchar(40) DEFAULT '0' NOT NULL,
 ip_address varchar(16) DEFAULT '0' NOT NULL,
@@ -97,9 +96,9 @@ bar_name varchar(20) DEFAULT '' NOT NULL,
 PRIMARY KEY (session_id)
 );
 
---------------------------------------
--- Account security question tables
---------------------------------------
+/**************************************
+   Account security question tables
+**************************************/
 drop table if exists `bar_account_security`;
 create table `bar_account_security` (
 	id int not null auto_increment,

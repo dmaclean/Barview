@@ -8,6 +8,7 @@
 			$this->load->model('barimage_model');
 			$this->load->model('favorite_model');
 			$this->load->model('barevent_model');
+			$this->load->model('barimagerequest_model');
 		}
 	
 		/**
@@ -22,6 +23,11 @@
 			
 			$this->barimage_model->set_bar_id($bar_id);
 			$image = $this->barimage_model->fetch_image_from_filesystem();
+			
+			// Write the request to the database
+			$this->barimagerequest_model->set_bar_id($bar_id);
+			$this->barimagerequest_model->set_user_id($_SERVER['HTTP_USER_ID']);
+			$this->barimagerequest_model->create();
 			
 			header("Content-type: text/xml");
 			$xml = '<?xml version="1.0" encoding="UTF-8" ?><barimage><bar_id>'.$bar_id.'</bar_id>';
@@ -43,6 +49,11 @@
 		public function barimagebinary_get() {
 			$bar_id = $this->uri->segment(3);
 			log_message('info','Received a request for bar image '.$bar_id);
+			
+			// Write the request to the database
+			$this->barimagerequest_model->set_bar_id($bar_id);
+			$this->barimagerequest_model->set_user_id($_SERVER['HTTP_USER_ID']);
+			$this->barimagerequest_model->create();
 			
 			$this->barimage_model->set_bar_id($bar_id);
 			$image = $this->barimage_model->fetch_image_from_filesystem();

@@ -131,3 +131,19 @@ create table `security_question` (
 insert into security_question(question) values('What is the name of your favorite pet?');
 insert into security_question(question) values('What was your first car?');
 insert into security_question(question) values('What was your first job?');
+
+
+/**********************
+	User Reporting
+**********************/
+drop table if exists `bar_image_requests`;
+create table `bar_image_requests` (
+	user_id		varchar(20) not null,
+	bar_id 		int(11) not null,
+	ts timestamp default current_timestamp,
+	KEY user_bar_ts_idx (user_id, bar_id, ts),
+	key ts_idx (ts),
+	foreign key (user_id) references users(email) on delete cascade,
+	foreign key (bar_id) references bars(bar_id) on delete cascade
+	
+) engine=MyISAM default charset=utf8;

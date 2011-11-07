@@ -67,6 +67,7 @@
 			$this->form_validation->set_rules('email', 'Email', 'trim|required|valid_email');
 			$this->form_validation->set_rules('security_question', 'Security Question', 'trim|required');
 			$this->form_validation->set_rules('security_answer', 'Security Answer', 'trim|required');
+			$this->form_validation->set_rules('terms', 'Terms of Use', 'required');
 			
 			return $this->form_validation->run();
 		}
@@ -133,7 +134,8 @@
 			$message = $message."into your account (".$username.") and begin streaming!\n\n\n";
 			$message = $message."- The bar-view.com staff";
 			
-			$from = 'support@bar-view.com';
+			//$from = 'support@bar-view.com';
+			$from = 'barviewllc@gmail.com';
 			$headers = 'From:'.$from;
 			
 			if(mail($email, $subject, $message, $headers))
@@ -151,8 +153,10 @@
 			$message = $name." has registered for bar-view.com.\n\n";
 			$message = $message."Go to http://bar-view.com/index.php?/verify to look at their business reference and verify them.";
 			
-			$to = "support@bar-view.com";
-			$from = 'support@bar-view.com';
+			//$to = "support@bar-view.com";
+			$to = "barviewllc@gmail.com";
+			//$from = 'support@bar-view.com';
+			$from = 'barviewllc@gmail.com';
 			$headers = 'From:'.$from;
 			
 			if(mail($to, $subject, $message, $headers))

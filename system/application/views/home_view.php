@@ -40,7 +40,7 @@
 					?>
 					<li>
 						<div><h4><?php echo $bar; ?></h4><?php echo $location; ?></div>
-						<div><img id="<?php echo $b['bar_id']; ?>" class="bar_image" src="<?php echo base_url(); ?>broadcast_images/<?php echo $b['bar_id']; ?>.jpg"/></div>
+						<div><img id="<?php echo $b['bar_id']; ?>" class="bar_image" src="<?php echo base_url(); ?>broadcast_images/<?php echo $b['bar_id']; ?>.jpg?<?php echo rand(0, getrandmax()); ?>"/></div>
 					</li>
 				<?php } ?>
 			</ul>

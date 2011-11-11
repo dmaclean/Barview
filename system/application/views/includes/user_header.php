@@ -60,7 +60,7 @@
 					isset($no_hero) )) {	?>
 		<div class="hero-unit">
 			<h1>Your night starts here</h1>
-			<p>Barview lets you do cool stuff...</p>
+			<!--<p>Barview lets you do cool stuff...</p>-->
 		</div>
 		<?php } ?>
 

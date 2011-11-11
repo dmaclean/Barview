@@ -79,11 +79,11 @@
 		}
 		
 		/**
-		 * Check that the date follows the format yyyy/mm/dd.
+		 * Check that the date follows the format yyyy-mm-dd.
 		 */
 		public function valid_date($date) {
 			if(!preg_match("/^\d{4}-\d{2}-\d{2}$/",$date)) {
-				$this->form_validation->set_message('valid_date', 'The date '.$date.' is invalid.  Please use the format yyyy/mm/dd');
+				$this->form_validation->set_message('valid_date', 'The date '.$date.' is invalid.  Please use the format yyyy-mm-dd');
 				return false;
 			}
 			

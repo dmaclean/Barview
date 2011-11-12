@@ -5,6 +5,7 @@
 		function Rest() {
 			parent::__construct();
 			
+			$this->load->model('bar_model');
 			$this->load->model('barimage_model');
 			$this->load->model('favorite_model');
 			$this->load->model('barevent_model');
@@ -24,10 +25,16 @@
 			$this->barimage_model->set_bar_id($bar_id);
 			$image = $this->barimage_model->fetch_image_from_filesystem();
 			
-			// Write the request to the database
-			$this->barimagerequest_model->set_bar_id($bar_id);
-			$this->barimagerequest_model->set_user_id($_SERVER['HTTP_USER_ID']);
-			$this->barimagerequest_model->create();
+			// If the user passes over a User_id header (i.e. they are logged in from
+			// their mobile device) then record the request in the database.  This will
+			// be used for realtime reporting for bars.
+			// If there is no User_id then don't write the request because anonymous
+			// image requests are useless for reporting (at least right now).
+			if(isset($_SERVER['HTTP_USER_ID'])) {
+				$this->barimagerequest_model->set_bar_id($bar_id);
+				$this->barimagerequest_model->set_user_id($_SERVER['HTTP_USER_ID']);
+				$this->barimagerequest_model->create();
+			}
 			
 			header("Content-type: text/xml");
 			$xml = '<?xml version="1.0" encoding="UTF-8" ?><barimage><bar_id>'.$bar_id.'</bar_id>';
@@ -50,10 +57,16 @@
 			$bar_id = $this->uri->segment(3);
 			log_message('info','Received a request for bar image '.$bar_id);
 			
-			// Write the request to the database
-			$this->barimagerequest_model->set_bar_id($bar_id);
-			$this->barimagerequest_model->set_user_id($_SERVER['HTTP_USER_ID']);
-			$this->barimagerequest_model->create();
+			// If the user passes over a User_id header (i.e. they are logged in from
+			// their mobile device) then record the request in the database.  This will
+			// be used for realtime reporting for bars.
+			// If there is no User_id then don't write the request because anonymous
+			// image requests are useless for reporting (at least right now).
+			if(isset($_SERVER['HTTP_USER_ID'])) {
+				$this->barimagerequest_model->set_bar_id($bar_id);
+				$this->barimagerequest_model->set_user_id($_SERVER['HTTP_USER_ID']);
+				$this->barimagerequest_model->create();
+			}
 			
 			$this->barimage_model->set_bar_id($bar_id);
 			$image = $this->barimage_model->fetch_image_from_filesystem();

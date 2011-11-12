@@ -64,17 +64,26 @@
 			return false;
 		}
 		
+		/**
+		 * Performs authentication for mobile users.  Here we take the password that the
+		 * user entered and compare it against the decrypted database password (provided
+		 * we get a hit on the database for the username).
+		 * If the comparison is successful then we package all the user information up
+		 * into an XML structure and send it back to the caller.
+		 * If the comparison fails then we simply send back an empty <user> XML aggregate.
+		 */
 		public function mobile_login() {
-			$clean_username = $this->db->escape($this->user_id);
-			$clean_password = $this->db->escape($this->pass);
-			
-			$sql = 'select * from users where email = ? and password = ?';
-			$query = $this->db->query($sql, array($this->user_id, $this->pass));
+			$sql = 'select * from users where email = ?';
+			$query = $this->db->query($sql, array($this->user_id));
 			
 			$xml = '<user>';
 			if($query->num_rows() == 1) {
 				log_message("debug", "Got a db result");
 				foreach($query->result() as $row) {
+					if($this->encrypt->decode($row->password) != $this->pass) {
+						//log_message("debug", "Password ".$this->encrypt->decode($row->password)." does not match database password ".$this->pass." for user ".$clean_username);
+						continue;
+					}
 					$xml = $xml.'<firstname>'.$row->first_name.'</firstname>';
 					$xml = $xml.'<lastname>'.$row->last_name.'</lastname>';
 					$xml = $xml.'<email>'.$row->email.'</email>';
@@ -92,6 +101,11 @@
 			return $xml;
 		}
 		
+		/**
+		 * Logging a mobile user out simply involves deleting the token given to the user
+		 * from the database.  At this point any further attempts to interact with the server
+		 * using that token result in failure.
+		 */
 		public function mobile_logout($token) {
 			$sql = 'delete from mobile_tokens where token = ?';
 			$this->db->query($sql, array($token));

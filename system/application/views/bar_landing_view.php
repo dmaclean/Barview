@@ -11,8 +11,10 @@
 <div class="row">
 	<div class="span8">
 		<!--Barview.com bars-->
+		<p>
 		Using the bar-view.com broadcasting service requires a webcam to be connected to your computer.  If
 		you don't already have a webcam then you can find several models at <a href="http://www.amazon.com/s/ref=nb_sb_noss?url=search-alias%3Daps&field-keywords=wireless+webcam&x=0&y=0">amazon.com</a>.
+		</p>
 	</div>
 </div>
 <!--<div class="row">

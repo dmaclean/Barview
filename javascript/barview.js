@@ -218,3 +218,24 @@ function deleteEvent(base_url, event_id, bar_id, bar_name, session_id) {
 				}
 	});
 }
+
+function getRealtimeUsers(base_url, bar_id, bar_name, session_id, seconds_back) {
+	$.ajax({
+		type: 'GET',
+		url: base_url + 'index.php?/rest/viewers/' + seconds_back,
+		beforeSend: function(xhr) {
+						xhr.setRequestHeader('BAR_ID', bar_id);
+						xhr.setRequestHeader('BAR_NAME', bar_name);
+						xhr.setRequestHeader('SESSION_ID', session_id);
+					},
+		success: function(data, textStatus, jqXHR) {
+					// Clear out existing entries since we just got a fresh list from the server.
+					$('#realtime').children().remove()
+					
+					// Parse out the data and append to the list.
+					var items = data.split("|");
+					for(i in items)
+						$('#realtime').append('<li>' + items[i] + '</li>');
+				}
+	});
+}

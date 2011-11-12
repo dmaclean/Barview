@@ -254,6 +254,37 @@
 		 }
 		 
 		 /**
+		  * VIEWERS
+		  *
+		  * The REST interface for servicing viewer inquiry requests will satisfy the following needs:
+		  *
+		  * - GET requests to fetch an XML list of all users currently viewing a feed.
+		  *
+		  * The interface will not respond to any PUT, POST, or DELETE requests.
+		  */
+		 public function viewers_get() {
+		 	$secondsBack = $this->uri->segment(3);
+			
+			$bar_id = $_SERVER['HTTP_BAR_ID'];
+			
+			$this->do_logging("Received a request for viewers of bar ".$bar_id." up to ".$secondsBack." seconds in the past.");
+			
+			// Get the session id and bar name from headers sent in with the request to validate the request.
+			if(!isset($_SERVER['HTTP_SESSION_ID']) || !isset($_SERVER['HTTP_BAR_NAME']) || !$this->validate_session($_SERVER['HTTP_SESSION_ID'], $_SERVER['HTTP_BAR_NAME']) ) {
+				$this->do_logging('GET for viewers failed.  Could not verify bar\'s authenticity.');
+				echo 'GET for viewers failed.  Could not verify bar\'s authenticity.';
+				return;
+			}
+			
+			$this->do_logging("Attempting to fetch realtime viewers for bar ".$bar_id);
+			
+			$this->bar_model->set_bar_id($bar_id);
+			$result = $this->bar_model->get_realtime_viewers($secondsBack);
+			
+			echo $result;
+		 }
+		 
+		 /**
 		  * Ensures that the POST request coming in to update a bar image is authentic.  By demanding
 		  * that the user includes the correct session_id and bar name along with the request we can
 		  * check those values against the database to make sure the request is coming from a logged-in

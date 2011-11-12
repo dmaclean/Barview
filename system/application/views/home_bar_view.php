@@ -1,9 +1,16 @@
-<!--<div class="page-header">
-	<h1>Broadcast to Bar-view</h1>
-</div>-->
+<!-- Run the AJAX to get the latest Realtime Viewer list every 10 seconds -->
+<script type="text/javascript">
+	setInterval( function() {
+					getRealtimeUsers('<?php echo base_url(); ?>', <?php echo $bar_id; ?>, '<?php echo $bar_name; ?>', '<?php echo $session_id; ?>', 60);
+				}, 10000 );
+</script>
 
 <div class="row">
-	<div class="span12">
+	<div class="span3">
+		<h2>Viewers</h2>
+		<ul id="realtime" class="unstyled"></ul>
+	</div>
+	<div class="span9">
 		<h2>Broadcast to Bar-view</h2>
 		<div id="broadcast" class="broadcast">			
 			<object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" width="100%" height="100%" id="barview_cam">
@@ -14,7 +21,7 @@
 				<param name="allowFullScreen" value="true" />
 				<param name="FlashVars" value="bar_name=<?php echo urlencode($bar_name); ?>&session_id=<?php echo $session_id; ?>&bar_id=<?php echo $bar_id; ?>&server_url=<?php echo base_url(); ?>index.php?/rest/barimage/<?php echo $bar_id; ?>"/>
 				<embed 	src="<?php echo base_url();?>camera/barview_cam.swf" 
-						width="700" 
+						width="500" 
 						height="400" 
 						FlashVars="bar_name=<?php echo urlencode($bar_name); ?>&session_id=<?php echo $session_id; ?>&bar_id=<?php echo $bar_id; ?>&server_url=<?php echo base_url(); ?>index.php?/rest/barimage/<?php echo $bar_id; ?>"></embed>
 				<!--<![endif]-->

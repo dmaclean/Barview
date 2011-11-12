@@ -213,6 +213,25 @@
 			return $question;
 		}
 		
+		/**
+		 * Retrieve a list of distinct users who have viewed the feed for a bar within the last minute.  The
+		 * list will be a pipe (|) separated list of email addresses.
+		 */
+		public function get_realtime_viewers($secondsBack) {
+			$sql = 'select distinct user_id from bar_image_requests where bar_id = ? and ts > date_sub(now(), interval ? second)';
+			$query = $this->db->query($sql, array($this->bar_id, $secondsBack));
+			
+			$users = '';
+			foreach($query->result() as $row) {
+				if($users == '')
+					$users = $row->user_id;
+				else
+					$users = $users.'|'.$row->user_id;
+			}
+			
+			return $users;
+		}
+		
 		/*
 		 * GETTERS
 		 */

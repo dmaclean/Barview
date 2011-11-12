@@ -87,14 +87,14 @@
 		}
 		
 		/**
-		 * Retrieve the bar_id, name, city, and state for all bars.
+		 * Retrieve the bar_id, name, city, and state for all bars that have been verified.
 		 *
 		 * Return - an array of arrays, with each inner array containing the data.
 		 */
 		private function getAllBars() {
 			$bars = array();
 			
-			$sql = 'select bar_id, name, city, state from bars';
+			$sql = 'select bar_id, name, city, state from bars where verified = 1';
 			$query = $this->db->query($sql);
 			
 			foreach($query->result() as $row) {
@@ -105,12 +105,12 @@
 		}
 		
 		/**
-		 * Retrieve the bar name and detail for each event/deal.
+		 * Retrieve the bar name and detail for each event/deal for bars that have been verified.
 		 */
 		private function getAllEvents() {
 			$events = array();
 			
-			$sql = 'select bars.name as name, detail from bars inner join barevents on bars.bar_id = barevents.bar_id';
+			$sql = 'select bars.name as name, detail from bars inner join barevents on bars.bar_id = barevents.bar_id and bars.verified = 1';
 			$query = $this->db->query($sql);
 			
 			foreach($query->result() as $row) {

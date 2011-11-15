@@ -50,8 +50,8 @@
 			$this->send_support_alert_email($this->bar_model->get_name(), $this->bar_model->get_address());
 			
 			// Send the user back to the logon page.
-			$data['create_message'] = '';
-			redirect('');
+			$this->session->set_flashdata('info_msg', 'Thanks for signing up for Barview.  You should receive a registration email shortly.  Keep in mind that you will not be able to log in until your account has been verified by the Barview staff.');
+			redirect('barhome');
 		}
 		
 		private function _submit_validation() {

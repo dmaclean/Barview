@@ -1,5 +1,7 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
+	require_once 'facebook-php-sdk/src/facebook.php';
+
 	class Barviewusermanager {
 		
 		private $session;

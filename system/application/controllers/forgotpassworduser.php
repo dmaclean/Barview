@@ -10,9 +10,25 @@
 			$this->load->helper('form');
 			
 			$this->is_bar = false;
+			
+			
+			/*
+			 * Facebook setup
+			 */
+			$this->config->load('facebook');
+			
+			$config['appId'] = $this->config->item('facebook_app_id');
+			$config['secret'] = $this->config->item('facebook_api_secret');
+			$config['cookie'] = true;
+			
+			$this->load->library('barviewusermanager', array('session' => $this->session));
+			
+			$this->barviewusermanager->processSession();
 		}
 		
 		public function index() {
+			$data['facebook'] = $this->barviewusermanager->getFacebookObject();
+		
 			// Load up any messages, if any exist.
 			if($this->session->flashdata('error_msg'))
 				$data['error_msg'] = $this->session->flashdata('error_msg');
@@ -30,6 +46,7 @@
 		}
 		
 		public function submit() {
+			$data['facebook'] = $this->barviewusermanager->getFacebookObject();
 			$data['is_bar'] = $this->is_bar;
 			$data['email'] = $this->input->post('email');
 			$data['no_hero'] = true;

@@ -7,9 +7,24 @@
 			
 			$this->load->helper('form');
 			$this->load->helper('statelist');
+
+			/*
+			 * Facebook setup
+			 */
+			$this->config->load('facebook');
+			
+			$config['appId'] = $this->config->item('facebook_app_id');
+			$config['secret'] = $this->config->item('facebook_api_secret');
+			$config['cookie'] = true;
+			
+			$this->load->library('barviewusermanager', array('session' => $this->session));
+			
+			$this->barviewusermanager->processSession();
 		}
 		
 		function index() {
+			$data['facebook'] = $this->barviewusermanager->getFacebookObject();
+		
 			$data['security_questions'] = $this->get_security_questions();
 		
 			$data['main_content'] = 'signup_view';

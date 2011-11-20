@@ -86,6 +86,7 @@
 					// Set up our session
 					$this->session->set_userdata('usertype', FACEBOOK_TYPE);
 					$this->session->set_userdata('uid', $user['uid']);
+					$this->session->set_userdata('is_logged_in', TRUE);
 			  	} catch (FacebookApiException $e) {
 					error_log($e);
 					$user = null;

@@ -7,9 +7,22 @@
 			
 			$this->load->helper('form');
 			$this->load->helper('statelist');
+			
+			$this->config->load('facebook');
+			
+			$config['appId'] = $this->config->item('facebook_app_id');
+			$config['secret'] = $this->config->item('facebook_api_secret');
+			$config['cookie'] = true;
+			
+			$this->load->library('barviewusermanager', array('session' => $this->session));
 		}
 		
 		function index() {
+			$this->barviewusermanager->processSession();
+			
+			// Make the facebook object available
+			$data['facebook'] = $this->barviewusermanager->getFacebookObject();
+		
 			$data['security_questions'] = $this->get_security_questions();
 			$data['no_hero'] = true;
 		
@@ -43,7 +56,7 @@
 			$this->send_registration_email($this->user_model->get_user_id());
 			
 			// Send the user back to the logon page.
-			$data['create_message'] = '';
+			$this->session->set_flashdata('info_msg', 'Thanks for signing up with Barview.  You should receive a registration email shortly.  Click on the "Login" link to the upper-right to login with your new account and start viewing feeds from your favorite bars.');
 			redirect('');
 		}
 		

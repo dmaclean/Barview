@@ -8,21 +8,49 @@
 		}
 		
 		function index() {
-			$sql = 'select bar_id, name, address, city, state, zip, reference from bars where verified = 0';
-			$query = $this->db->query($sql);
-			
-			$bars = array();
-			
-			foreach($query->result() as $row) {
-				$b = array($row->bar_id, $row->name, $row->address.' '.$row->city.' '.$row->state, $row->reference);
-				$bars[] = $b;
+			$data = array();
+			if($this->session->flashdata('error_msg')) {
+				$data['error_msg'] = $this->session->flashdata('error_msg');
+				log_message("debug", "flash data is ".$this->session->flashdata('error_msg'));
+			}
+			else if($this->session->flashdata('info_msg')) {
+				$data['info_msg'] = $this->session->flashdata('info_msg');
+				log_message("debug", "flash data is ".$this->session->flashdata('info_msg'));
+			}
+
+			if(!$this->session->userdata('verify_auth')) {
+				$this->load->view('includes/header', $data);
+				$this->load->view('verify_auth', $data);
+				$this->load->view('includes/footer', $data);
+			}
+			else {
+				$sql = 'select bar_id, name, address, city, state, zip, reference from bars where verified = 0';
+				$query = $this->db->query($sql);
+				
+				$bars = array();
+				
+				foreach($query->result() as $row) {
+					$b = array($row->bar_id, $row->name, $row->address.' '.$row->city.' '.$row->state, $row->reference);
+					$bars[] = $b;
+				}
+				
+				$data['bars'] = $bars;
+				
+				$this->load->view('includes/header', $data);
+				$this->load->view('verify_view', $data);
+				$this->load->view('includes/footer', $data);
+			}
+		}
+		
+		function submit() {
+			if($this->input->post('password') == 'getatme') {
+				$this->session->set_userdata('verify_auth', True);
+			}
+			else {
+				$this->session->set_flashdata('error_msg', 'Incorrect password');
 			}
 			
-			$data['bars'] = $bars;
-			
-			$this->load->view('includes/header', $data);
-			$this->load->view('verify_view', $data);
-			$this->load->view('includes/footer', $data);
+			redirect('verify');
 		}
 		
 		/**

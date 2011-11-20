@@ -76,12 +76,15 @@
 			$sql = 'select * from users where email = ?';
 			$query = $this->db->query($sql, array($this->user_id));
 			
+			$set_token = true;
+			
 			$xml = '<user>';
 			if($query->num_rows() == 1) {
 				log_message("debug", "Got a db result");
 				foreach($query->result() as $row) {
 					if($this->encrypt->decode($row->password) != $this->pass) {
-						//log_message("debug", "Password ".$this->encrypt->decode($row->password)." does not match database password ".$this->pass." for user ".$clean_username);
+						//log_message("debug", "Password ".$this->encrypt->decode($row->password)." does not match database password ".$this->pass." for user ".$this->user_id);
+						$set_token = false;
 						continue;
 					}
 					$xml = $xml.'<firstname>'.$row->first_name.'</firstname>';
@@ -92,9 +95,11 @@
 					$xml = $xml.'<state>'.$row->state.'</state>';
 				}
 				
-				$token = $this->insert_mobile_token();
-				
-				$xml = $xml.'<token>'.$token.'</token>';
+				if($set_token) {
+					$token = $this->insert_mobile_token();
+					
+					$xml = $xml.'<token>'.$token.'</token>';
+				}
 			}
 			$xml = $xml.'</user>';
 			

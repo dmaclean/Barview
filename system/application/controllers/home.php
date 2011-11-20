@@ -1,4 +1,7 @@
 <?php 
+	
+	require 'facebook-php-sdk/src/facebook.php';
+
 	class Home extends CI_Controller {
 		function Home() {
 			parent::__construct();
@@ -9,10 +12,8 @@
 			$config['secret'] = $this->config->item('facebook_api_secret');
 			$config['cookie'] = true;
 			
-			//load Facebook php-sdk library with $config[] options
-			$this->load->library('facebook', $config); 
 			$this->load->library('barviewusermanager', array('session' => $this->session));
-			
+
 			$this->load->helper('form');
 		}
 	
@@ -23,7 +24,7 @@
 				print_r( $this->session->userdata);
 				
 			// Make the facebook object available
-			$data['facebook'] = $this->facebook;
+			$data['facebook'] = $this->barviewusermanager->getFacebookObject();
 			
 			if($this->session->flashdata('error_msg')) {
 				$data['error_msg'] = $this->session->flashdata('error_msg');

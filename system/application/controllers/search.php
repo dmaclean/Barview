@@ -4,6 +4,16 @@
 			parent::__construct();
 			
 			$this->load->helper('form');
+			
+			$this->config->load('facebook');
+			
+			$config['appId'] = $this->config->item('facebook_app_id');
+			$config['secret'] = $this->config->item('facebook_api_secret');
+			$config['cookie'] = true;
+			
+			$this->load->library('barviewusermanager', array('session' => $this->session));
+			
+			$this->barviewusermanager->processSession();
 		}
 		
 		function index() {
@@ -11,6 +21,8 @@
 		}
 		
 		function submit() {
+			$data['facebook'] = $this->barviewusermanager->getFacebookObject();
+		
 			$this->load->model('user_model');
 		
 			$clean_param = $this->db->escape('%'.$this->input->post('search').'%');

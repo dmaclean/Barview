@@ -1,5 +1,9 @@
 <?php
+
+	require 'facebook-php-sdk/src/facebook.php';
+
 	class Logout extends CI_Controller {
+	
 		function Logout() {
 			parent::__construct();
 			
@@ -8,8 +12,6 @@
 			$config['appId'] = $this->config->item('facebook_app_id');
 			$config['secret'] = $this->config->item('facebook_api_secret');
 			$config['cookie'] = true;
-			
-			$this->load->library('facebook', $config);
 		}
 		
 		function index() {
@@ -17,7 +19,12 @@
 			 * We're logging out a Facebook user.
 			 */
 			if($this->session->userdata('usertype') == FACEBOOK_TYPE) {
-				$this->facebook->setSession(null);
+				$facebook = new Facebook(array(
+				  'appId'  => $this->config->item('facebook_app_id'),
+				  'secret' => $this->config->item('facebook_api_secret'),
+				));
+			
+				$facebook->destroySession();
 				log_message("debug", "Logout - set facebook session to null.");
 				
 			}

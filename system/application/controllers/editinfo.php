@@ -1,4 +1,7 @@
 <?php
+
+	require 'system/application/controllers/bvbase.php';
+
 	class Editinfo extends CI_Controller {
 		private $is_bar;
 	
@@ -15,9 +18,22 @@
 				$this->load->model('bar_model');
 			else
 				$this->load->model('user_model');
+				
+				
+			$this->config->load('facebook');
+			
+			$config['appId'] = $this->config->item('facebook_app_id');
+			$config['secret'] = $this->config->item('facebook_api_secret');
+			$config['cookie'] = true;
+			
+			$this->load->library('barviewusermanager', array('session' => $this->session));
+			
+			$this->barviewusermanager->processSession();
 		}
 		
 		function index() {
+			$data['facebook'] = $this->barviewusermanager->getFacebookObject();
+		
 			// Is the request from a logged in barview user?  If not, back to the homepage because
 			// they are URL hacking.
 			if(!$this->is_barview_user() && !$this->session->userdata('bar_id'))

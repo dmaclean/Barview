@@ -10,6 +10,7 @@
 			$this->load->model('favorite_model');
 			$this->load->model('barevent_model');
 			$this->load->model('barimagerequest_model');
+			$this->load->model('user_model');
 		}
 	
 		/**
@@ -201,17 +202,39 @@
 			echo $xml;
 		 }
 		 
-		 /**
+		 /******************************************************************************************
 		  * EVENTS
 		  *
 		  * The REST interface for servicing events requests will satisfy the following needs:
 		  *
+		  * - GET requests to fetch all events going on for a user's favorite bars.
 		  * - POST requests to add a new event for a bar
 		  * - DELETE requests to delete an existing event for a bar.  The bar needs to own this
 		  *				event for it to be deleted.
-		  *
-		  * The interface will not respond to any GET requests.
-		  */
+		  *****************************************************************************************/
+		
+		public function events_get() {
+			if(!isset($_SERVER['HTTP_USER_ID'])) {
+				echo '<?xml version="1.0" encoding="UTF-8" ?><error>Please specify a USER_ID header.</error>';
+				$this->do_logging("No USER_ID header found in events GET request.");
+				return;
+			}
+			$user_id = $_SERVER['HTTP_USER_ID'];
+			$this->do_logging("Received a request for events from user ".$user_id);
+			
+			// Get the deals/events relevant to our user
+			$this->user_model->set_user_id($user_id);		// Just set the id instead of doing select() to save a DB call.
+			$events = $this->user_model->get_relevant_events();
+			
+			$xml = '<?xml version="1.0" encoding="UTF-8" ?><events>';
+			
+			foreach($events as $e)
+				$xml = $xml.'<event><bar>'.$e['name'].'</bar><detail>'.$e['detail'].'</detail></event>';
+			
+			$xml = $xml.'</events>';
+			echo $xml;
+		}
+		
 		 public function events_post() {
 		 	$bar_id = $this->uri->segment(3);
 			$this->do_logging("Received an event update from bar ".$bar_id);

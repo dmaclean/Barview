@@ -173,6 +173,21 @@
 		}
 		
 		/**
+		 * Convenience function that fetches all the events/deals that the user's favorite bars are having.
+		 */
+		public function get_relevant_events() {
+			$events = array();
+			
+			$sql = 'select b.name as name, be.detail as detail from favorites f inner join barevents be on f.bar_id = be.bar_id inner join bars b on be.bar_id = b.bar_id where f.user_id = ?';
+			$query = $this->db->query($sql, array($this->user_id));
+			
+			foreach($query->result() as $row)
+				$events[] = array('name' => $row->name, 'detail' => $row->detail);
+			
+			return $events;
+		}
+		
+		/**
 		 * Check to see if the proposed email is already registered.
 		 *
 		 * @param username 	- The email to check for.

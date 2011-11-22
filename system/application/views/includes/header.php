@@ -9,7 +9,7 @@
 	<link rel="stylesheet" href="http://twitter.github.com/bootstrap/1.3.0/bootstrap.min.css">
 	<link rel="shortcut icon" type="image/x-icon" href="<?php echo base_url();?>favicon.ico">
 	
-	<script type="text/javascript" src="<?php echo base_url();?>javascript/cufon.js"></script>
+	<!--<script type="text/javascript" src="<?php echo base_url();?>javascript/cufon.js"></script>-->
 	<script type="text/javascript" src="<?php echo base_url();?>javascript/jquery.js"></script>
 	<script type="text/javascript" src="<?php echo base_url();?>javascript/fancybox/jquery.fancybox-1.3.4.js"></script>
 	<script type="text/javascript" src="<?php echo base_url();?>javascript/barview.js"></script> 

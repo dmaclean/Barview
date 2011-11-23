@@ -6,19 +6,5 @@
 </div>
 <!-- End footer -->
 
-	<!-- Begin scripts -->
-	<script type="text/javascript" src="<?php echo base_url(); ?>javascript/localscroll.js"></script>
-	<script type="text/javascript" src="<?php echo base_url(); ?>javascript/scrollto.js"></script>
-	<script type="text/javascript" src="<?php echo base_url(); ?>javascript/easing.js"></script>
-	<script type="text/javascript" src="<?php echo base_url(); ?>javascript/cufon.js"></script>
-	<script type="text/javascript" src="<?php echo base_url(); ?>javascript/qk.font.js"></script>
-	<script type="text/javascript" src="<?php echo base_url(); ?>javascript/global.js"></script>
-
-	</div>
-	<!-- End pageWrapper -->
-
-
-
-
 </body>
 </html> 

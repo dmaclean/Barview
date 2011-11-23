@@ -25,7 +25,7 @@
 						</h3>
 					</div>
 					<div class="search_bar_address"><?php echo $row[2]; ?></div>
-					<div><img id="<?php echo $row[0]; ?>" class="bar_image" src="broadcast_images/<?php echo $row[0]; ?>.jpg?<?php echo rand(0, getrandmax()); ?>"/></div>
+					<div><img id="<?php echo $row[0]; ?>" class="bar_image" src="<?php echo base_url(); ?>index.php?/getimage/index/<?php echo $row[0]; ?>"/></div>
 					<?php if($this->session->userdata('is_logged_in')) { ?>
 					
 						<?php if(isset($favorites[$row[0]])) { ?>

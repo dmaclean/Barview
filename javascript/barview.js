@@ -1,7 +1,11 @@
 var interval = 0;
 var timer = -1;
+var base_url = '';
 
 $(document).ready(function(){
+ 
+ 	// Grab the base_url for the refreshSearchImages function (and any others that might need it).
+ 	base_url = $('#base_url').text();
  
  	/**
  	 * Determine if we are on the search page by looking for entities with class="bar_image".  This
@@ -21,17 +25,14 @@ $(document).ready(function(){
  	 * This function will be used in conjunction with an interval.
  	 */
 	function refreshSearchImages() {
-
 		$('.bar_image').each(
 			function(index) {
 				var id = $(this).attr('id');
 				var d = new Date();
-				var newsrc = 'broadcast_images/' + id + '.jpg?'+d.getTime();
+				var newsrc = base_url + 'index.php?/getimage/index/' + id + '?'+d.getTime();
 				$(this).attr('src', newsrc);
 			}
 		);
-		
-		//alert('piss');
 	}
 	
 	// Refresh images on the search page every 5 seconds.

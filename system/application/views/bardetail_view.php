@@ -13,7 +13,7 @@
 		
 		<div class="span6 columns">
 			<h2>Current Feed</h2>
-			<div><img id="<?php echo $bar_id; ?>" class="bar_image" src="<?php echo base_url(); ?>broadcast_images/<?php echo $bar_id; ?>.jpg?<?php echo rand(0, getrandmax()); ?>"/></div>
+			<div><img id="<?php echo $bar_id; ?>" class="bar_image" src="<?php echo base_url(); ?>index.php?/getimage/index/<?php echo $bar_id; ?>"/></div>
 			<?php if($this->session->userdata('is_logged_in')) { ?>					
 				<?php if(isset($favorites[$bar_id])) { ?>
 					<a class="btn danger" id="<?php echo $bar_id;?>_favorite" onclick="removeFromFavorites('<?php echo base_url(); ?>', <?php echo $bar_id; ?>, '<?php echo $this->session->userdata('uid'); ?>');">Remove from favorites</a>

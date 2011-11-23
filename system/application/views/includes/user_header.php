@@ -16,7 +16,7 @@
 </head> 
  
 <body <?php if(isset($no_hero)) { echo "style='padding-top: 50px;'"; } ?>>
-	
+	<div id="base_url" style="display:none"><?php echo base_url(); ?></div>
 	<div class="topbar">
 		<div class="fill">
 			<div class="container">

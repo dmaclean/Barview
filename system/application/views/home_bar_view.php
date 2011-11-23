@@ -14,13 +14,13 @@
 		<h2>Broadcast to Bar-view</h2>
 		<div id="broadcast" class="broadcast">			
 			<object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" width="100%" height="100%" id="barview_cam">
-				<param name="movie" value="<?php echo base_url();?>camera/barview_cam.swf" />
+				<param name="movie" value="<?php echo base_url();?>camera/barview_cam.swf?<?php echo rand(0, getrandmax()); ?>" />
 				<param name="quality" value="high" />
 				<param name="bgcolor" value="#ffffff" />
 				<param name="allowScriptAccess" value="sameDomain" />
 				<param name="allowFullScreen" value="true" />
 				<param name="FlashVars" value="bar_name=<?php echo urlencode($bar_name); ?>&session_id=<?php echo $session_id; ?>&bar_id=<?php echo $bar_id; ?>&server_url=<?php echo base_url(); ?>index.php?/rest/barimage/<?php echo $bar_id; ?>"/>
-				<embed 	src="<?php echo base_url();?>camera/barview_cam.swf" 
+				<embed 	src="<?php echo base_url();?>camera/barview_cam.swf?<?php echo rand(0, getrandmax()); ?>" 
 						width="500" 
 						height="400" 
 						FlashVars="bar_name=<?php echo urlencode($bar_name); ?>&session_id=<?php echo $session_id; ?>&bar_id=<?php echo $bar_id; ?>&server_url=<?php echo base_url(); ?>index.php?/rest/barimage/<?php echo $bar_id; ?>"></embed>

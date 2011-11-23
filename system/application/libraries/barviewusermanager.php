@@ -92,6 +92,8 @@
 					$user = null;
 			  	}
 			}
+			
+			log_message("debug", "Done processing the session");
 		}
 	}
 ?>

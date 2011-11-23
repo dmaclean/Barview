@@ -17,7 +17,9 @@
 				$bar = $b['name'];
 				$location = '('.$b['city'].', '.$b['state'].')';
 				?>
-				<li><h4><?php echo $bar; ?></h4><?php echo $location; ?></li>
+				<li>
+					<h4><a href="<?php echo base_url(); ?>index.php?/bardetail/index/<?php echo $b['bar_id']; ?>"><?php echo $bar; ?></a></h4><?php echo $location; ?>
+				</li>
 			<?php } ?>
 			</ul>
 		</div>

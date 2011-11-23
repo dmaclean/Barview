@@ -21,6 +21,11 @@
 		
 		function index() {
 			$data['facebook'] = $this->barviewusermanager->getFacebookObject();
+			
+			// No URL hacking!  If the user isn't logged in then send them to the home page.
+			if(!$this->session->userdata('uid')) {
+				redirect('/');
+			}
 
 			$bar_id = $this->uri->segment(3);
 			

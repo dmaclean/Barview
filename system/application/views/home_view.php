@@ -18,7 +18,14 @@
 				$location = '('.$b['city'].', '.$b['state'].')';
 				?>
 				<li>
-					<h4><a href="<?php echo base_url(); ?>index.php?/bardetail/index/<?php echo $b['bar_id']; ?>"><?php echo $bar; ?></a></h4><?php echo $location; ?>
+					<h4>
+						<?php if($this->session->userdata('uid')) { ?>
+							<a href="<?php echo base_url(); ?>index.php?/bardetail/index/<?php echo $b['bar_id']; ?>"><?php echo $bar; ?></a>
+						<?php } else { ?>
+							<a class="user_login" href="#data"><?php echo $bar; ?></a>
+						<?php } ?>
+					</h4>
+					<?php echo $location; ?>
 				</li>
 			<?php } ?>
 			</ul>

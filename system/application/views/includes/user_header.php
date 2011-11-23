@@ -37,7 +37,7 @@
 				<ul class="nav secondary-nav">
 					<?php if(!$this->session->userdata('uid')) { ?>
 						<li><a href="<?php echo base_url();?>index.php?/barhome">Bars</a></li>
-						<li><a id="user_login" href="#data">Login</a></li>
+						<li><a class="user_login" href="#data">Login</a></li>
 					<!-- FACEBOOK Logout -->
 					<?php } else if($this->session->userdata('usertype') == FACEBOOK_TYPE) { ?>
 						<li>

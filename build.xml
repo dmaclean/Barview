@@ -18,7 +18,7 @@
 		
 		<echo>Copying project into ${build.dir}</echo>
 		<copy todir="${build.dir}">
-			<fileset dir="${basedir}" excludes="${logfiles}, ${build.dir}, ${dist.dir}, ${broadcast.dir}, build.xml, build.properties, **/test*.php" />
+			<fileset dir="${basedir}" excludes="${logfiles}, ${build.dir}, ${dist.dir}, ${broadcast.dir}, build.xml, build.properties" />
 		</copy>
 	</target>
 	
@@ -33,13 +33,23 @@
 	<target name="demo" depends="init">
 		<copy file="${demo.database.config}" tofile="${database.config}" overwrite="true"/>
 		<copy file="${demo.config}" tofile="${config}" overwrite="true"/>
+		<copy file="${facebook_demo.config}" tofile="${facebook.config}" overwrite="true"/>
 		
 		<antcall target="zip_demo"/>
+	</target>
+	
+	<target name="test" depends="init">
+		<copy file="${test.database.config}" tofile="${database.config}" overwrite="true"/>
+		<copy file="${test.config}" tofile="${config}" overwrite="true"/>
+		<copy file="${facebook_test.config}" tofile="${facebook.config}" overwrite="true"/>
+		
+		<antcall target="zip_test"/>
 	</target>
 	
 	<target name="prod" depends="init">
 		<copy file="${prod.database.config}" tofile="${database.config}" overwrite="true"/>
 		<copy file="${prod.config}" tofile="${config}" overwrite="true"/>
+		<copy file="${facebook_prod.config}" tofile="${facebook.config}" overwrite="true"/>
 	
 		<antcall target="zip_prod"/>
 	</target>
@@ -52,5 +62,8 @@
 	</target>
 	<target name="zip_demo">
 		<zip destfile="${dist.dir}/${zip.demo}" basedir="${build.dir}"/>
+	</target>
+	<target name="zip_test">
+		<zip destfile="${dist.dir}/${zip.test}" basedir="${build.dir}"/>
 	</target>
 </project>

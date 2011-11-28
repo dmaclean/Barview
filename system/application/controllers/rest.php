@@ -295,7 +295,7 @@
 			// Get the session id and bar name from headers sent in with the request to validate the request.
 			if(!isset($_SERVER['HTTP_SESSION_ID']) || !isset($_SERVER['HTTP_BAR_NAME']) || !$this->validate_session($_SERVER['HTTP_SESSION_ID'], $_SERVER['HTTP_BAR_NAME']) ) {
 				$this->do_logging('GET for viewers failed.  Could not verify bar\'s authenticity.');
-				echo 'GET for viewers failed.  Could not verify bar\'s authenticity.';
+				echo 'Unable to retrieve real-time viewers.';
 				return;
 			}
 			

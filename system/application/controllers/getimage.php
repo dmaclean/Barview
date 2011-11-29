@@ -29,11 +29,25 @@
 			
 			// Write header
 			header("Content-type: image/jpeg");
-			header("Cache-Control: no-cache, must-revalidate"); // HTTP/1.1
-			header("Expires: Sat, 26 Jul 1997 05:00:00 GMT"); // Date in the past
 			
 			$path = base_url() . 'broadcast_images/';
-			echo file_get_contents($path.$bar_id.".jpg");
+			$exists = file_exists('broadcast_images/'.$bar_id.".jpg");
+			
+			log_message("debug", "Could we find " . 'broadcast_images/'.$bar_id.".jpg? - " . $exists);
+			
+			/*
+			 * Depending on whether the bar image exists or not, we will set expiration headers
+			 * and grab the specific image, or we'll just give the user the default barview image.
+			 */
+			if($exists) {
+				header("Cache-Control: no-cache, must-revalidate"); // HTTP/1.1
+				header("Expires: Sat, 26 Jul 1997 05:00:00 GMT"); // Date in the past
+				echo file_get_contents($path.$bar_id.".jpg");
+			}
+			else {
+				echo file_get_contents($path."barview.jpg");
+			}
+			
 		}
 	}
 ?>

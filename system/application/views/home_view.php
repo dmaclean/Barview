@@ -62,9 +62,11 @@
 				<?php if(isset($no_favorites) && $no_favorites) { ?>
 					You don't have any favorite bars yet, so we'll show you some events and deals for random bars.
 				<?php } ?>
-				<?php foreach($events as $e) {   ?>
-					<dt><?php echo $e['name'];?></dt>
-					<dd><?php echo $e['detail'];?></dd>
+				<?php foreach($events as $bar => $deals) {   ?>
+					<dt><?php echo $bar;?></dt>
+						<?php foreach($deals as $d) { ?>
+							<dd><?php echo $d;?></dd>
+						<?php } ?>
 				<?php } ?>
 			</dl>
 		</div>

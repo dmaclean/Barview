@@ -22,7 +22,7 @@
 		
 			if(DEV_MODE)
 				print_r( $this->session->userdata);
-				
+			
 			// Make the facebook object available
 			$data['facebook'] = $this->barviewusermanager->getFacebookObject();
 			
@@ -115,7 +115,13 @@
 			$query = $this->db->query($sql);
 			
 			foreach($query->result() as $row) {
-				$events[] = array('name' => $row->name, 'detail' => $row->detail);
+				// We already have this bar
+				if(isset($events[$row->name])) 
+					$events[$row->name][] = $row->detail;
+				else {
+					$arr = array($row->detail);
+					$events[$row->name] = $arr;
+				}
 			}
 			
 			return $events;
@@ -127,13 +133,17 @@
 		private function getEventsForFavorites($uid) {
 			$events = array();
 			
-			$clean_uid = $this->db->escape($uid);
-			
-			$sql = 'select bars.name as name, detail from bars inner join favorites on bars.bar_id = favorites.bar_id inner join barevents on bars.bar_id = barevents.bar_id where favorites.user_id = '.$clean_uid;
-			$query = $this->db->query($sql);
+			$sql = 'select bars.name as name, detail from bars inner join favorites on bars.bar_id = favorites.bar_id inner join barevents on bars.bar_id = barevents.bar_id where favorites.user_id = ?';
+			$query = $this->db->query($sql, array($uid));
 			
 			foreach($query->result() as $row) {
-				$events[] = array('name' => $row->name, 'detail' => $row->detail);
+				// We already have this bar
+				if(isset($events[$row->name])) 
+					$events[$row->name][] = $row->detail;
+				else {
+					$arr = array($row->detail);
+					$events[$row->name] = $arr;
+				}
 			}
 			
 			return $events;

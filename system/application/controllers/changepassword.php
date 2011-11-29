@@ -41,7 +41,7 @@
 			// Edit Info page.
 			if($this->_submit_validation() == false) {
 				log_message("debug", "Validation failed.  Redirecting back to /editinfo");
-				$this->session->set_flashdata('error_msg', validation_errors());
+				$this->session->set_flashdata('error_msg', "Unable to change password.  Please make sure your current password is correct and your new password matches the confirmation.");
 				redirect('/editinfo');
 				
 				return;

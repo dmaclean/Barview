@@ -1,7 +1,5 @@
 <?php
 
-	require 'system/application/controllers/bvbase.php';
-
 	class Editinfo extends CI_Controller {
 		private $is_bar;
 	
@@ -76,8 +74,13 @@
 		function submit() {
 			// Perform input validation.
 			if($this->_submit_validation() == false) {
-				$this->index();
-				return;
+				if($this->is_bar)
+					$this->session->set_flashdata("error_msg", "There was one or more errors updating your information.  Please make sure all fields are filled in and you have a proper email address.");
+				else
+					$this->session->set_flashdata("error_msg", "There was one or more errors updating your information.  Please make sure all fields are filled in and you have a proper email address.");
+				redirect('editinfo');
+				//$this->index();
+				//return;
 			}
 			
 			if($this->is_bar) {

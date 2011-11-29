@@ -26,6 +26,15 @@
 			$data['facebook'] = $this->barviewusermanager->getFacebookObject();
 		
 			$data['security_questions'] = $this->get_security_questions();
+			
+			if($this->session->flashdata('error_msg')) {
+				$data['error_msg'] = $this->session->flashdata('error_msg');
+				log_message("debug", "flash data is ".$this->session->flashdata('error_msg'));
+			}
+			else if($this->session->flashdata('info_msg')) {
+				$data['info_msg'] = $this->session->flashdata('info_msg');
+				log_message("debug", "flash data is ".$this->session->flashdata('info_msg'));
+			}
 		
 			$data['main_content'] = 'signup_view';
 			$this->load->view('/includes/template', $data);	
@@ -34,8 +43,8 @@
 		function submit() {
 			// Perform input validation.
 			if($this->_submit_validation() == false) {
-				$this->index();
-				return;
+				$this->session->set_flashdata("error_msg", "There were errors with your submission.  Please make sure all fields are filled in, you have a proper email address, the passwords match, and you have agreed to the Bar-view Terms of Service.");
+				redirect('signup');
 			}
 			
 			$this->load->model('bar_model');

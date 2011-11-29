@@ -25,17 +25,26 @@
 		
 			$data['security_questions'] = $this->get_security_questions();
 			$data['no_hero'] = true;
+			
+			if($this->session->flashdata('error_msg')) {
+				$data['error_msg'] = $this->session->flashdata('error_msg');
+				log_message("debug", "flash data is ".$this->session->flashdata('error_msg'));
+			}
+			else if($this->session->flashdata('info_msg')) {
+				$data['info_msg'] = $this->session->flashdata('info_msg');
+				log_message("debug", "flash data is ".$this->session->flashdata('info_msg'));
+			}
 		
-			$this->load->view('/includes/user_header', $data);
+			$this->load->view('includes/user_header', $data);
 			$this->load->view('user_signup_view', $data);
-			$this->load->view('/includes/footer', $data);
+			$this->load->view('includes/footer', $data);
 		}
 		
 		function submit() {
 			// Perform input validation.
 			if($this->_submit_validation() == false) {
-				$this->index();
-				return;
+				$this->session->set_flashdata("error_msg", "There were errors with your submission.  Please make sure all fields are filled in, you have a proper email address, and the passwords match.");
+				redirect('usersignup');
 			}
 			
 			$this->load->model('user_model');
@@ -70,8 +79,7 @@
 			$this->form_validation->set_rules('city', 'City', 'trim|required|alpha');
 			$this->form_validation->set_rules('state', 'State', 'trim|required|alpha');
 			$this->form_validation->set_rules('security_question', 'Security Question', 'trim|required');
-			$this->form_validation->set_rules('security_answer', 'Security Answer', 'trim|required');
-			
+			$this->form_validation->set_rules('security_answer', 'Security Answer', 'trim|required');			
 			
 			return $this->form_validation->run();
 		}

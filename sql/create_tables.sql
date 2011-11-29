@@ -5,7 +5,7 @@
 DROP TABLE IF EXISTS `bars`;
 CREATE TABLE `bars` (
   bar_id int(11) NOT NULL AUTO_INCREMENT,
-  name varchar(20) NOT NULL,
+  name varchar(50) NOT NULL,
   address varchar(40) NOT NULL,
   city varchar(20) NOT NULL,
   state varchar(2) NOT NULL,
@@ -95,6 +95,8 @@ user_data text DEFAULT '' NOT NULL,
 bar_name varchar(20) DEFAULT '' NOT NULL,
 PRIMARY KEY (session_id)
 );
+CREATE INDEX last_activity_idx ON ci_sessions(last_activity); 
+ALTER TABLE ci_sessions MODIFY user_agent VARCHAR(120); /* CI 2.0.3 update */
 
 /**************************************
    Account security question tables

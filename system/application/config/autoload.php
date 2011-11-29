@@ -111,6 +111,9 @@ $autoload['language'] = array();
 $autoload['model'] = array();
 
 
+$autoload['packages'] = array();
+
+
 
 /* End of file autoload.php */
 /* Location: ./system/application/config/autoload.php */

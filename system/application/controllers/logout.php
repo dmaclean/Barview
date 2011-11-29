@@ -28,12 +28,20 @@
 				log_message("debug", "Logout - set facebook session to null.");
 				
 			}
+			
+			/*
+			 * Is this a bar?  If so, redirect them back to the bar landing page.
+			 */
+			$redirect = 'home';
+			if($this->session->userdata('bar_id'))
+				$redirect = 'barhome';
+				
 		
 			log_message("debug", "Logout - about to destroy the session.");
 			$this->session->unset_userdata(array('uid' => '', 'usertype' => ''));
 			$this->session->sess_destroy();
 
-			redirect('/home');
+			redirect($redirect);
 		}
 	}
 ?>

@@ -1,7 +1,7 @@
 <!-- Run the AJAX to get the latest Realtime Viewer list every 10 seconds -->
 <script type="text/javascript">
 	setInterval( function() {
-					getRealtimeUsers('<?php echo base_url(); ?>', <?php echo $bar_id; ?>, '<?php echo $bar_name; ?>', '<?php echo $session_id; ?>', 60);
+					getRealtimeUsers("<?php echo base_url(); ?>", <?php echo $bar_id; ?>, "<?php echo $bar_name; ?>", "<?php echo $session_id; ?>", 60);
 				}, 10000 );
 </script>
 
@@ -34,13 +34,13 @@
 		<dl id="bar_events_list">
 			<?php foreach($events as $e) { ?>
 				<dt id="event_<?php echo $e['id'] ?>"><?php echo $e['detail']; ?></dt>
-				<dd id="event_<?php echo $e['id'];?>_a"><a class="btn small danger"  onclick="deleteEvent('<?php echo base_url(); ?>', <?php echo $e['id']; ?>, <?php echo $bar_id; ?>, '<?php echo $bar_name; ?>', '<?php echo $session_id; ?>');">delete</a></dd>
+				<dd id="event_<?php echo $e['id'];?>_a"><a class="btn small danger"  onclick="deleteEvent('<?php echo base_url(); ?>', <?php echo $e['id']; ?>, <?php echo $bar_id; ?>, '<?php echo addslashes($bar_name); ?>', '<?php echo $session_id; ?>');">delete</a></dd>
 			<?php } ?>
 		</dl>
 		<div class="bar_events_edit">
 			<textarea id="event_text" name="event_text" rows="5"></textarea><br/>
 			<button class="btn primary" type="button" id="submit" name="submit" value="Add new event or deal." 
-							onclick="addEvent('<?php echo base_url(); ?>', $('#event_text').val(), <?php echo $bar_id; ?>, '<?php echo $bar_name; ?>', '<?php echo $session_id; ?>');">Add new event or deal.</button>
+							onclick="addEvent('<?php echo base_url(); ?>', $('#event_text').val(), <?php echo $bar_id; ?>, '<?php echo addslashes($bar_name); ?>', '<?php echo $session_id; ?>');">Add new event or deal.</button>
 		</div>
 	</div>
 		

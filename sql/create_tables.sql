@@ -92,7 +92,7 @@ ip_address varchar(16) DEFAULT '0' NOT NULL,
 user_agent varchar(50) NOT NULL,
 last_activity int(10) unsigned DEFAULT 0 NOT NULL,
 user_data text DEFAULT '' NOT NULL,
-bar_name varchar(20) DEFAULT '' NOT NULL,
+bar_name varchar(50) DEFAULT '' NOT NULL,
 PRIMARY KEY (session_id)
 );
 CREATE INDEX last_activity_idx ON ci_sessions(last_activity); 

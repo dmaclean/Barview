@@ -182,8 +182,14 @@ function getRealtimeUsers(base_url, bar_id, bar_name, session_id, seconds_back) 
 					
 					// Parse out the data and append to the list.
 					var items = data.split("|");
-					for(i in items)
-						$('#realtime').append('<li>' + items[i] + '</li>');
+					
+					if(items == '') {
+						$('#realtime').append('<div>No viewers currently</div>');
+					}
+					else {
+						for(i in items)
+							$('#realtime').append('<li>' + items[i] + '</li>');
+					}
 				}
 	});
 }

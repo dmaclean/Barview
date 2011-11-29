@@ -8,7 +8,7 @@
 <div class="row">
 	<div class="span3">
 		<h2>Viewers</h2>
-		<ul id="realtime" class="unstyled"></ul>
+		<ul id="realtime" class="unstyled"><div>Finding realtime viewers...</div></ul>
 	</div>
 	<div class="span9">
 		<h2>Broadcast to Bar-view</h2>

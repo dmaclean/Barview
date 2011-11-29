@@ -6,7 +6,7 @@
 				<label for="name">Bar Name: </label>
 				<div class="input">
 					<?php 
-						$options = array('class' => 'xlarge', 'type'=>'text', 'id' => 'name', 'name' => 'name', 'maxlength'=>20);
+						$options = array('class' => 'xlarge', 'type'=>'text', 'id' => 'name', 'name' => 'name', 'maxlength'=>50);
 						echo form_input($options, set_value('name'));
 					?>
 				</div>

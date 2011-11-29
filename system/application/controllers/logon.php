@@ -15,8 +15,8 @@
 		}
 		
 		public function submit() {
-			if($this->_submit_validation() === FALSE) {
-				$this->session->set_flashdata('error_msg', validation_errors());
+			if($this->_submit_validation() == FALSE) {
+				$this->session->set_flashdata('error_msg', "Invalid login.  Please try again.<br/><br/>Please note that if your registration has not been verified yet then you won't be able to log in.");
 				redirect('/barhome');
 			}
 			

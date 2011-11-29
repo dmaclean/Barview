@@ -136,9 +136,8 @@
 				if($this->encrypt->decode($this->password) == $this->input->post('password'))
 					return true;
 			}
-			else {
-				return false;
-			}
+
+			return false;
 		}
 		
 		/**

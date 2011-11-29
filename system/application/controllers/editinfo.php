@@ -85,10 +85,12 @@
 			
 			if($this->is_bar) {
 				$this->process_bar();
+				$this->session->set_flashdata("info_msg", "Your information was successfully updated.");
 				redirect('barhome');
 			}
 			else {
 				$this->process_user();
+				$this->session->set_flashdata("info_msg", "Your information was successfully updated.");
 				redirect('');
 			}
 		}

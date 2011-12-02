@@ -22,6 +22,18 @@
 		
 			if(DEV_MODE)
 				print_r( $this->session->userdata);
+				
+			/*
+			 * Check if we're dealing with a bar.  If so, redirect them to /barhome
+			 */
+			if($this->barviewusermanager->isBar()) {
+				$this->session->set_flashdata("info_msg", "If you would like to view the main Barview page, log out first, then click the 'Users' link.");
+				redirect('barhome');
+			}
+			
+			/*
+			 * Not a bar, keep going...
+			 */
 			
 			// Make the facebook object available
 			$data['facebook'] = $this->barviewusermanager->getFacebookObject();

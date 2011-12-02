@@ -21,6 +21,10 @@
 
 			$this->session = $params['session'];
 		}
+		
+		public function isBar() {
+			return $this->session->userdata('bar_id');
+		}
 	
 		public function getUserType() {
 			return $this->session->userdata('usertype');

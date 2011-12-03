@@ -132,7 +132,7 @@
 			$message = $message."Go to http://www.bar-view.com and click the 'Login' link to begin personalizing your bar-view.com experience.";
 			$message = $message."- The bar-view.com staff";
 			
-			$from = 'support@bar-view.com';
+			$from = $this->config->item('support_email');
 			$headers = 'From:'.$from;
 			
 			if(mail($email, $subject, $message, $headers))

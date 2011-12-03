@@ -79,7 +79,7 @@
 			$message = $message."You can now log in with your account (".$username.") and begin streaming.\n\n\n";
 			$message = $message."- The bar-view.com staff";
 			
-			$from = 'support@bar-view.com';
+			$from = $this->config->item('support_email');;
 			$headers = 'From:'.$from;
 			
 			if(mail($email, $subject, $message, $headers))

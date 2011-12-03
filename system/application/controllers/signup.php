@@ -158,8 +158,7 @@
 			$message = $message."into your account (".$username.") and begin streaming!\n\n\n";
 			$message = $message."- The bar-view.com staff";
 			
-			//$from = 'support@bar-view.com';
-			$from = 'barviewllc@gmail.com';
+			$from = $this->config->item('support_email');
 			$headers = 'From:'.$from;
 			
 			if(mail($email, $subject, $message, $headers))
@@ -177,10 +176,8 @@
 			$message = $name." has registered for bar-view.com.\n\n";
 			$message = $message."Go to http://bar-view.com/index.php?/verify to look at their business reference and verify them.";
 			
-			//$to = "support@bar-view.com";
-			$to = "barviewllc@gmail.com";
-			//$from = 'support@bar-view.com';
-			$from = 'barviewllc@gmail.com';
+			$to = $this->config->item('support_email');
+			$from = $this->config->item('support_email');
 			$headers = 'From:'.$from;
 			
 			if(mail($to, $subject, $message, $headers))

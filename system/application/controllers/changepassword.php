@@ -41,7 +41,7 @@
 			// Edit Info page.
 			if($this->_submit_validation() == false) {
 				log_message("debug", "Validation failed.  Redirecting back to /editinfo");
-				$this->session->set_flashdata('error_msg', "Unable to change password.  Please make sure your current password is correct and your new password matches the confirmation.");
+				$this->session->set_flashdata('error_msg', validation_errors());
 				redirect('/editinfo');
 				
 				return;
@@ -77,11 +77,10 @@
 		 * currently stored in the database.
 		 */
 		public function matches_current_password() {
-			log_message("debug", "Current password is ".$this->current_password." and form field is ".$this->input->post('password'));
 			if($this->input->post('password') == $this->encrypt->decode($this->current_password))
 				return true;
 			else {
-				$this->form_validation->set_message('matches_current_password', 'The password entered does not match the the current password.');
+				$this->form_validation->set_message('matches_current_password', 'The password entered does not match the current password.');
 				return false;
 			}
 				

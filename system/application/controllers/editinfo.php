@@ -74,13 +74,8 @@
 		function submit() {
 			// Perform input validation.
 			if($this->_submit_validation() == false) {
-				if($this->is_bar)
-					$this->session->set_flashdata("error_msg", "There was one or more errors updating your information.  Please make sure all fields are filled in and you have a proper email address.");
-				else
-					$this->session->set_flashdata("error_msg", "There was one or more errors updating your information.  Please make sure all fields are filled in and you have a proper email address.");
-				redirect('editinfo');
-				//$this->index();
-				//return;
+				$this->index();
+				return;
 			}
 			
 			if($this->is_bar) {
@@ -103,6 +98,8 @@
 				$this->form_validation->set_rules('dob', 'Date of Birth', 'trim|required|alpha_dash|callback_valid_date');
 				$this->form_validation->set_rules('city', 'City', 'trim|required');
 				$this->form_validation->set_rules('state', 'State', 'trim|required|alpha');
+				$this->form_validation->set_rules('security_question', 'Security Question', 'trim|required');
+				$this->form_validation->set_rules('security_answer', 'Security Answer', 'trim|required');
 			}
 			// Validation for bars.
 			else {
@@ -112,6 +109,8 @@
 				$this->form_validation->set_rules('state', 'State', 'trim|required|alpha');
 				$this->form_validation->set_rules('zip', 'Zip code', 'trim|required|numeric|exact_length[5]');
 				$this->form_validation->set_rules('email', 'Email', 'trim|required|valid_email');
+				$this->form_validation->set_rules('security_question', 'Security Question', 'trim|required');
+				$this->form_validation->set_rules('security_answer', 'Security Answer', 'trim|required');		
 			}
 			
 			return $this->form_validation->run();

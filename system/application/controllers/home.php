@@ -58,12 +58,18 @@
 					$data['no_favorites'] = True;
 					$data['bars'] = $this->getAllBars();
 				}
+				else {
+					$data['nonfaves'] = $this->getNonFavorites($this->session->userdata('uid'), 5-count($data['bars']));
+				}
 				
 				// Get the events for the user's favorites.  Like favorites, if they don't
 				// have any favorites then just pull random ones.
 				$data['events'] = $this->getEventsForFavorites($this->session->userdata('uid'));
 				if(count($data['events']) == 0)
 					$data['events'] = $this->getAllEvents();
+				else if(count($data['events']) < 5) {
+					$data['nonfave_events'] = $this->getEventsForNonFavorites($this->session->userdata('uid'), 5-count($data['events']));
+				}
 				
 				$this->load->view('includes/user_header', $data);
 				$this->load->view('home_view', $data);
@@ -97,6 +103,26 @@
 			}
 
 			return $faves;
+		}
+		
+		/*
+		 * Get the bar_id, name, city, and state of $num number of bars that are NOT flagged as a user's favorite.
+		 */
+		private function getNonFavorites($uid, $num) {
+			$nonfaves = array();
+			
+			// Just boot out if the user has at least 5 favorites to display.
+			if($num <= 0)
+				return $nonfaves;
+			
+			$sql = 'select bar_id, name, city, state from bars where bar_id not in (select bars.bar_id from bars inner join favorites on bars.bar_id = favorites.bar_id where favorites.user_id = ?) order by rand() limit ?';
+			$query = $this->db->query($sql, array($uid, $num));
+			
+			foreach($query->result() as $row) {
+				$nonfaves[] = array('bar_id' => $row->bar_id, 'name' => $row->name, 'city' => $row->city, 'state' => $row->state);
+			}
+
+			return $nonfaves;
 		}
 		
 		/**
@@ -147,6 +173,33 @@
 			
 			$sql = 'select bars.name as name, detail from bars inner join favorites on bars.bar_id = favorites.bar_id inner join barevents on bars.bar_id = barevents.bar_id where favorites.user_id = ?';
 			$query = $this->db->query($sql, array($uid));
+			
+			foreach($query->result() as $row) {
+				// We already have this bar
+				if(isset($events[$row->name])) 
+					$events[$row->name][] = $row->detail;
+				else {
+					$arr = array($row->detail);
+					$events[$row->name] = $arr;
+				}
+			}
+			
+			return $events;
+		}
+		
+		/**
+		 * Retrieves events from bars that are not part of the user's favorites.  The results are
+		 * random, based on the order by clause.  The $num value dictates how many results to get.
+		 */
+		private function getEventsForNonFavorites($uid, $num) {
+			$events = array();
+			
+			// Boot out if the user is already displaying events from 5 or more bars.
+			if($num <= 0)
+				return $events;
+				
+			$sql = 'select b.name as name, be.detail as detail from barevents be inner join bars b on be.bar_id = b.bar_id where b.bar_id not in (select bars.bar_id from bars inner join favorites on bars.bar_id = favorites.bar_id where favorites.user_id = ?) order by rand() limit ?';
+			$query = $this->db->query($sql, array($uid, $num));
 			
 			foreach($query->result() as $row) {
 				// We already have this bar

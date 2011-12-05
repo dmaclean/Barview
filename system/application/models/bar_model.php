@@ -217,15 +217,15 @@
 		 * list will be a pipe (|) separated list of email addresses.
 		 */
 		public function get_realtime_viewers($secondsBack) {
-			$sql = 'select distinct user_id from bar_image_requests where bar_id = ? and ts > date_sub(now(), interval ? second)';
+			$sql = 'select distinct u.first_name as first_name, u.last_name as last_name from bar_image_requests bir inner join users u on u.email = bir.user_id where bar_id = ? and ts > date_sub(now(), interval ? second)';
 			$query = $this->db->query($sql, array($this->bar_id, $secondsBack));
 			
 			$users = '';
 			foreach($query->result() as $row) {
 				if($users == '')
-					$users = $row->user_id;
+					$users = $row->first_name . ' ' . $row->last_name;
 				else
-					$users = $users.'|'.$row->user_id;
+					$users = $users.'|'.$row->first_name . ' ' . $row->last_name;
 			}
 			
 			return $users;

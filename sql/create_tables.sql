@@ -149,3 +149,19 @@ create table `bar_image_requests` (
 	foreign key (bar_id) references bars(bar_id) on delete cascade
 	
 ) engine=MyISAM default charset=utf8;
+
+
+/*********************
+	Facebook users
+*********************/
+drop table if exists fb_users;
+create table fb_users (
+	id			varchar(15) not null primary key,
+	first_name	varchar(20),
+	last_name	varchar(30),
+	email		varchar(30),
+	dob			date,
+	gender		varchar(6),
+	city		varchar(20),
+	state		varchar(2)
+) engine=MyISAM default charset=utf8;

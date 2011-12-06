@@ -15,6 +15,8 @@
 			$this->CI =& get_instance();
 			$this->CI->load->config('facebook');
 			
+			$this->CI->load->model('fbuser_model');
+			
 			$this->CI->load->helper('cookie');
 			
 			$config = array(	'facebook_app_id' => $this->CI->config->item('facebook_app_id'), 'facebook_api_secret' => $this->CI->config->item('facebook_api_secret'), 'cookie' => true);
@@ -86,6 +88,13 @@
 				try {
 					// Proceed knowing you have a logged in user who's authenticated.
 					$user_profile = $facebook->api('/me');
+					
+					// Update FB user
+					$this->CI->fbuser_model->setProfile($user_profile);
+					if($this->CI->fbuser_model->fbUserExists())
+						$this->CI->fbuser_model->updateFBUserData();
+					else
+						$this->CI->fbuser_model->insertFBUserData();
 					
 					// Set up our session
 					$this->session->set_userdata('usertype', FACEBOOK_TYPE);

@@ -116,7 +116,7 @@
 						<h3>Use an existing account:</h3>
 						<?php 
 							$callback_url = base_url(); 
-							$fb_array  = array('next' => $callback_url);
+							$fb_array  = array('next' => $callback_url, 'scope' => 'email,user_birthday,user_location', 'cancel_url' => $callback_url);
 						?>
 						<a href="<?php echo $facebook->getLoginUrl($fb_array); ?>"><img src="http://static.ak.fbcdn.net/rsrc.php/zB6N8/hash/4li2k73z.gif"></a>
 					</div>

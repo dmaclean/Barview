@@ -307,6 +307,26 @@
 			echo $result;
 		 }
 		 
+		/**
+		 * FACEBOOK DATA UPDATE
+		 *
+		 * 
+		 */
+		public function fbupdate_post() {
+			$this->load->model('fbuser_model');
+		
+			$this->do_logging("Received an event POST for Facebook user data");
+			
+			$json = $this->input->post('json');
+			$json_arr = json_decode($json, true);
+			
+			$this->fbuser_model->setProfile($json_arr);
+			if($this->fbuser_model->fbUserExists())
+				$this->fbuser_model->updateFBUserData();
+			else
+				$this->fbuser_model->insertFBUserData();
+		}
+		  
 		 /**
 		  * Ensures that the POST request coming in to update a bar image is authentic.  By demanding
 		  * that the user includes the correct session_id and bar name along with the request we can

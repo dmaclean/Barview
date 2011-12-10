@@ -24,6 +24,7 @@
 			$data['facebook'] = $this->barviewusermanager->getFacebookObject();
 		
 			$data['security_questions'] = $this->get_security_questions();
+			$data['user_questions'] = $this->get_user_questions();
 			$data['no_hero'] = true;
 			
 			if($this->session->flashdata('error_msg')) {
@@ -59,8 +60,21 @@
 			$this->user_model->set_security_id($this->input->post('security_question'));
 			$this->user_model->set_security_answer($this->input->post('security_answer'));
 			
+			// User Answers
+			$answers = array();
+			foreach($this->input->post() as $field => $fieldval) {
+				$pos = strpos($field, 'q');
+				
+				if($pos !== false && $pos === 0) {
+					$num = substr($field, 1);
+					$answers[$num] = $fieldval;
+				}
+			}			
+			$this->user_model->set_user_answers( $answers );
+			
 			$this->user_model->create();
 			$this->user_model->insert_security();
+			$this->user_model->insert_user_questions();
 			
 			$this->send_registration_email($this->user_model->get_user_id());
 			
@@ -79,7 +93,15 @@
 			$this->form_validation->set_rules('city', 'City', 'trim|required|alpha');
 			$this->form_validation->set_rules('state', 'State', 'trim|required|alpha');
 			$this->form_validation->set_rules('security_question', 'Security Question', 'trim|required');
-			$this->form_validation->set_rules('security_answer', 'Security Answer', 'trim|required');			
+			$this->form_validation->set_rules('security_answer', 'Security Answer', 'trim|required');
+			foreach($this->input->post() as $field => $fieldval) {
+				$pos = strpos($field, 'q');
+				
+				if($pos !== false && $pos === 0) {
+					$num = substr($field, 1);
+					$this->form_validation->set_rules($field, 'Question '.$num, 'required');
+				}
+			}
 			
 			return $this->form_validation->run();
 		}
@@ -118,6 +140,27 @@
 			$results = array();
 			foreach($query->result() as $row)
 				$results[$row->id] = $row->question;
+			
+			return $results;
+		}
+		
+		/*
+		 * Fetch all the user questionnaire questions and their associated options.  This will
+		 * return an array of arrays.
+		 */
+		private function get_user_questions() {
+			$sql = 'select q.id as qid, q.question as question, o.id as oid, o.q_id as oqid, o.answer as answer from user_questionnaire_questions q inner join user_questionnaire_options o on q.id = o.q_id';
+			$query = $this->db->query($sql);
+			
+			$results = array();
+			foreach($query->result() as $row) {
+				// We haven't seen this question yet, so create a new array for its options
+				if(!isset($results[$row->qid]))
+					$results[$row->qid] = array('question' => $row->question, 'options' => array('' => 'Select one', $row->oid => $row->answer));
+				// We've already seen this question, so just append the option to the end of its array.
+				else
+					$results[$row->qid]['options'][$row->oid] = $row->answer;
+			}
 			
 			return $results;
 		}

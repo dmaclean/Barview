@@ -93,10 +93,26 @@
 						<div class="input">
 						<?php
 							$options = array('name' => 'security_answer', 'size' => 30, 'max_length' => 30);
-							echo form_input($options); 
+							echo form_input($options, set_value('security_answer')); 
 						?>
 						</div>
 					</div>
+					
+					<fieldset>
+						<legend>Just a couple questions...</legend>
+						
+						<?php foreach($user_questions as $k => $q) { ?>
+							<div class="clearfix">
+								<label for="q<?php echo $k; ?>"><?php echo $q['question'] ?></label>
+								<div class="input">
+									<?php 
+										$qfield = 'q'.$k;
+										echo form_dropdown($qfield, $q['options'], set_value($qfield)); 
+									?>
+								</div>
+							</div>
+						<?php } ?>
+					</fieldset>
 					<div class="actions">
 						<?php 
 							$options = array('class' => 'btn primary', 'name' => 'submit', 'value' => 'Create Account');

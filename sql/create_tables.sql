@@ -165,3 +165,41 @@ create table fb_users (
 	city		varchar(20),
 	state		varchar(2)
 ) engine=MyISAM default charset=utf8;
+
+
+/**************************
+	User Questionnaire
+**************************/
+drop table if exists user_questionnaire_questions;
+create table user_questionnaire_questions (
+	id			int not null primary key,
+	question	varchar(200) not null
+) engine=MyISAM default charset=utf8;
+insert into user_questionnaire_questions values(1, "Why do you typically go out to the bar?");
+insert into user_questionnaire_questions values(2, "What is your favorite type of drink?");
+
+
+drop table if exists user_questionnaire_options;
+create table user_questionnaire_options (
+	id			int not null primary key,
+	q_id		int not null,
+	answer		varchar(200) not null,
+	foreign key (q_id) references user_questionnaire_questions(id) on delete cascade
+) engine=MyISAM default charset=utf8;
+insert into user_questionnaire_options values(1, 1, "To go clubbing");
+insert into user_questionnaire_options values(2, 1, "To watch sports");
+insert into user_questionnaire_options values(3, 1, "To be by myself");
+
+insert into user_questionnaire_options values(4, 2, "Beer");
+insert into user_questionnaire_options values(5, 2, "Shots");
+insert into user_questionnaire_options values(6, 2, "Mixed drinks");
+insert into user_questionnaire_options values(7, 2, "Wine");
+
+
+drop table if exists user_questionnaire_answers;
+create table user_questionnaire_answers (
+	q_id		int not null,				/* question id */
+	o_id		int not null,				/* option id */
+	u_id		varchar(30) not null,		/* user id */
+	key q_idx	(q_id, o_id, u_id)
+) engine=MyISAM default charset=utf8;

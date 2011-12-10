@@ -10,6 +10,10 @@
 		private $security_id;
 		private $security_answer;
 		
+		private $user_questions;
+		private $user_options;
+		private $user_answers;
+		
 		public function User_model() {
 			parent::__construct();
 		}
@@ -30,6 +34,9 @@
 				$this->security_id = $row->security_id;
 				$this->security_answer = $row->security_answer;
 			}
+			
+			$this->user_answers = array();
+			$this->query_user_answers();
 		}
 		
 		/**
@@ -139,6 +146,17 @@
 			$this->db->query($sql, array($this->user_id, $this->security_id, $this->security_answer));
 		}
 		
+		/*
+		 * Insert the answers to the questionnaire for the user.
+		 *
+		 * This call will occur when a user signs up in usersignup.php.
+		 */
+		public function insert_user_questions() {
+			$sql = 'insert into user_questionnaire_answers (q_id, o_id, u_id) values (?, ?, ?)';
+			foreach($this->user_answers as $k => $v)
+				$this->db->query($sql, array($k, $v, $this->user_id));
+		}
+		
 		/**
 		 * Update the user's basic information with the data currently set in the bar model.
 		 */
@@ -155,6 +173,29 @@
 		public function update_security() {
 			$sql = 'update user_account_security set security_id = ?, security_answer = ? where email = ?';
 			$this->db->query($sql, array($this->security_id, $this->security_answer, $this->user_id));
+		}
+		
+		/**
+		 * Update the user's questionnaire answers.
+		 *
+		 * This call occurs inside editinfo.php.
+		 */
+		public function update_user_questions() {
+			$sql = 'update user_questionnaire_answers set o_id = ? where q_id = ? and u_id = ?';
+			foreach($this->user_answers as $k => $v)
+				$this->db->query($sql, array($v, $k, $this->user_id));
+		}
+		
+		/**
+		 * Fetch the user's questionnaire answers from the database.
+		 */
+		public function query_user_answers() {
+			// Grab the user's answers to each question
+			$sql = 'select * from user_questionnaire_answers where u_id = ?';
+			$query = $this->db->query($sql, array($this->user_id));
+			
+			foreach($query->result() as $row)
+				$this->user_answers[$row->q_id] = $row->o_id;
 		}
 		
 		public function get_favorites($uid) {
@@ -332,6 +373,30 @@
 		
 		public function set_security_answer($answer) {
 			$this->security_answer = $answer;
+		}
+		
+		public function get_user_questions() {
+			return $this->user_questions;
+		}
+		
+		public function set_user_questions($questions) {
+			$this->user_questions = $questions;
+		}
+		
+		public function get_user_options() {
+			return $this->user_options;
+		}
+		
+		public function set_user_options($options) {
+			$this->user_options = $options;
+		}
+		
+		public function get_user_answers() {
+			return $this->user_answers;
+		}
+		
+		public function set_user_answers($answers) {
+			$this->user_answers = $answers;
 		}
 	}	
 ?>

@@ -64,6 +64,23 @@
 					?>
 					</div>
 				</div>
+				<fieldset>
+					<legend>Just a couple questions...</legend>
+					
+					<?php foreach($user_questions as $k => $q) { ?>
+						<div class="clearfix">
+							<label for="q<?php echo $k; ?>"><?php echo $q['question'] ?></label>
+							<div class="input">
+								<?php 
+									$qfield = 'q'.$k;
+									if(!isset($user_answers[$k]))
+										$user_answers[$k] = '';
+									echo form_dropdown($qfield, $q['options'], set_value($qfield, $user_answers[$k])); 
+								?>
+							</div>
+						</div>
+					<?php } ?>
+				</fieldset>
 				<div class="actions">
 					<?php
 						$options = array('name'=>'submit','value'=>'Update','class'=>'btn primary');

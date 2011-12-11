@@ -6,15 +6,13 @@
 	<title>bar-view.com</title> 
 	
 	<link rel="stylesheet" href="<?php echo base_url();?>javascript/fancybox/jquery.fancybox-1.3.4.css" type="text/css" media="screen" />
-	<link rel="stylesheet" href="http://twitter.github.com/bootstrap/1.3.0/bootstrap.min.css">
+	<link rel="stylesheet" href="http://twitter.github.com/bootstrap/1.4.0/bootstrap.min.css">
 	<link rel="shortcut icon" type="image/x-icon" href="<?php echo base_url();?>favicon.ico">
 	
-	<!--<script type="text/javascript" src="<?php echo base_url();?>javascript/cufon.js"></script>-->
 	<script type="text/javascript" src="<?php echo base_url();?>javascript/jquery.js"></script>
 	<script type="text/javascript" src="<?php echo base_url();?>javascript/fancybox/jquery.fancybox-1.3.4.js"></script>
 	<script type="text/javascript" src="<?php echo base_url();?>javascript/barview.js"></script> 
  
- 	<!--<style type="text/css">cufon{text-indent:0!important;}@media screen,projection{cufon{display:inline!important;display:inline-block!important;position:relative!important;vertical-align:middle!important;font-size:1px!important;line-height:1px!important;}cufon cufontext{display:-moz-inline-box!important;display:inline-block!important;width:0!important;height:0!important;overflow:hidden!important;text-indent:-10000in!important;}cufon canvas{position:relative!important;}}@media print{cufon{padding:0!important;}cufon canvas{display:none!important;}}</style>-->
 </head> 
  
 <body style="padding-top: 50px;">

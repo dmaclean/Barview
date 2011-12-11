@@ -6,6 +6,11 @@ $(document).ready(function(){
  
  	// Grab the base_url for the refreshSearchImages function (and any others that might need it).
  	base_url = $('#base_url').text();
+ 	
+ 	// Grab the fb_user flag so we know if a Facebook user is logged in.
+ 	fb_user = $('#fb_user').text().trim();
+ 	
+ 	show_questionnaire = $('#show_questionnaire').text().trim();
  
  	/**
  	 * Determine if we are on the search page by looking for entities with class="bar_image".  This
@@ -50,6 +55,13 @@ $(document).ready(function(){
 	/////////////////////////////
 	$('#bar_login').fancybox();
 	
+	//////////////////////////
+	// FB USER QUESTIONNAIRE
+	//////////////////////////
+	if(show_questionnaire == 'true')
+		$('#fb_questionnaire_anchor').fancybox().trigger('click');
+	
+	
 	$('#dob').keyup(function() {
 		if($(this).val().length == 4 || $(this).val().length == 7)
 			$(this).val($(this).val() + '-');
@@ -72,6 +84,26 @@ $(window).unload(function() {
 		clearInterval(timer);
 	}
 });
+
+/**
+ * Checks each of the questionnaire fields in the lightbox popup to make sure that the user has
+ * chosen an answer for each of them.  If not then an error message is displayed.
+ */
+function submitFBQuestionnaire() {
+	var good = true;
+	$('select[name^="q"]').each(function() {
+		if($(this).val() == '')
+			good = false;
+	});
+	
+	if(good) {
+		$('#fb_questionnaire_form').submit();
+	}
+	else {
+		$('#fbq_errors').children().remove();
+		$('<div class="alert-message error"><p>Please answer all questions.</p></div>').appendTo('#fbq_errors');
+	}
+}
 
 /**
  * An AJAX call that makes a POST request to the REST interface to add a favorite bar

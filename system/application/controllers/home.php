@@ -15,6 +15,8 @@
 			$this->load->library('barviewusermanager', array('session' => $this->session));
 
 			$this->load->helper('form');
+			
+			$this->load->model('user_model');
 		}
 	
 		function index() {
@@ -49,6 +51,15 @@
 		
 			// Send logged-in users to their personalized page.
 			if($this->session->userdata('uid')) {
+				if($this->session->userdata('usertype') == BARVIEW_TYPE)
+					$this->user_model->select($this->session->userdata('uid'));
+				else {
+					$this->user_model->set_user_id($this->session->userdata('uid'));
+					$this->user_model->query_user_answers();
+					
+					$data['show_questionnaire'] = $this->session->userdata('uid') && $this->session->userdata('usertype') == FACEBOOK_TYPE && count($this->user_model->get_user_answers()) == 0;
+				}
+			
 				// Get the user's favorites.  If they don't have any then just display all
 				// bars, like we do for non-logged-in users.
 				//
@@ -70,6 +81,9 @@
 				else if(count($data['events']) < 5) {
 					$data['nonfave_events'] = $this->getEventsForNonFavorites($this->session->userdata('uid'), 5-count($data['events']));
 				}
+				
+				// Grab questionnaire questions...
+				$data['user_questions'] = $this->get_user_questions();
 				
 				$this->load->view('includes/user_header', $data);
 				$this->load->view('home_view', $data);
@@ -212,6 +226,27 @@
 			}
 			
 			return $events;
+		}
+		
+		/*
+		 * Fetch all the user questionnaire questions and their associated options.  This will
+		 * return an array of arrays.
+		 */
+		private function get_user_questions() {
+			$sql = 'select q.id as qid, q.question as question, o.id as oid, o.q_id as oqid, o.answer as answer from user_questionnaire_questions q inner join user_questionnaire_options o on q.id = o.q_id';
+			$query = $this->db->query($sql);
+			
+			$results = array();
+			foreach($query->result() as $row) {
+				// We haven't seen this question yet, so create a new array for its options
+				if(!isset($results[$row->qid]))
+					$results[$row->qid] = array('question' => $row->question, 'options' => array('' => 'Select one', $row->oid => $row->answer));
+				// We've already seen this question, so just append the option to the end of its array.
+				else
+					$results[$row->qid]['options'][$row->oid] = $row->answer;
+			}
+			
+			return $results;
 		}
 	}
 ?>

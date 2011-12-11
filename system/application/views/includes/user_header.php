@@ -6,7 +6,7 @@
 	<title>bar-view.com</title> 
 	
 	<link rel="stylesheet" href="<?php echo base_url();?>javascript/fancybox/jquery.fancybox-1.3.4.css" type="text/css" media="screen" />
-	<link rel="stylesheet" href="http://twitter.github.com/bootstrap/1.3.0/bootstrap.min.css">
+	<link rel="stylesheet" href="http://twitter.github.com/bootstrap/1.4.0/bootstrap.min.css">
 	<link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
 	
 	<script type="text/javascript" src="<?php echo base_url();?>javascript/jquery.js"></script>
@@ -17,6 +17,22 @@
  
 <body <?php if(isset($no_hero)) { echo "style='padding-top: 50px;'"; } ?>>
 	<div id="base_url" style="display:none"><?php echo base_url(); ?></div>
+	<div id="show_questionnaire" style="display:none">
+		<?php  
+			if(isset($show_questionnaire) && $show_questionnaire)
+				echo 'true';
+			else
+				echo 'false';
+		?>
+	</div>
+	<div id="fb_user" style="display:none">
+		<?php 
+			if($this->session->userdata('uid') && $this->session->userdata('usertype') == FACEBOOK_TYPE)
+				echo 'true';
+			else
+				echo 'false';
+		?>
+	</div>
 	<div class="topbar">
 		<div class="fill">
 			<div class="container">
@@ -77,6 +93,49 @@
 			<div class="alert-message info"><p><?php echo $info_msg; ?></p></div>
 		<?php } ?>
 		
+		
+		<!-- QUESTIONNAIRE DIV FOR FACEBOOK USERS -->
+		<div style="display:none">
+			<div id="fb_questionnaire">
+				<div class="container">
+					<div class="row">
+						<div class="span12">
+							<?php
+								$form_options = array('id' => 'fb_questionnaire_form');
+								echo form_open('questionnaire/submit', $form_options); 
+								echo form_hidden('user_id', $this->session->userdata('uid'));
+							?>
+								<fieldset>
+									<legend>Quick questionnaire (you'll only have to do this once).</legend>
+									<div id="fbq_errors"></div>
+									<?php if(isset($user_questions)) { 
+										foreach($user_questions as $k => $q) {
+									?>
+										<div class="clearfix">
+											<label for="q<?php echo $k; ?>"><?php echo $q['question'] ?></label>
+											<div class="input">
+												<?php 
+													$qfield = 'q'.$k;
+													echo form_dropdown($qfield, $q['options'], set_value($qfield)); 
+												?>
+											</div>
+										</div>
+									<?php 
+										} 
+									} ?>
+									<div class="actions">
+										<input id="fbq_submit" type="button" class="btn primary" value="Submit" onclick="submitFBQuestionnaire()" />
+									</div>
+								</fieldset>
+							<?php echo form_close(); ?>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<a style="display:none" id="fb_questionnaire_anchor" href="#fb_questionnaire"></a>
+		
+		<!-- LOGIN DIV FOR FANCYBOX -->
 		<div style="display:none">
 			<div id="data">
 				<div class="row">

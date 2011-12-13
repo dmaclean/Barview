@@ -23,7 +23,7 @@
 			if(file_exists("broadcast_images/".$this->bar_id.".jpg"))
 				return file_get_contents("broadcast_images/".$this->bar_id.".jpg");
 			
-			return "";
+			return file_get_contents("broadcast_images/barview.jpg");
 		}
 		
 		public function insert_image() {

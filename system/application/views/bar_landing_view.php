@@ -17,8 +17,12 @@
 		</p>
 	</div>
 </div>
-<!--<div class="row">
+<div class="row">
 	<div class="span8">
-		Something goes here.
+		<p>
+		If you are a bar owner and would like to sign up for Bar-view.com then 
+		click <a href="<?php echo base_url(); ?>index.php?/signup">here to register</a>.  If
+		you have already signed up then click the "Login" link to log in and begin streaming.
+		</p>
 	</div>
-</div>-->
+</div>

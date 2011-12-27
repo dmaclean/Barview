@@ -42,7 +42,8 @@
 					<?php if($this->session->userdata('uid') && $this->session->userdata('usertype') == BARVIEW_TYPE) { ?>
 						<li><a href="<?php echo base_url(); ?>index.php?/editinfo">Edit Info</a></li>
 					<?php } ?>
-					<li><a href="<?php echo base_url(); ?>">Contact</a></li>
+					<li><a href="<?php echo base_url(); ?>index.php?/mobileinfo">Mobile</a></li>
+					<li><a href="<?php echo base_url(); ?>index.php?/about">About us</a></li>
 				</ul>
 				<?php echo form_open('search/submit'); ?>
 					<?php 

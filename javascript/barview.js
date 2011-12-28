@@ -1,6 +1,8 @@
 var interval = 0;
 var timer = -1;
 var base_url = '';
+var fb_user = '';
+var show_questionnaire = '';
 
 $(document).ready(function(){
  
@@ -8,9 +10,9 @@ $(document).ready(function(){
  	base_url = $('#base_url').text();
  	
  	// Grab the fb_user flag so we know if a Facebook user is logged in.
- 	fb_user = $('#fb_user').text().trim();
+ 	fb_user = $.trim($('#fb_user').text());
  	
- 	show_questionnaire = $('#show_questionnaire').text().trim();
+ 	show_questionnaire = $.trim($('#show_questionnaire').text());
  
  	/**
  	 * Determine if we are on the search page by looking for entities with class="bar_image".  This

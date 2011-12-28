@@ -26,6 +26,15 @@
 					</div>
 				</div>
 				<div class="clearfix">
+					<label for="gender">Gender: </label>
+					<div class="input">
+						<?php 
+							$options = array('' => 'Select One', 'm' => 'Male', 'f' => 'Female');
+							echo form_dropdown('gender', $options, set_value('gender', $user_model->get_gender())); 
+						?>
+					</div>
+				</div>
+				<div class="clearfix">
 					<label for="dob">Date of Birth (yyyy-mm-dd): </label>
 					<div class="input">
 					<?php 

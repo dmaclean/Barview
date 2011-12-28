@@ -98,6 +98,7 @@
 			if(!$this->is_bar) {
 				$this->form_validation->set_rules('first_name', 'First name', 'trim|required|alpha');
 				$this->form_validation->set_rules('last_name', 'Last name', 'trim|required|alpha');
+				$this->form_validation->set_rules('gender', 'Gender', 'trim|required');
 				$this->form_validation->set_rules('dob', 'Date of Birth', 'trim|required|alpha_dash|callback_valid_date');
 				$this->form_validation->set_rules('city', 'City', 'trim|required');
 				$this->form_validation->set_rules('state', 'State', 'trim|required|alpha');
@@ -132,6 +133,7 @@
 			
 			$this->user_model->set_first_name($this->input->post('first_name'));
 			$this->user_model->set_last_name($this->input->post('last_name'));
+			$this->user_model->set_gender($this->input->post('gender'));
 			$this->user_model->set_user_id($this->input->post('email'));
 			//$this->user_model->set_password($this->input->post('password'));
 			$this->user_model->set_dob($this->input->post('dob'));

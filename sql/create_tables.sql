@@ -61,7 +61,8 @@ create table `users` (
 	password varchar(100) not null,
 	dob date not null,
 	city varchar(20) not null,
-	state varchar(2) not null
+	state varchar(2) not null,
+	gender varchar(1) not null
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 

@@ -25,6 +25,16 @@
 					</div>
 					
 					<div class="clearfix">
+						<label for="gender">Gender: </label>
+						<div class="input">
+							<?php 
+								$options = array('' => 'Select One', 'm' => 'Male', 'f' => 'Female');
+								echo form_dropdown('gender', $options, set_value('gender')); 
+							?>
+						</div>
+					</div>
+					
+					<div class="clearfix">
 						<label for="email">Email: </label>
 						<div class="input">
 							<?php 

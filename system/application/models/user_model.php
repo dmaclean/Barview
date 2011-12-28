@@ -2,6 +2,7 @@
 	class User_model extends CI_Model {
 		private $first_name;
 		private $last_name;
+		private $gender;
 		private $user_id;
 		private $pass;
 		private $dob;
@@ -19,12 +20,13 @@
 		}
 		
 		public function select($user_id) {
-			$sql = 'select 	u.first_name as first_name, u.last_name as last_name, u.password as password, u.dob as dob, u.city as city, u.state as state, ua.security_id as security_id, ua.security_answer as security_answer from users u inner join user_account_security ua on u.email = ua.email where u.email = ?';
+			$sql = 'select 	u.first_name as first_name, u.last_name as last_name, u.gender as gender, u.password as password, u.dob as dob, u.city as city, u.state as state, ua.security_id as security_id, ua.security_answer as security_answer from users u inner join user_account_security ua on u.email = ua.email where u.email = ?';
 			$query = $this->db->query($sql, array($user_id));
 			
 			foreach($query->result() as $row) {
 				$this->first_name = $row->first_name;
 				$this->last_name = $row->last_name;
+				$this->gender = $row->gender;
 				$this->user_id = $user_id;
 				$this->pass = $row->password;
 				$this->dob = $row->dob;
@@ -58,6 +60,7 @@
 				$row = $query->row();
 				$this->first_name = $row->first_name;
 				$this->last_name = $row->last_name;
+				$this->gender = $row->gender;
 				$this->email = $row->email;
 				$this->pass = $row->password;
 				$this->dob = $row->dob;
@@ -96,6 +99,7 @@
 					}
 					$xml = $xml.'<firstname>'.$row->first_name.'</firstname>';
 					$xml = $xml.'<lastname>'.$row->last_name.'</lastname>';
+					$xml = $xml.'<gender>'.$row->gender.'</gender>';
 					$xml = $xml.'<email>'.$row->email.'</email>';
 					$xml = $xml.'<dob>'.$row->dob.'</dob>';
 					$xml = $xml.'<city>'.$row->city.'</city>';
@@ -124,16 +128,8 @@
 		}
 		
 		public function create() {
-			$clean_first_name = $this->db->escape($this->first_name);
-			$clean_last_name = $this->db->escape($this->last_name);
-			$clean_email = $this->db->escape($this->user_id);
-			$clean_password = $this->db->escape($this->pass);
-			$clean_dob = $this->db->escape($this->dob);
-			$clean_city = $this->db->escape($this->city);
-			$clean_state = $this->db->escape($this->state);
-			
-			$sql = 'insert into users values ('.$clean_first_name.','.$clean_last_name.','.$clean_email.','.$clean_password.','.$clean_dob.','.$clean_city.','.$clean_state.')';
-			$this->db->query($sql);
+			$sql = 'insert into users values (?, ?, ?, ?, ?, ?, ?, ?)';
+			$this->db->query($sql, array($this->first_name, $this->last_name, $this->user_id, $this->pass, $this->dob, $this->city, $this->state, $this->gender));
 		}
 		
 		/**
@@ -161,8 +157,8 @@
 		 * Update the user's basic information with the data currently set in the bar model.
 		 */
 		public function update() {
-			$sql = 'update users set first_name = ?, last_name = ?, dob = ?, city = ?, state = ?';
-			$this->db->query($sql, array($this->first_name, $this->last_name, $this->dob, $this->city, $this->state));
+			$sql = 'update users set first_name = ?, last_name = ?, gender = ?, dob = ?, city = ?, state = ?';
+			$this->db->query($sql, array($this->first_name, $this->last_name, $this->gender, $this->dob, $this->city, $this->state));
 		}
 		
 		/**
@@ -317,6 +313,14 @@
 		
 		public function set_last_name($last_name) {
 			$this->last_name = $last_name;
+		}
+		
+		public function get_gender() {
+			return $this->gender;
+		}
+		
+		public function set_gender($gender) {
+			$this->gender = $gender;
 		}
 		
 		public function get_user_id() {
